@@ -1,0 +1,107 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: visit_theme\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+
+msgid "ui.plan_your_trip"
+msgstr "Plan your trip to Bogotá"
+
+msgid "ui.tell_us_about_trip"
+msgstr "Tell us about your trip and we will help you discover the best experiences in Bogotá."
+
+msgid "ui.what_are_your_interests"
+msgstr "What are your interests?"
+
+msgid "ui.who_are_you_traveling_with"
+msgstr "Who are you traveling with?"
+
+msgid "ui.departure"
+msgstr "Departure"
+
+msgid "ui.return"
+msgstr "Return"
+
+msgid "ui.explore"
+msgstr "Explore"
+
+msgid "ui.what_to_do_in_bogota"
+msgstr "What to do in Bogotá?"
+
+msgid "ui.explore_all_experiences"
+msgstr "Explore all the tourist experiences the capital has to offer."
+
+msgid "ui.recent_posts"
+msgstr "Recent posts"
+
+msgid "ui.events_in_bogota"
+msgstr "@category events in Bogotá"
+
+msgid "ui.discover_bogota_unique"
+msgstr "Discover Colombia’s capital with unique and unforgettable experiences."
+
+msgid "ui.contact"
+msgstr "Contact"
+
+msgid "ui.citizen_service_line"
+msgstr "Citizen service line"
+
+msgid "ui.tourist_service_line"
+msgstr "Tourist service line"
+
+msgid "ui.tourist_support"
+msgstr "Tourist support"
+
+msgid "ui.follow_us"
+msgstr "Follow us"
+
+msgid "ui.tourist_routes"
+msgstr "Tourist routes"
+
+msgid "ui.all_rights_reserved"
+msgstr "All rights reserved by the Bogotá District Tourism Institute"
+
+msgid "ui.privacy_policy"
+msgstr "Privacy policy"
+
+msgid "ui.terms_of_use"
+msgstr "Terms of use"
+
+msgid "ui.resolution_239_2021"
+msgstr "Resolution 239 of November 5th, 2021"
+
+msgid "ui.city_brand"
+msgstr "City brand"
+
+msgid "ui.places_nearby"
+msgstr "Places you can visit near @place"
+
+msgid "ui.more_information"
+msgstr "More information"
+
+msgid "ui.tickets"
+msgstr "Tickets"
+
+msgid "ui.recommended_for"
+msgstr "Recommended for"
+
+msgid "ui.zone"
+msgstr "Zone"
+
+msgid "ui.locality"
+msgstr "Locality"
+
+msgid "ui.other_events_you_may_like"
+msgstr "Other @category events you may be interested in"
+
+msgid "ui.itinerary_ready"
+msgstr "Your itinerary is ready!"
+
+msgid "ui.must_do"
+msgstr "Must do"
+
+msgid "ui.we_recommend_events"
+msgstr "We recommend these events"

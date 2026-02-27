@@ -1,0 +1,106 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: visit_theme\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "ui.plan_your_trip"
+msgstr "Planifica tu viaje a Bogotá"
+
+msgid "ui.tell_us_about_trip"
+msgstr "Cuéntanos sobre tu viaje y te ayudaremos a descubrir las mejores experiencias en Bogotá."
+
+msgid "ui.what_are_your_interests"
+msgstr "¿Cuales son tus intereses?"
+
+msgid "ui.who_are_you_traveling_with"
+msgstr "¿Con quién viajas?"
+
+msgid "ui.departure"
+msgstr "Salida"
+
+msgid "ui.return"
+msgstr "Retorno"
+
+msgid "ui.explore"
+msgstr "Explorar"
+
+msgid "ui.what_to_do_in_bogota"
+msgstr "¿Qué hacer en Bogotá?"
+
+msgid "ui.explore_all_experiences"
+msgstr "Explora todas las experiencias turísticas que la capital tiene para ofrecerte."
+
+msgid "ui.recent_posts"
+msgstr "Publicaciones recientes"
+
+msgid "ui.events_in_bogota"
+msgstr "Eventos de @category en Bogotá"
+
+msgid "ui.discover_bogota_unique"
+msgstr "Descubre la capital de Colombia con experiencias únicas e inolvidables."
+
+msgid "ui.contact"
+msgstr "Contacto"
+
+msgid "ui.citizen_service_line"
+msgstr "Línea de atención al ciudadano"
+
+msgid "ui.tourist_service_line"
+msgstr "Línea de atención al turista"
+
+msgid "ui.tourist_support"
+msgstr "Atención al turista"
+
+msgid "ui.follow_us"
+msgstr "Siguenos"
+
+msgid "ui.tourist_routes"
+msgstr "Rutas turísticas"
+
+msgid "ui.all_rights_reserved"
+msgstr "Todos los derechos reservados por el Instituto Distrital de Turismo de Bogotá"
+
+msgid "ui.privacy_policy"
+msgstr "Políticas de privacidad"
+
+msgid "ui.terms_of_use"
+msgstr "Terminos de uso"
+
+msgid "ui.resolution_239_2021"
+msgstr "Resolución 239 del 5 de noviembre del 2021"
+
+msgid "ui.city_brand"
+msgstr "Marca ciudad"
+
+msgid "ui.places_nearby"
+msgstr "Lugares que puedes visitar cerca a @place"
+
+msgid "ui.more_information"
+msgstr "Más información"
+
+msgid "ui.tickets"
+msgstr "Boletería"
+
+msgid "ui.recommended_for"
+msgstr "Recomendado para"
+
+msgid "ui.zone"
+msgstr "Zona"
+
+msgid "ui.locality"
+msgstr "Localidad"
+
+msgid "ui.other_events_you_may_like"
+msgstr "Otros eventos de @category que te pueden interesar"
+
+msgid "ui.itinerary_ready"
+msgstr "¡Tu itinerario está listo!"
+
+msgid "ui.must_do"
+msgstr "Imperdible"
+
+msgid "ui.we_recommend_events"
+msgstr "Te recomendamos estos eventos"

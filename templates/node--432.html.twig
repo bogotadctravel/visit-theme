@@ -1,0 +1,41 @@
+    <main>
+        <section class="places" id="places">
+            <div class="places__header">
+                <h1>Conoce el lugar ideal para tu evento</h1>
+            </div>
+            <div class="places__search-card">
+                <label class="places__search-field">
+                    <span class="places__search-label">Tipo de servicio</span>
+                    <div class="places-input places-input--select">
+                        <span class="places-input__icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                <circle cx="11" cy="11" r="6" />
+                                <path d="m16.5 16.5 3.5 3.5" stroke-linecap="round" />
+                            </svg>
+                        </span>
+                        <select name="type" aria-label="Tipo de servicio">
+                            {% for item in tipos_de_proveedor_mice %}
+                            <option value="{{item.tid}}" >{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="places-input__icon places-input__icon--trailing" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                                <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="places__grid" aria-live="polite">
+            {% for item in proveedores_conecta %}
+                <a class="place-card" href="{{item.url}}" data-type="{{ item.fields.field_criterios_de_busqueda_prov.0.target_id  }}">
+                    <div class="place-card__media place-card__media--a" aria-hidden="true" style="background-image: url({{item.fields.field_mainimg.0.url}});"></div>
+                    <div class="place-card__body">
+                        <h3 class="place-card__title">{{ item.title }}</h3>
+                    </div>
+                </a>
+            {% endfor %}
+            </div>
+        </section>
+    </main>

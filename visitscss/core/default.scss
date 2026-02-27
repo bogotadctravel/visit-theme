@@ -1,0 +1,23 @@
+* {
+  scroll-behavior: smooth;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1390px;
+  width: 100%;
+  padding: 0 20px;
+  position: relative;
+}
+
+.non-white {
+  filter: saturate(0%) invert(100%);
+}
+ .planifica-container{
+        background: linear-gradient(180deg, #254681 0%, #3F89DE 100%);
+        .planifica{
+                margin: 0 auto;
+                    top: -50px;
+        }
+    }

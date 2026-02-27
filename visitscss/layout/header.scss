@@ -1,0 +1,178 @@
+header {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+  }
+
+  /* =====================
+     TOP BAR
+  ===================== */
+  .top-bar {
+    background-color: #314059;
+    font-size: 13px;
+
+    .container {
+      height: 40px;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 30px;
+      .links{
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+    }
+
+    a {
+      color: #fff;
+      text-decoration: underline;
+          display: flex;
+      &:hover{
+        opacity: 0.8;
+      }
+    }
+
+    .social {
+      display: flex;
+      gap: 12px;
+    }
+
+    .lang {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          cursor: pointer;
+          color: #fff;
+          position: relative;
+    display: flex;
+    align-items: center;
+          ul {
+            position: absolute;
+            top: 100%;
+            z-index: 10;
+            right: 0;
+            background: #fff;
+            min-width: 100px;
+            display: none;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+
+            li a {
+              color: #314059;
+              padding: 8px 12px;
+              display: block;
+
+              &:hover {
+                background: #f2f2f2;
+              }
+            }
+          }
+
+          &:hover ul {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  /* =====================
+     BOTTOM BAR
+  ===================== */
+  .bottom-bar {
+    background-color: #e6e6e6;
+
+    .container {
+      height: 80px;
+      
+    align-items: center;
+    justify-content: space-between;
+    }
+
+    .logo {
+      svg {
+        max-height: 60px;
+        width: auto;
+      }
+    }
+
+    nav {
+      ul {
+        list-style: none;
+        display: flex;
+        gap: 28px;
+        margin: 0;
+        padding: 0;
+
+        li {
+          position: relative;
+
+          > a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 0;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            &:hover {
+              color: #35498e;
+            }
+          }
+
+          /* Flecha dropdown */
+          &:has(ul) > a::after {
+            content: "";
+            background-image: url(../img/arrowdrop.png);
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 12px;
+            height: 6px;
+          }
+
+          /* Dropdown */
+          ul {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            min-width: 220px;
+            display: none;
+            padding: 12px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+
+            li {
+              a {
+                padding: 10px 20px;
+                display: block;
+                color: #333;
+
+                &:hover {
+                  background: #f5f5f5;
+                  color: #35498e;
+                }
+              }
+            }
+          }
+
+          &:hover ul {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

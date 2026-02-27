@@ -1,0 +1,83 @@
+ <footer class="site-footer">
+        <div class="footer-container">
+            <!-- Col 1 -->
+            <div class="footer-col brand">
+                <img src="/{{ directory }}/images/visitbogota/bogota_tu_casa.png" alt="Bogotá tu casa" class="logo" />
+                <p>
+                    {{"ui.discover_bogota_unique"|t}}
+                </p>
+
+                <div class="contact">
+                    <h4>{{"ui.contact"|t}}</h4>
+                    <p>
+                        {{"ui.citizen_service_line"|t}}<br />
+                        (601) 217 0711 Ext. 1000
+                    </p>
+                    <p>
+                        {{"ui.tourist_service_line"|t}}<br />
+                        01 8000 127400
+                    </p>
+                    <p>{{"ui.tourist_support"|t}}</p>
+                </div>
+
+                <div class="social">
+                    <h4>{{"ui.follow_us"|t}}</h4>
+                    <div class="social-icons">
+                        <a href="#"></a>
+                        <a href="#"></a>
+                        <a href="#"></a>
+                        <a href="#"></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Col 2 -->
+            <div class="footer-col">
+                <h4>Qué hacer</h4>
+                <ul>
+                  {% if taxonomy('categorias_turisticas') is not empty %}
+                            <ul>
+                            {% for item in taxonomy('categorias_turisticas') %}
+                            <li><a href="{{ item.url }}">{{ item.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}  
+                    
+                </ul>
+            </div>
+
+            <!-- Col 3 -->
+            <div class="footer-col">
+                <h4>Más opciones</h4>
+                <ul>                  
+                    {% for item in mas_opciones['#items'] %}
+                    <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Col 4 -->
+            <div class="footer-col">
+                <h4>Planifica tu viaje</h4>
+                <ul>
+                    {% for item in planifica_tu_viaje['#items'] %}
+                    <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer bottom -->
+        <div class="footer-bottom">
+            <p>
+                2025 © Todos los derechos reservados por el Instituto Distrital de Turismo
+                de Bogotá
+            </p>
+            <ul>
+                <li><a href="#">Políticas de privacidad</a></li>
+                <li><a href="#">Términos de uso</a></li>
+                <li><a href="#">Resolución 239 del 5 de noviembre del 2021</a></li>
+                <li><a href="#">Marca ciudad</a></li>
+            </ul>
+        </div>
+    </footer>

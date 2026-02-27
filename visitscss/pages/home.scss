@@ -1,0 +1,51 @@
+.home {
+    .banner {
+        height: calc(100vh - 120px);
+        background-attachment: fixed;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        position: relative;
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #videoCampaign {
+            display: none;
+        }
+
+        .campaign {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            width: 324px;
+            height: 163px;
+            border-radius: 41px;
+            overflow: hidden;
+            cursor: pointer;
+
+            button {
+                display: block;
+            }
+
+            img {
+                object-fit: cover;
+                width: 100%;
+                height: 100%;
+
+            }
+
+            img.play {
+                position: absolute;
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 50px;
+                height: 50px;
+            }
+        }
+    }
+}

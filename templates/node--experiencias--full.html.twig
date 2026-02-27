@@ -1,0 +1,67 @@
+<main class="intern_event">
+    <div class="info">
+        <div class="image">
+            <img src="{{file_url(node.field_banner.entity.fileuri)}}" alt="obra">
+        </div>
+        <div class="text">
+            <h1>{{ node.title.value }}</h1>
+            <div class="content-body">
+                {{content.body}}
+            </div>
+            <ul>
+                <li><strong>Recomendado para: </strong>  {% if node.field_turpara|length > 0 %}
+                                {% for item in node.field_turpara %}
+                                    {{ item.entity.name.value }}
+                                
+                                {% endfor %}
+                                {% endif %}</li>
+                <li><strong>Zona:</strong>  {% if node.field_turzone|length > 0 %}
+                                {% for item in node.field_turzone %}
+                                <p>
+                                    {{ item.entity.name.value }}
+                                </p>
+                                {% endfor %}
+                                {% endif %}</li>
+                <li><strong>Localidad: </strong>  {% if node.field_turdistr|length > 0 %}
+                                {% for item in node.field_turdistr %}
+{{ item.entity.name.value }}
+ {% endfor %}
+                                {% endif %}</li>
+            </ul>
+            <div class="contact">
+
+                <div class="flexList">
+                    <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
+                    correo@correo.com
+                </div>
+                <div class="flexList">
+                    <img src="/{{ directory }}/images/visitbogota/tel.png" alt="tel">
+                    +57 31 313 1313 13
+                </div>
+            </div>
+            <div class="buttons">
+                <a href="{{node.field_linkreservas.uri }}" class="btn">Reservar</a>
+            </div>
+        </div>
+    </div>
+    <div class="map">
+         <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
+                        </iframe>
+    </div>
+    <div class="lugares">
+        <h4>Otras experiencias que te pueden interesar</h4>
+        <ul>
+            {% for item in experiencias|shuffle|slice(0, 4) %}
+            <li>
+                <a href="{{item.url}}">
+                    <img src="{{file_url(item.fields.field_mainimg.0.url)}}" alt="{{ item.title }}">
+                    <div class="title">{{ item.title }}</div>
+
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</main>

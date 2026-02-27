@@ -1,0 +1,53 @@
+<div class="planifica" data-aos="fade-up">
+    <form action="/planifica-tu-viaje" method="GET">
+        <h2> <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M17.8 19.3875L16 11.1875L19.5 7.6875C21 6.1875 21.5 4.1875 21 3.1875C20 2.6875 18 3.1875 16.5 4.6875L13 8.1875L4.8 6.3875C4.3 6.2875 3.9 6.4875 3.7 6.8875L3.4 7.3875C3.2 7.8875 3.3 8.3875 3.7 8.6875L9 12.1875L7 15.1875H4L3 16.1875L6 18.1875L8 21.1875L9 20.1875V17.1875L12 15.1875L15.5 20.4875C15.8 20.8875 16.3 20.9875 16.8 20.7875L17.3 20.5875C17.7 20.2875 17.9 19.8875 17.8 19.3875Z"
+                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            {{ "ui.plan_your_trip"|trans }}</h2>
+        <p>{{"ui.tell_us_about_trip"|trans}}</p>
+        <p class="heart"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M2 9.49998C2.00002 8.38718 2.33759 7.30056 2.96813 6.38364C3.59867 5.46672 4.49252 4.76264 5.53161 4.36438C6.5707 3.96612 7.70616 3.89242 8.78801 4.15302C9.86987 4.41362 10.8472 4.99626 11.591 5.82398C11.6434 5.87999 11.7067 5.92465 11.7771 5.95518C11.8474 5.98571 11.9233 6.00146 12 6.00146C12.0767 6.00146 12.1526 5.98571 12.2229 5.95518C12.2933 5.92465 12.3566 5.87999 12.409 5.82398C13.1504 4.99088 14.128 4.40335 15.2116 4.13958C16.2952 3.87581 17.4335 3.94833 18.4749 4.34746C19.5163 4.7466 20.4114 5.45343 21.0411 6.37388C21.6708 7.29433 22.0053 8.38474 22 9.49998C22 11.79 20.5 13.5 19 15L13.508 20.313C13.3217 20.527 13.0919 20.6989 12.834 20.8173C12.5762 20.9357 12.296 20.9978 12.0123 20.9996C11.7285 21.0014 11.4476 20.9428 11.1883 20.8277C10.9289 20.7126 10.697 20.5436 10.508 20.332L5 15C3.5 13.5 2 11.8 2 9.49998Z"
+                    stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            {{"ui.what_are_your_interests"|trans}}</p>
+        <ul class="tags">
+            {% for cat in taxonomy('categorias_turisticas') %}
+            <li>
+                <input type="checkbox" id="{{ cat.name }}" name="intereses[]" value="{{ cat.tid }}">
+                <label for="{{ cat.name }}">{{ cat.name }}</label>
+            </li>
+            {% endfor %}
+        </ul>
+        <span>
+
+            <label for="">{{"ui.who_are_you_traveling_with"|trans}}</label>
+            <select name="recomendaciones" id="recomendaciones">
+                {% for cat in taxonomy('recomendaciones') %}
+                <option value="{{ cat.tid }}">{{ cat.nombre_en_filtro }}</option>
+                {% endfor %}
+            </select>
+        </span>
+        <span>
+            <label for="">{{"ui.departure"|trans}}</label>
+            <input type="date" name="fecha_salida" id="fecha_salida">
+
+        </span>
+        <span>
+            <label for="">{{"ui.return"|trans}}</label>
+            <input type="date" name="fecha_retorno" id="fecha_retorno">
+
+        </span>
+        <button type="submit">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M21 21L16.66 16.66M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+                    stroke="#FEF9F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+            {{"ui.explore"|trans}}
+        </button>
+    </form>
+</div>

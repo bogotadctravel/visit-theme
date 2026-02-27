@@ -1,0 +1,320 @@
+<?php
+
+use Drupal\node\Entity\Node;
+use Drupal\views\Views;
+use Drupal\Core\Url;
+use Drupal\Core\Form\FormState;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\visit_theme\Service\ContentLoader;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\TermInterface;
+use Drupal\file\Entity\File;
+
+function visit_theme_preprocess_taxonomy_term(array &$variables) {
+
+  $term = $variables['term'] ?? NULL;
+  if (!$term instanceof TermInterface) {
+    return;
+  }
+
+  if ($term->bundle() !== 'categorias_turisticas') {
+    return;
+  }
+
+  $tid = $term->id();
+
+  /** @var \Drupal\idt_theme_support\Service\ContentLoader $content_loader */
+  $content_loader = \Drupal::service('idt_theme_support.content_loader');
+
+  // Tipos normales teaser
+  $variables['atractivos']     = $content_loader->getNodesTeaserByCategory('atractivos', $tid);
+  $variables['rutas']          = $content_loader->getNodesTeaserByCategory('rutas', $tid);
+  $variables['experiencias']   = $content_loader->getNodesTeaserByCategory('experiencias', $tid);
+  $variables['article']        = $content_loader->getNodesTeaserByCategory('article', $tid);
+
+  // Eventos separados
+  $variables['eventosVisit']   = $content_loader->getEventosTeaserByCategoryAndMice($tid, 0);
+  $variables['eventosMICE']    = $content_loader->getEventosTeaserByCategoryAndMice($tid, 1);
+}
+function visit_theme_get_terms(string $vocab): array {
+
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $terms = $storage->loadTree($vocab);
+
+  return array_map(function($term) {
+    return [
+      'tid' => $term->tid,
+      'name' => $term->name,
+      'url' => Url::fromRoute(
+        'entity.taxonomy_term.canonical',
+        ['taxonomy_term' => $term->tid]
+      )->toString(),
+    ];
+  }, $terms);
+}
+
+
+function visit_theme_preprocess_node(array &$variables) {
+  $node = $variables['node'] ?? NULL;
+  if (!$node instanceof Node) {
+    return;
+  }
+  $variables['categorias_eventos'] = visit_theme_get_terms('categoria_eventos');
+  $variables['tipo_de_venue'] = visit_theme_get_terms('tipo_de_venue');
+  $variables['zonas_de_la_ciudad'] = visit_theme_get_terms('zonas_de_la_ciudad');
+  $content_loader = \Drupal::service('idt_theme_support.content_loader');
+
+  // Header siempre teaser
+  $variables['eventosVisit'] = $content_loader->getEventosTeaserByMiceFlag(0, 6);
+  $variables['eventosMICE']  = $content_loader->getEventosTeaserByMiceFlag(1, 6);
+  $variables['atractivos']   = $content_loader->getNodesTeaser('atractivos');
+  // Full SOLO en página eventos
+  if ($node->bundle() === 'eventos') {
+    $variables['eventosFull'] = $content_loader->getNodesFull('eventos');
+  }else {
+    $variables['eventosFull'] = [];
+  }
+
+  // Salones SOLO en venues
+  if ($node->bundle() === 'venues') {
+    $variables['salones_de_venues_mice'] =
+      $content_loader->getSalonesByVenue($node->id());
+  }else {
+    $variables['salones_de_venues_mice'] = [];
+  }
+  if ($node->bundle() === 'home_visit_2_0') {
+    
+    $variables['atractivos']   = $content_loader->getNodesTeaser('atractivos');
+    $variables['hoteles']      = $content_loader->getNodesTeaser('hoteles');
+    $variables['article']      = $content_loader->getNodesTeaser('article');
+  }
+  if ($node->bundle() === 'pagina_de_inicio') {
+    $variables['aliados']      = $content_loader->getNodesTeaser('aliados');
+    $variables['article']      = $content_loader->getNodesTeaser('article');
+  }
+  if ($node->bundle() === 'pagina_venues') {
+    $variables['venues']      = $content_loader->getNodesTeaser('venues');
+  }
+  if ($node->bundle() === 'pagina_por_que_bogota') {
+    $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota');
+  }
+  if ($node->bundle() === 'pagina_eventos') {
+    $variables['casos_de_exito']   = $content_loader->getNodesTeaser('casos_de_exito');
+  }
+  if ($node->bundle() === 'venues') {
+    $variables['venues']      = $content_loader->getNodesTeaser('venues');
+  }
+  if($node->bundle() === 'page'){
+    $variables['establecimientos']      = $content_loader->getNodesTeaser('establecimientos', 20);
+    $variables['hoteles']      = $content_loader->getNodesTeaser('hoteles', 20);
+
+  }
+    $request = \Drupal::request();
+
+  /***********************
+    * 1. Leer parámetros URL
+    ***********************/
+  $intereses_ids = $request->query->all('intereses');
+  $recomendacion_id = $request->query->get('recomendaciones');
+
+  $fecha_salida = $request->query->get('fecha_salida');
+  $fecha_retorno = $request->query->get('fecha_retorno');
+
+  $dias = 1; // Valor por defecto
+if (!empty($fecha_salida) && !empty($fecha_retorno)) {
+    $fecha_salida_dt = \DateTime::createFromFormat('Y-m-d', $fecha_salida);
+    $fecha_retorno_dt = \DateTime::createFromFormat('Y-m-d', $fecha_retorno);
+    if ($fecha_salida_dt && $fecha_retorno_dt) {
+        $dias = max(1, $fecha_salida_dt->diff($fecha_retorno_dt)->days + 1);
+    }
+}
+
+// Cantidad de recomendaciones por día
+$recomendaciones_por_dia = 5;
+
+// Total de ítems a traer
+$limite_items = $dias * $recomendaciones_por_dia;
+
+
+
+  /***********************
+    * 2. Cargar términos intereses
+    * vocabulario: categorias_turisticas
+    ***********************/
+  $intereses_terms = [];
+
+  if (!empty($intereses_ids)) {
+    $intereses_terms = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadMultiple($intereses_ids);
+  }
+
+  $variables['intereses_terms'] = $intereses_terms;
+
+  // Después de cargar los términos de intereses
+  $banner_url = NULL;
+
+  if (!empty($intereses_terms)) {
+    $first_term = reset($intereses_terms);
+
+    if ($first_term->hasField('field_imagen_principal') && !$first_term->get('field_imagen_principal')->isEmpty()) {
+        $file = $first_term->get('field_imagen_principal')->entity;
+        if ($file instanceof File) {
+            // Obtener URL pública de la imagen
+            $banner_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+        }
+    }
+  }
+
+  $variables['banner_interes_url'] = $banner_url;
+
+
+  /***********************
+    * 3. Cargar término recomendación
+    * vocabulario: recomendaciones
+    ***********************/
+  $recomendacion_term = NULL;
+
+  if (!empty($recomendacion_id)) {
+    $recomendacion_term = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->load($recomendacion_id);
+  }
+
+  $variables['recomendacion_term'] = $recomendacion_term;
+
+
+  /***********************
+  * 4. Buscar nodos relacionados
+  * Tipos: atractivo, evento, ruta
+  * Campos: field_turpara o field_turcat
+  ***********************/
+  $contenido = [];
+
+foreach (['atractivos', 'eventos', 'rutas'] as $tipo) {
+    $query = \Drupal::entityQuery('node')
+        ->accessCheck(TRUE)
+        ->condition('status', 1)
+        ->condition('type', $tipo)
+        ->range(0, $limite_items);
+
+    if (!empty($recomendacion_id) || !empty($intereses_ids)) {
+        $or_group = $query->orConditionGroup();
+        if (!empty($recomendacion_id)) {
+            $or_group->condition('field_turpara.target_id', $recomendacion_id);
+        }
+        if (!empty($intereses_ids)) {
+            $or_group->condition('field_turcat.target_id', $intereses_ids, 'IN');
+        }
+        $query->condition($or_group);
+    }
+
+    $nids = $query->execute();
+    if (!empty($nids)) {
+        $contenido = array_merge($contenido, \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nids));
+    }
+}
+
+  $variables['contenido_recomendado'] = $contenido;
+
+
+
+  /***********************
+    * 5. Separar por tipo
+    ***********************/
+  $variables['atractivos'] = [];
+  $variables['eventos'] = [];
+  $variables['rutas'] = [];
+
+  foreach ($contenido as $node) {
+
+    if ($node->bundle() === 'atractivos') {
+      $variables['atractivos'][] = $node;
+    }
+
+    elseif ($node->bundle() === 'eventos') {
+      $variables['eventos'][] = $node;
+    }
+
+    elseif ($node->bundle() === 'rutas') {
+      $variables['rutas'][] = $node;
+    }
+  }
+
+
+  /***********************
+    * 6. Pasar fechas a Twig
+    ***********************/
+  $variables['fecha_salida'] = $fecha_salida;
+  $variables['fecha_retorno'] = $fecha_retorno;
+}
+function visit_theme_preprocess_block(array &$variables) {
+  // Identify your view block plugin.
+  if ($variables['plugin_id'] === 'views_block:bloque_banner_principal-block_1') {
+    $view = Views::getView('bloque_banner_principal');
+    if ($view) {
+      $view->setDisplay('block_1');
+      $view->execute();
+
+      // Get first node result.
+      if (!empty($view->result)) {
+        $node = $view->result[0]->_entity;
+
+        // Expose each field to Twig.
+        $variables['banner'] = [
+          'title' => $node->get('field_titulo_banner')->value ?? '',
+          'subtitle' => $node->get('field_subtitulo')->value ?? '',
+          'highlight' => $node->get('field_texto_resaltado')->value ?? '',
+          'image' => $node->get('field_imagen')->entity
+            ? file_create_url($node->get('field_imagen')->entity->getFileUri())
+            : null,
+        ];
+      }
+    }
+  }
+}
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function visit_theme_preprocess_page(&$variables) {
+  $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+  $variables['#attached']['drupalSettings']['visit_theme'] = [
+    'themePath' => base_path() . $theme_path,
+  ]; 
+
+  // Lista de menús que quieres cargar
+  $menus = [
+    'menu-principal-visitbogota' => 'menu_principal_visitbogota',
+    'menu-topbar-visit' => 'menu_topbar_visit',
+    'menu-sidebar' => 'menu_sidebar', // ejemplo adicional
+    'planifica-tu-viaje' => 'planifica_tu_viaje', // ejemplo adicional
+    'mas-opciones' => 'mas_opciones', // ejemplo adicional
+    
+  ];
+
+  $menu_tree_service = \Drupal::menuTree();
+
+  foreach ($menus as $menu_name => $twig_var) {
+    // Parámetros para el árbol
+    $parameters = $menu_tree_service->getCurrentRouteMenuTreeParameters($menu_name);
+    // Cargar el árbol
+    $tree = $menu_tree_service->load($menu_name, $parameters);
+    // Transformar a renderable array
+    $menu = $menu_tree_service->build($tree);
+    // Pasar al Twig
+    $variables[$twig_var] = $menu;
+  }
+}
+
+function visit_theme_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Clase general al formulario.
+  $form['#attributes']['class'][] = 'login-custom';
+
+  // Clases a los inputs.
+  $form['name']['#attributes']['class'][] = 'login-input';
+  $form['pass']['#attributes']['class'][] = 'login-input';
+
+  // Clase al botón.
+  $form['actions']['submit']['#attributes']['class'][] = 'login-button';
+}
+

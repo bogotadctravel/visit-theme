@@ -1,0 +1,49 @@
+.article {
+    .banner {
+        height: 60vh;
+        background-size: cover;
+        display: flex;
+        align-items: flex-end;
+        padding: 50px;
+    }
+
+    h1 {
+        font-size: 38px;
+        text-align: left;
+        max-width: 880px;
+        font-weight: bold;
+        color: #FFF;
+    }
+
+    .content {
+        background-color: #fff;
+        border-radius: 0 0 65px 0;
+        color: #353535;
+        margin: 0 auto;
+        max-width: 768px;
+        padding: 50px 20px;
+        position: relative;
+        width: 100%;
+        z-index: 3;
+
+        h2 {
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        p {
+            margin: 30px auto;
+            font-size: 14px;
+            line-height: 22px;
+
+            strong {
+                font-weight: bold;
+            }
+        }
+
+        a {
+            color: #46a4dc;
+            text-decoration: underline;
+        }
+    }
+}

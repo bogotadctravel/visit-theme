@@ -1,0 +1,78 @@
+{% set hoy = "now"|date("Y-m-d") %} {% set meses = { 'Jan': 'Ene', 'Feb': 'Feb',
+'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Aug':
+'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %} {% set hoy =
+"now"|date("Y-m-d") %} {% set pasados = [] %} {% set futuros = [] %} {% for item
+in eventosVisit %} {% set inicio =
+item.fields.field_fecha_de_inicio.0.value|date("Y-m-d") %} {% set fin =
+item.fields.field_fecha_de_finalizacion.0.value|date("Y-m-d") %} {% if fin < hoy %} {% set pasados=pasados|merge([item])
+    %} {% elseif inicio>= hoy %} {% set
+    futuros = futuros|merge([item]) %} {% endif %}
+    {% endfor %}
+    <div class="agenda">
+        <main>
+            <div class="banner" style="background-image: url(/{{ directory }}/images/visitbogota/obra.png);">
+                <div class="container">
+
+                    <div class="text">
+                        <h2>Visit Bogotá</h2>
+                        <h1>Agenda de eventos</h1>
+                        <p>
+                            Sumérgete en la vibrante agenda de eventos de Bogotá y vive experiencias inolvidables en
+                            cada rincón de la ciudad.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <form action="">
+                <span>
+                    <label for="categoria"> Categoria</label>
+                    <select name="categoria" id="categoria">
+                    {% for cat in taxonomy('categorias_turisticas') %}
+                        <option value="{{ cat.tid }}">{{ cat.name }}</option>
+                    {% endfor %}
+                    </select>
+                </span>
+                <span>
+                    <label for="TipoDeEvento"> Tipo de evento</label>
+                    <select name="TipoDeEvento" id="TipoDeEvento">
+                    {% for cat in taxonomy('tipos_de_evento') %}
+                        <option value="{{ cat.tid }}">{{ cat.name }}</option>
+                    {% endfor %}
+                    </select>
+                </span>
+                <span>
+                    <label for="">Desde</label>
+                    <input type="date" name="" id="">
+
+                </span>
+                <span>
+                    <label for="">Hasta</label>
+                    <input type="date" name="" id="">
+
+                </span>
+                <button type="submit">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M21 21L16.66 16.66M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+                            stroke="#FEF9F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+
+                    {{"ui.explore"|t}}
+                </button>
+            </form>
+            <ul class="grid-atractivos container">
+                {% for item in eventosVisit|reverse %}
+                <li class="card" data-type="{{ item.categoria.tid }}" data-aos="zoom-in" data-aos-delay="300"><a
+                        href="{{ item.url }}">
+                        <div class="image">
+                            <img src="{{item.image}}" alt="{{ item.title }}">
+                        </div>
+                        <div class="title">
+                            {{ item.title }}
+                        </div>
+                    </a></li>
+                {% endfor %}
+
+            </ul>
+        </main>
+    </div>

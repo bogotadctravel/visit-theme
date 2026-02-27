@@ -1,0 +1,58 @@
+<div class="donde">
+    <main>
+        <div class="donde-list">
+            <div class="container">
+                <h1>¿Dónde comer en Bogotá?</h1>
+                <div class="flex">
+                    <div class="left">
+                        <div class="filters">
+                            <h3>Rango de precios</h3>
+                            {% for cat in taxonomy('rangos_de_precios') %}
+                            <label for="{{ cat.tid }}">
+                                <input type="checkbox" name="{{ cat.name }}" id="{{ cat.tid }}" value="{{ cat.tid }}">
+                                {{ cat.name }}
+                            </label>
+                            {% endfor %}
+                            <h3>Tipo de alojamiento</h3>
+                            {% for cat in taxonomy('categorias_gastronomicas') %}
+                            <label for="{{ cat.tid }}">
+                                <input type="checkbox" name="{{ cat.name }}" id="{{ cat.tid }}" value="{{ cat.tid }}">
+                                {{ cat.name }}
+                            </label>
+                            {% endfor %}
+                            <h3>Zonas</h3>
+                            {% for cat in taxonomy('zonas_gastronomicas') %}
+                            <label for="{{ cat.tid }}">
+                                <input type="checkbox" name="{{ cat.name }}" id="{{ cat.tid }}" value="{{ cat.tid }}">
+                                {{ cat.name }}
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="right">
+                        <ul class="grid-categories" id="cardsList">
+                            {% if establecimientos  is not empty %}
+                            {% for item in establecimientos |shuffle %}
+                            {% set categorias = (item.categoria_gastronomica|default([]))|map(t => t.tid)|join(',') %}
+                            {% set zonas      = (item.zonagast|default([]))|map(t => t.tid)|join(',') %}
+                            <li data-aos="zoom-in" data-aos-delay="300" class="card"   data-categoria="{{ categorias }}" data-zona="{{ zonas }}">
+                                <a href="{{ item.url }}">
+                                    <div class="image">
+                                        <img src="{{ item.image }}" alt="{{ item.title }}">
+                                    </div>
+                                    <span class="title">{{ item.title }}</span>
+
+                                </a>
+                            </li>
+                            {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="planifica-container" data-aos="fade-right">
+          {% include "@visit_theme/includes/planifica.html.twig" %}
+        </div>
+    </main>
+</div>

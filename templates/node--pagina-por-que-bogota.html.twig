@@ -1,0 +1,121 @@
+<main>
+  <section class="about">
+    <div class="about__header">
+      {{node.body.value|raw}}
+    </div>
+  </section>
+
+  <section  class=" about__data" role="tablist" aria-label="Categorías de datos de Bogotá¡">
+    <div class="data__header">
+      <h2>Nuestros datos</h2>
+    </div>
+<div class="data-tabs"
+     role="tablist"
+     aria-label="Categorías de datos de Bogotá¡"
+     data-carousel-indicators="about">
+
+      {% for item in por_que_bogota %}
+      {% if item.field_seccion == 'seccion_1'%}
+  <button class="data-tab"
+        type="button"
+        role="tab"
+        aria-selected="false"
+        data-carousel-indicator
+        data-carousel-target="about">
+    <span class="data-tab__dot" aria-hidden="true"></span>
+    <span class="data-tab__label">{{item.title}}</span>
+  </button>
+      {% endif %}
+
+
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="about__slider" aria-label="Indicadores clave de BogotÃ¡">
+   <div class="about-slider" data-carousel data-carousel-id="about">
+      <div class="about-slider__viewport" data-carousel-viewport>
+        <div class="about-slider__track" data-carousel-track>
+          {% for item in por_que_bogota %}
+          {% if item.field_seccion == 'seccion_1'%}
+          <article class="about-slide" data-carousel-item>
+            <img src="{{item.image}}" alt="{{item.title}}" />
+            <div class="about-slide__content">
+              <h3>{{item.title}}</h3>
+              {{ item.body|raw }}
+              <a class="about-slide__link" href="/venues">Explora nuestras locaciones</a>
+            </div>
+          </article>
+{% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="about-slider__nav">
+        <button class="about-slider__arrow" type="button" data-carousel-prev aria-label="Anterior">
+          &#10094;
+        </button>
+        <button class="about-slider__arrow" type="button" data-carousel-next aria-label="Siguiente">
+          &#10095;
+        </button>
+      </div>
+    </div>
+  </section>
+  <!-- <section class="news-card" style="--news-card-image: url('../assets/images/rock_al_parque.jpg');">
+            <div class="news-card__bg" aria-hidden="true">
+                <div class="news-card__bg-image"></div>
+            </div>
+            <div class="news-card__content">
+                <span class="news-card__tag">Noticias</span>
+                <div class="news-card__text">
+                    <h2>Cultura al parque</h2>
+                    <p>
+                        La ciudad acoge 9 festivales al parque al año, organizados por el Instituto Distrital de las Artes (Idartes),
+                        que abarcan diversos géneros musicales y visibilizan la cultura local.
+                    </p>
+                    <button class="news-card__cta" type="button">
+                        Ver más
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M4.5 12a.75.75 0 0 1 .75-.75h12.19l-3.72-3.72a.75.75 0 0 1 1.06-1.06l5 5a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 0 1-1.06-1.06l3.72-3.72H5.25A.75.75 0 0 1 4.5 12Z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section> -->
+        {% set seccion2 = por_que_bogota|filter(item => item.field_seccion == 'seccion_2') %}
+
+{% if seccion2 is not empty %}
+ <section class="about-highlight" aria-label="Historias de impacto">
+    <div class="highlight-slider" data-carousel>
+      <button class="highlight-slider__arrow highlight-slider__arrow--prev" type="button" data-carousel-prev
+        aria-label="Anterior">
+        &#10094;
+      </button>
+      <div class="highlight-slider__viewport" data-carousel-viewport>
+        <div class="highlight-slider__track" data-carousel-track>
+          {% for item in por_que_bogota %}
+          {% if item.field_seccion == 'seccion_2'%}
+          <article class="highlight-slide" data-carousel-item>
+            <div class="highlight-slide__copy">
+              <h3>{{item.title}}</h3>
+              {{ item.body|raw }}
+            </div>
+            <div class="highlight__image">
+       <img src="{{item.image}}" alt="{{item.title}}" />
+    </div>
+          </article>
+{% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <button class="highlight-slider__arrow highlight-slider__arrow--next" type="button" data-carousel-next
+        aria-label="Siguiente">
+        &#10095;
+      </button>
+    </div>
+    
+  </section>
+{% endif %}
+
+ 
+</main>

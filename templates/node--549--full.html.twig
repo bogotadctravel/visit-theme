@@ -1,0 +1,114 @@
+<div class="itinerario">
+    <main>
+        <div class="banner" style="background-image: url({{ banner_interes_url }});">
+            <div class="container">
+
+                <div class="text">
+                    <h2>{{"ui.plan_your_trip"|trans}}</h2>
+                    <h1>{{"ui.itinerary_ready"|trans}}</h1>
+                    <div class="data">
+                    {# Mostrar intereses #}
+                    {% for term in intereses_terms %}
+                        <div class="item">{{ term.label }}</div>
+                    {% endfor %}
+                    {# Mostrar fechas #}
+                    <div class="item">
+                        <p>Desde el {{ fecha_salida|date()|date('U')|format_date('custom', 'd F')|capitalize }}</p>
+                        <p>Hasta el {{ fecha_retorno|date()|date('U')|format_date('custom', 'd F')|capitalize }}</p>
+                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="grid-atractivos container">
+            {% for node in atractivos %}
+            <li class="card" data-aos="zoom-in" data-aos-delay="300">
+              <a href="{{ path('entity.node.canonical', {'node': node.id}) }}">
+                <div class="image">
+                  {% if node.field_mainimg.entity %}
+                    <img src="{{ file_url(node.field_mainimg.entity.fileuri) }}"
+                        alt="{{ node.label }}">
+                  {% endif %}
+                </div>
+
+                <div class="title">
+                  {{ node.label }}
+                </div>
+
+              </a>
+            </li>
+
+  {% endfor %}
+        </ul>
+      <div class="eventos" data-aos="fade-right">
+  <h4>{{"ui.we_recommend_events"|trans}}</h4>
+
+  <section class="splide" aria-label="Eventos recomendados">
+    <div class="splide__track">
+
+      <ul class="splide__list grid-events">
+
+        {% for node in eventos %}
+          <li class="splide__slide">
+            <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
+               style="background-image: url(
+                 {% if node.field_mainimg.entity %}
+                   {{ file_url(node.field_mainimg.entity.fileuri) }}
+                 {% endif %}
+               );">
+
+              <div class="tag">
+                {{ recomendacion_term.label }}
+              </div>
+
+              <span class="title">
+                {{ node.label }}
+              </span>
+
+              {% if node.field_fecha.value %}
+                <div class="date">
+                  {{ node.field_fecha.value|date("M d") }}
+                </div>
+              {% endif %}
+
+            </a>
+          </li>
+        {% endfor %}
+
+      </ul>
+
+    </div>
+  </section>
+</div>
+
+      <div class="rutas">
+  <div class="container">
+    <h3>{{"ui.tourist_routes"|trans}}</h3>
+
+    <ul>
+      {% for node in rutas|shuffle|slice(0, 4) %}
+        <li class="card">
+          <a href="{{ path('entity.node.canonical', {'node': node.id}) }}">
+
+            <div class="image">
+              {% if node.field_mainimg.entity %}
+                <img src="{{ file_url(node.field_mainimg.entity.fileuri) }}"
+                     alt="{{ node.label }}">
+              {% endif %}
+            </div>
+
+            <div class="title">
+              {{ node.label }}
+            </div>
+
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+</div>
+
+    </main>
+</div>

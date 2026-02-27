@@ -1,0 +1,162 @@
+<div class="home">
+    <main>
+        <div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
+            <video id="videoBase" src="/{{ directory }}/video/video.mp4" loop muted autoplay></video>
+
+            <video id="videoCampaign" src="/{{ directory }}/video/videocamp.mp4" muted></video>
+
+            <button type="button" id="playcampaign">
+                <div class="campaign" id="campaign">
+                    <img src="/{{ directory }}/images/visitbogota/playcampaign.png" alt="play" class="play">
+                    <img src="/{{ directory }}/images/visitbogota/campaign.png" alt="campaign" id="campaignImage">
+                </div>
+            </button>
+        </div>
+        {% include "@visit_theme/includes/planifica.html.twig" %}
+        <div class="que-hacer">
+            <div class="container">
+                <h3>{{"ui.what_to_do_in_bogota"|trans}}</h3>
+                <h4>{{"ui.explore_all_experiences"|trans}}</h4>
+                <ul class="grid-categories">
+                    {% for item in taxonomy('categorias_turisticas') %}
+                    <li data-aos="zoom-in" data-aos-delay="300">
+                        <a href="{{item.url}}" style="background-image: url({{item.image}});">
+                            <span class="title">{{ item.name }}</span>
+                            <small>Explora más <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </small>
+                        </a>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+
+        {% if eventosVisit is not empty %}
+        <div class="eventos" data-aos="fade-right">
+            <h4>
+                {{ "ui.events_in_bogota"|trans({
+                '@category': date()|date('U')|format_date('custom', 'F')|capitalize
+                }) }}
+            </h4>
+
+
+            <section class="splide" aria-label="Splide Basic HTML Example">
+                <div class="splide__track">
+                    <ul class="splide__list grid-events ">
+
+                        {% for item in eventosVisit |shuffle %}
+
+                        <li class="splide__slide">
+                            <a href="{{item.url}}" style="background-image: url({{item.image}});">
+
+                                <span class="title"> {{item.title}}</span>
+                                <div class="date"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M5.33333 1.33325V3.99992M10.6667 1.33325V3.99992M14 9.33325V3.99992C14 3.6463 13.8595 3.30716 13.6095 3.05711C13.3594 2.80706 13.0203 2.66659 12.6667 2.66659H3.33333C2.97971 2.66659 2.64057 2.80706 2.39052 3.05711C2.14048 3.30716 2 3.6463 2 3.99992V13.3333C2 13.6869 2.14048 14.026 2.39052 14.2761C2.64057 14.5261 2.97971 14.6666 3.33333 14.6666H8.66667M2 6.66658H14M10.6667 13.3333L12 14.6666L14.6667 11.9999"
+                                            stroke="white" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                    OCT 9 - 13
+                                </div>
+                                <div class="place"><svg width="298" height="16" viewBox="0 0 298 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M13.3333 6.66659C13.3333 9.99525 9.64063 13.4619 8.40063 14.5326C8.28511 14.6194 8.14449 14.6664 7.99996 14.6664C7.85543 14.6664 7.71481 14.6194 7.59929 14.5326C6.35929 13.4619 2.66663 9.99525 2.66663 6.66659C2.66663 5.2521 3.22853 3.89554 4.22872 2.89535C5.22892 1.89516 6.58547 1.33325 7.99996 1.33325C9.41445 1.33325 10.771 1.89516 11.7712 2.89535C12.7714 3.89554 13.3333 5.2521 13.3333 6.66659Z"
+                                            stroke="#FFFBFB" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path
+                                            d="M7.99996 8.66659C9.10453 8.66659 9.99996 7.77115 9.99996 6.66659C9.99996 5.56202 9.10453 4.66659 7.99996 4.66659C6.89539 4.66659 5.99996 5.56202 5.99996 6.66659C5.99996 7.77115 6.89539 8.66659 7.99996 8.66659Z"
+                                            stroke="#FFFBFB" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+
+                                    </svg>
+                                    {{item.fields.field_lugar_del_evento.0.value}}
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        </div>
+        {% endif %}
+        {% if article is not empty %}
+        <div class="blog" data-aos="fade-down">
+            <h5>{{"ui.recent_posts"|t}}</h5>
+            <ul class="grid-blogs container">
+                {% for item in article|shuffle|slice(0, 6) %}
+
+
+                <li><a href="{{item.url}}">
+                        <div class="image">
+                            <img src="{{item.image}}" alt="blog title">
+                        </div>
+                        <div class="title">
+                            {{item.title}}
+                        </div>
+                        <div class="tag">{{item.categoria.name}}</div>
+                    </a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </main>
+</div>
+<script>
+    const btn = document.getElementById("playcampaign");
+
+    const banner = document.getElementById("banner");
+    const videoBase = document.getElementById("videoBase");
+    const videoCampaign = document.getElementById("videoCampaign");
+
+    const campaignImage = document.getElementById("campaignImage");
+
+    let active = false;
+
+    btn.addEventListener("click", () => {
+
+        if (!active) {
+            // ===== ACTIVAR CAMPAÑA =====
+
+            // Cambiar background
+            banner.style.backgroundImage = "url(/{{ directory }}/images/visitbogota/banner.png)";
+
+            // Cambiar imagen (solo SRC)
+            campaignImage.src = "/{{ directory }}/images/visitbogota/banner.png";
+
+            // Cambiar videos
+            videoBase.pause();
+            videoBase.style.display = "none";
+
+            videoCampaign.style.display = "block";
+            videoCampaign.currentTime = 0;
+            videoCampaign.play();
+
+            active = true;
+
+        } else {
+            // ===== VOLVER A NORMAL =====
+
+            // Restaurar background
+            banner.style.backgroundImage = "url(/{{ directory }}/images/visitbogota/banner.png)";
+            // Restaurar imagen
+            campaignImage.src = "/{{ directory }}/images/visitbogota/campaign.png";
+
+            // Restaurar videos
+            videoCampaign.pause();
+            videoCampaign.style.display = "none";
+
+            videoBase.style.display = "block";
+            videoBase.play();
+
+            active = false;
+        }
+
+    });
+</script>

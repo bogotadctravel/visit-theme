@@ -1,0 +1,48 @@
+.donde {
+    .flex {
+        display: grid;
+        grid-template-columns: 328px auto;
+        gap: 21px;
+    }
+
+    .left {
+        .filters {
+            width: 100%;
+            background-color: #E6E6E6;
+            padding: 43px 37px;
+
+            h3 {
+                font-weight: 800;
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            label {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                font-size: 0.95rem;
+                color: #222;
+                cursor: pointer;
+
+                margin-bottom: 0.6rem;
+                line-height: 1.4;
+
+                input[type="checkbox"] {
+                    width: 16px;
+                    height: 16px;
+                    accent-color: #000;
+                    cursor: pointer;
+                    appearance: auto;
+                }
+
+                &:hover {
+                    color: #000;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
+}

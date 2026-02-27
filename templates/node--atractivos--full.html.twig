@@ -1,0 +1,217 @@
+<div class="atractivo">
+
+    <main>
+        {% set banner_image = null %}
+
+        {% if node.field_cover.entity %}
+        {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
+        {% elseif node.field_mainimg.entity %}
+        {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+        {% endif %}
+
+        {% if banner_image %}
+        <div class="banner" style="background-image: url('{{ banner_image }}');">
+
+            {% endif %}
+            <div class="container">
+
+                <div class="text">
+
+                    <h2>Visit Bogotá</h2>
+                    <h1>{{ node.getTitle() }}</h1>
+                    <div class="comollegar">
+                        <p>
+
+                            {{node.field_direccion.0.value}}
+                        </p>
+                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Como llegar al lugar"
+                            class="llegar">Cómo llegar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex">
+            {% if node.field_picgallery|length > 0 %}
+            <div class="galeria">
+                <div class="parent">
+
+                    {% for item in node.field_picgallery|slice(0,5) %}
+                    <div class="div{{ loop.index + 1 }}">
+                        <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery"
+                            data-caption="{{ item.alt }}">
+                            <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
+                        </a>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="info">
+                <div class="desc">
+                    <h2>{{ node.getTitle() }}</h2>
+                    {{ content.body }}
+                </div>
+                {% if file_url(node.field_audio.entity.fileuri) is not empty %}
+                <div class="audio">
+                    <h3>Escuchar reseña en audio</h3>
+                    <audio controls>
+                        <source src="  {{ file_url(node.field_audio.entity.fileuri) }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+
+                </div>
+                {% endif %}
+                <div class="flexmap">
+                    <div class="map" rel="noopener">
+                        <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
+                        </iframe>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <strong>
+                                    Recomendado para:
+
+                                </strong>
+                                {% if node.field_turpara|length > 0 %}
+                                {% for item in node.field_turpara %}
+                                <p>
+                                    {{ item.entity.name.value }}
+                                </p>
+                                {% endfor %}
+                                {% endif %}
+
+
+
+                            </li>
+                            <li>
+                                <strong>
+                                    Zona:
+                                </strong>
+                                {% if node.field_turzone|length > 0 %}
+                                {% for item in node.field_turzone %}
+                                <p>
+                                    {{ item.entity.name.value }}
+                                </p>
+                                {% endfor %}
+                                {% endif %}
+
+                            </li>
+                            <li>
+                                <strong>
+                                    Localidad:
+
+                                </strong>
+                                {% if node.field_turdistr|length > 0 %}
+                                {% for item in node.field_turdistr %}
+                                <p>
+                                    {{ item.entity.name.value }}
+                                </p>
+                                {% endfor %}
+                                {% endif %}
+                            </li>
+                            <li class="flexList">
+                                <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
+                                <a href="mailto:{{node.field_correo.0.value}}">
+                                    {{node.field_correo.0.value}}
+
+                                </a>
+                            </li>
+                            <li class="flexList">
+                                <img src="/{{ directory }}/images/visitbogota/tel.png" alt="tel">
+                                <a href="tel:{{node.field_telefono.0.value}}">
+                                    {{node.field_telefono.0.value}}
+                                </a>
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if node.field_video is not empty %}
+        <div class="video" style="position: relative;">
+            <button class="video-play" aria-label="Reproducir video"
+                style=" position: absolute;margin: auto;background: none;border: none;cursor: pointer;z-index: 2;">
+                <svg width="78" height="84" viewBox="0 0 78 84" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g filter="url(#filter0_d_2084_4326)">
+                        <path
+                            d="M69.1657 29.6386C75.3817 33.0581 75.3817 41.9901 69.1657 45.4097L17.338 73.921C11.3399 77.2206 4 72.8812 4 66.0354L4.00001 9.01283C4.00001 2.16705 11.3399 -2.17238 17.338 1.12727L69.1657 29.6386Z"
+                            fill="white" />
+                    </g>
+                    <defs>
+                        <filter id="filter0_d_2084_4326" x="0" y="0" width="77.8276" height="83.0482"
+                            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                            <feColorMatrix in="SourceAlpha" type="matrix"
+                                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                            <feOffset dy="4" />
+                            <feGaussianBlur stdDeviation="2" />
+                            <feComposite in2="hardAlpha" operator="out" />
+                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2084_4326" />
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2084_4326"
+                                result="shape" />
+                        </filter>
+                    </defs>
+                </svg>
+            </button>
+
+            <video class="video-element" src="{{ file_url(node.field_video.entity.fileuri) }}"
+                poster="{{ banner_image }}" preload="metadata">
+            </video>
+        </div>
+        {% endif %}
+
+        <div class="lugares">
+            <h4>{{"ui.places_nearby"|t({
+                '@place': node.getTitle()
+                })}}</h4>
+            <ul>
+                {% for item in atractivos|shuffle|slice(0, 4) %}
+                <li>
+                    <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
+                        <img src="{{file_url(item.field_mainimg.entity.fileuri) }}" alt="atra">
+                        <div class="title">{{item.label}}</div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% include "@visit_theme/includes/planifica.html.twig" %}
+    </main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.video').forEach(wrapper => {
+            const video = wrapper.querySelector('.video-element');
+            const button = wrapper.querySelector('.video-play');
+
+            button.addEventListener('click', () => {
+                if (video.paused) {
+                    video.play();
+                    button.style.display = 'none';
+                } else {
+                    video.pause();
+                    button.style.display = 'block';
+                }
+            });
+
+            // Si el usuario pausa el video, vuelve a mostrar el botón
+            video.addEventListener('pause', () => {
+                button.style.display = 'block';
+            });
+
+            // Al terminar el video
+            video.addEventListener('ended', () => {
+                button.style.display = 'block';
+            });
+        });
+    });
+
+</script>
