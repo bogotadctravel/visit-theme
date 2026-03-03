@@ -1,16 +1,29 @@
 ﻿@use "../base/tokens" as *;
 
 section {
+  h1 {
+    margin-bottom: 0.35rem;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    color: #001223;
+
+    @media (max-width: 600px) {
+      margin-left: 0;
+      font-weight: 400;
+    }
+  }
+
   h2 {
     margin-bottom: 0.35rem;
     font-size: clamp(2rem, 4vw, 2.5rem);
     color: #001223;
+
     @media (max-width: 600px) {
       margin-left: 0;
       font-weight: 400;
     }
   }
 }
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -30,21 +43,18 @@ section {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgb(95 95 95 / 90%),
-    rgb(131 131 131 / 60%)
-  );
+  background: linear-gradient(180deg,
+      rgb(95 95 95 / 90%),
+      rgb(131 131 131 / 60%));
   z-index: -1;
+
   @media (max-width: 768px) {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      180deg,
-      rgba(7, 21, 41, 0.85),
-      rgba(7, 21, 41, 0.45)
-    );
+    background: linear-gradient(180deg,
+        rgba(7, 21, 41, 0.85),
+        rgba(7, 21, 41, 0.45));
     z-index: -1;
   }
 }
@@ -60,6 +70,7 @@ section {
   height: 100%;
   background: center/cover no-repeat;
   background-image: url("../images/red_francisco_unplash.jpg");
+
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -122,6 +133,7 @@ section {
 .portfolio__header h2 {
   margin: 0;
 }
+
 .portfolio__header p {
   margin: 0 0 2rem;
   color: $color-muted;
@@ -131,6 +143,7 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
+
   @media (max-width: 600px) {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1rem;
@@ -145,6 +158,7 @@ section {
   display: flex;
   flex-direction: column;
   transition: background 0.2s ease;
+
   @media (max-width: 600px) {
     padding: 1rem;
   }
@@ -172,6 +186,7 @@ section {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+
   @media (max-width: 600px) {
     padding: 0;
   }
@@ -210,6 +225,7 @@ section {
     transform: translateY(-1px);
     box-shadow: 0 10px 20px rgba(6, 24, 56, 0.3);
   }
+
   @media (max-width: 600px) {
     display: none;
   }
@@ -277,11 +293,12 @@ section {
 }
 
 .events__intro h2 {
-  font-size: clamp(2.5rem,5vw,2.6rem);
+  font-size: clamp(2.5rem, 5vw, 2.6rem);
   margin: 0 0 1rem;
   line-height: 1.2;
   color: #fff;
   font-weight: 400;
+
   @media (max-width: 600px) {
     text-align: left;
   }
@@ -291,6 +308,7 @@ section {
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
   color: rgba(255, 255, 255, 0.8);
+
   @media (max-width: 600px) {
     text-align: left;
     margin-bottom: 0.5rem;
@@ -328,6 +346,7 @@ section {
   flex: 0 0 auto;
   transition: transform 0.2s ease;
   cursor: pointer;
+
   &:hover {
     transform: translateY(-3px);
   }
@@ -337,11 +356,9 @@ section {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    0deg,
-    rgba(4, 18, 48, 0.9) 0%,
-    rgba(4, 18, 48, 0.25) 75%
-  );
+  background: linear-gradient(0deg,
+      rgba(4, 18, 48, 0.9) 0%,
+      rgba(4, 18, 48, 0.25) 75%);
   z-index: 1;
 }
 
@@ -363,10 +380,11 @@ section {
   height: 100%;
   justify-content: flex-end;
   font-family: "Poppins";
+
   h3 {
     font-weight: 900;
     margin: 0;
-        min-height: 90px;
+    min-height: 90px;
   }
 }
 
@@ -392,6 +410,7 @@ section {
   gap: 0.4rem;
   font-size: 0.95rem;
 }
+
 .event-card__meta span:nth-of-type(2) {
   border-top: 1px solid rgba(255, 255, 255, 0.4);
   font-style: italic;
@@ -436,7 +455,9 @@ section {
   font-weight: 600;
   letter-spacing: 0.05em;
   transition: background 0.2s ease, transform 0.2s ease;
-  &:hover, &.active{
+
+  &:hover,
+  &.active {
     background: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
   }
@@ -579,6 +600,7 @@ section {
   height: 440px;
   cursor: pointer;
   transition: background 0.2s ease;
+
   &:hover {
     background: #194462;
   }
@@ -642,10 +664,12 @@ section {
   .success-card {
     flex: 0 0 75%;
   }
+
   .events__panel {
     align-items: center;
     max-width: 100%;
   }
+
   .events__carousel {
     padding: 0 1rem;
     width: 100%;
@@ -658,22 +682,28 @@ section {
     height: 240px;
     background-color: #ece6f0;
     color: #001223;
+
     &:hover {
       color: #fff;
     }
+
     .success-card__body {
       padding: 0;
+
       h3 {
         margin-top: 1rem;
         font-size: 1rem;
       }
+
       p {
         color: #001223;
+
         &:hover {
           color: #fff;
         }
       }
     }
+
     .success-card__media {
       height: 120px;
     }
@@ -719,6 +749,7 @@ section {
   font-weight: 600;
   color: #173060;
   font-size: 1rem;
+
   img {
     width: 90%;
     height: 100%;
@@ -809,12 +840,10 @@ section {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    105deg,
-    rgba(7, 21, 41, 0.85) 0%,
-    rgba(7, 21, 41, 0.45) 50%,
-    rgba(7, 21, 41, 0.2) 100%
-  );
+  background: linear-gradient(105deg,
+      rgba(7, 21, 41, 0.85) 0%,
+      rgba(7, 21, 41, 0.45) 50%,
+      rgba(7, 21, 41, 0.2) 100%);
   z-index: 1;
 }
 
@@ -890,12 +919,14 @@ section {
     overflow: visible;
   }
 }
+
 .carousel-indicators {
   display: none;
   justify-content: center;
   gap: 0.5rem;
   margin-top: 1rem;
   align-items: center;
+
   @media (max-width: 600px) {
     display: flex;
   }
@@ -919,6 +950,7 @@ section {
 }
 
 @media (max-width: 600px) {
+
   .events__nav,
   .success-nav,
   .allies-nav {
