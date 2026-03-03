@@ -3,8 +3,10 @@
 .data-tabs {
     &.filtros {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+
         @media (max-width: 768px) {
             width: 100%;
+
             button {
                 width: 100%;
             }
@@ -18,19 +20,26 @@
         flex-direction: column;
         gap: clamp(1.5rem, 4vw, 3rem);
         margin-top: clamp(1.5rem, 4vw, 3rem);
+
+        p {
+            margin-bottom: 15px;
+        }
     }
 
     &__results {
         flex: 1 1 auto;
         margin-top: 1.75rem;
-        &-title{ 
+
+        &-title {
             display: flex;
             gap: 1rem;
             transition: transform 0.25s ease;
             cursor: pointer;
+
             svg {
                 width: 24px;
             }
+
             &:hover {
                 transform: translateX(-6px);
             }
@@ -65,7 +74,8 @@
         padding: 3rem 2rem;
     }
 }
-.places-chip__buttons{
+
+.places-chip__buttons {
     &.filtros {
         display: flex;
         flex-direction: column;
@@ -110,7 +120,7 @@
 }
 
 .places__search-submit {
-    &.filtros{
+    &.filtros {
         width: 100%;
     }
 }
@@ -282,9 +292,10 @@
 }
 
 @media (max-width: 768px) {
-    .results__grid{
+    .results__grid {
         grid-template-columns: repeat(auto-fit, minmax(120px, 3fr));
     }
+
     .venues-carousel {
         padding: 0 1.25rem;
     }
