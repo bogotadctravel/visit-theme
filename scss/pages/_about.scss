@@ -24,9 +24,10 @@
 
 .about__slider {
   padding: 0;
-  @media only screen and (max-width: 1023px){
+
+  @media only screen and (max-width: 1023px) {
     padding: 0 20px;
-      
+
   }
 }
 
@@ -195,8 +196,9 @@
 @media (max-width: 860px) {
   .about-slide {
     grid-template-columns: 1fr;
+
     img {
-        max-height: 390px;
+      max-height: 390px;
     }
   }
 
@@ -218,8 +220,9 @@
 
 .about__data {
   margin-top: clamp(2.5rem, 6vw, 4rem);
-  @media only screen and (max-width: 1023px){
-      margin: 0 auto;
+
+  @media only screen and (max-width: 1023px) {
+    margin: 0 auto;
   }
 }
 
@@ -292,7 +295,9 @@
 .about-highlight {
   margin-top: clamp(2.5rem, 6vw, 4rem);
   display: grid;
-  grid-template-columns: minmax(320px, 1.2fr) minmax(260px, 0.7fr);
+
+  grid-template-columns: 1fr;
+  max-width: 768px;
 
 }
 
@@ -309,6 +314,7 @@
   align-items: center;
   justify-content: flex-end;
   width: 100%;
+
   img {
     display: block;
     max-width: 370px;
@@ -448,13 +454,15 @@
 
   .highlight-slider {
     padding: 0;
-        @media only screen and (max-width: 1023px){
+
+    @media only screen and (max-width: 1023px) {
       padding: 40px 20px;
-  }
+    }
   }
 
   .highlight__image {
     justify-content: center;
+
     img {
       max-width: 320px;
     }

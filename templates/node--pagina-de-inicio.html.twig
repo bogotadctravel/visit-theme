@@ -127,7 +127,8 @@
       <a href="/conecta/porque-bogota" class="why-card">
         <div class="why-card__thumb" aria-hidden="true">
           <img
-            src="{{item.fields.field_mainimg.0.url}}"
+          style="width: 100%; height: 100%; object-fit: cover;"
+            src="{{item.image}}"
             alt="{{item.title}}"
           />
         </div>
@@ -167,8 +168,8 @@
         <div class="events__viewport" data-carousel-viewport>
           <div class="events__track" data-carousel-track>
             {% for item in eventosMICE|reverse|slice(0, 5) %} {% set raw_inicio =
-            item.fields.field_fecha_de_inicio.0.value %} {% set raw_fin =
-            item.fields.field_fecha_de_finalizacion.0.value %} {% set mes_en =
+            item.field_fecha_de_inicio %} {% set raw_fin =
+            item.field_fecha_de_finalizacion %} {% set mes_en =
             raw_inicio|date('M') %} {% set mes_es = meses[mes_en] %} {% set
             dia_inicio = raw_inicio|date('j') %} {% set dia_fin =
             raw_fin|date('j') %}
@@ -196,15 +197,7 @@
                     <span>{{ mes_es }} {{ dia_inicio }} - {{ dia_fin }} del {{anio_inicio}}</span>
                   </span>
 
-                  <span class="event-card__meta-item">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                      </svg>
-                    <span
-                      >{{ item.fields.field_lugar_del_evento.0.value }}</span
-                    >
-                  </span>
+                  
                 </div>
               </div>
             </a>

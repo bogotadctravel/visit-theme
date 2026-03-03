@@ -1,3 +1,26 @@
+<style>
+.about__header img {
+    width: 50%;
+    height: auto;
+    margin: 15px auto;
+    border-radius: 16px;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+}
+.about__header p {
+    font-size: 15px;
+    margin-bottom: 5px;
+    color: #444;
+    line-height: 22px;
+}
+.about__header h2 {
+    font-size: 27px;
+    font-weight: 700;
+    margin: 10px 0;
+    line-height: 42px;
+    position: relative;
+}
+</style>
 <main>
   <section class="about">
     <div class="about__header">
@@ -12,7 +35,10 @@
 <div class="data-tabs"
      role="tablist"
      aria-label="Categorías de datos de Bogotá¡"
-     data-carousel-indicators="about">
+     data-carousel-indicators="about"
+     style="    grid-template-columns: repeat(5, minmax(0, 1fr));"
+     >
+     
 
       {% for item in por_que_bogota %}
       {% if item.field_seccion == 'seccion_1'%}
@@ -33,12 +59,19 @@
   </section>
 
   <section class="about__slider" aria-label="Indicadores clave de BogotÃ¡">
-   <div class="about-slider" data-carousel data-carousel-id="about">
+   <div class="about-slider" data-carousel data-carousel-id="about" style="    flex: 0 0 100%;
+    display: grid;
+    grid-template-columns: 680px;
+    gap: clamp(1.25rem, 3vw, 3rem);
+    padding-block: .5rem;
+    height: max-content;
+    align-items: center;
+    justify-content: center;">
       <div class="about-slider__viewport" data-carousel-viewport>
         <div class="about-slider__track" data-carousel-track>
           {% for item in por_que_bogota %}
           {% if item.field_seccion == 'seccion_1'%}
-          <article class="about-slide" data-carousel-item>
+          <article class="about-slide" data-carousel-item style="display: grid; grid-template-columns: 1fr; gap: 2rem;     align-items: flex-start;grid-template-rows: auto 1fr;">
             <img src="{{item.image}}" alt="{{item.title}}" />
             <div class="about-slide__content">
               <h3>{{item.title}}</h3>
@@ -85,35 +118,25 @@
         {% set seccion2 = por_que_bogota|filter(item => item.field_seccion == 'seccion_2') %}
 
 {% if seccion2 is not empty %}
- <section class="about-highlight" aria-label="Historias de impacto">
-    <div class="highlight-slider" data-carousel>
-      <button class="highlight-slider__arrow highlight-slider__arrow--prev" type="button" data-carousel-prev
-        aria-label="Anterior">
-        &#10094;
-      </button>
-      <div class="highlight-slider__viewport" data-carousel-viewport>
-        <div class="highlight-slider__track" data-carousel-track>
-          {% for item in por_que_bogota %}
+ <section class="about-highlight" style="  margin-top: clamp(2.5rem, 6vw, 4rem);
+  display: grid;
+
+  grid-template-columns: 1fr;
+  max-width: 768px;" aria-label="Historias de impacto">
+   {% for item in por_que_bogota %}
           {% if item.field_seccion == 'seccion_2'%}
-          <article class="highlight-slide" data-carousel-item>
+          <article class="highlight-slide">
             <div class="highlight-slide__copy">
+            <img src="{{item.image}}" alt="{{item.title}}" width="100%" height="100%" style="border-radius: 16px;" />
               <h3>{{item.title}}</h3>
               {{ item.body|raw }}
             </div>
             <div class="highlight__image">
-       <img src="{{item.image}}" alt="{{item.title}}" />
+       
     </div>
           </article>
 {% endif %}
           {% endfor %}
-        </div>
-      </div>
-      <button class="highlight-slider__arrow highlight-slider__arrow--next" type="button" data-carousel-next
-        aria-label="Siguiente">
-        &#10095;
-      </button>
-    </div>
-    
   </section>
 {% endif %}
 
