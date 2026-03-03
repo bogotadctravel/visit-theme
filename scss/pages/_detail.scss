@@ -6,16 +6,19 @@
     flex-direction: row;
     gap: clamp(1.5rem, 4vw, 3rem);
     margin-top: clamp(1.5rem, 4vw, 3rem);
-        justify-content: space-between;
+    justify-content: space-between;
   }
+
   &__content {
     max-width: 680px;
+
     h1 {
       margin-left: 0;
       font-weight: 400;
     }
   }
 }
+
 .detail__info {
   margin-top: 1.75rem;
   display: flex;
@@ -24,11 +27,13 @@
   border-radius: 16px;
   background: #efedf4;
 }
+
 .dispositons__chips {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
+
 .detail__info-card {
   width: 100%;
   display: flex;
@@ -78,6 +83,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   svg {
     width: 32px;
     height: 32px;
@@ -134,6 +140,7 @@
   justify-content: center;
   font-weight: 600;
   color: inherit;
+
   img {
     width: 30px;
     height: 30px;
@@ -214,6 +221,7 @@
   flex-direction: column;
   gap: 1.25rem;
 }
+
 .gallery {
   display: flex;
   gap: 10px;
@@ -235,7 +243,7 @@
 
 .gallery-viewer__media img {
   width: 100%;
-  height: clamp(350px,45vw,420px);
+  height: clamp(350px, 45vw, 420px);
   display: block;
   object-fit: cover;
 }
@@ -246,11 +254,9 @@
   padding: 0.9rem 1.5rem;
   font-size: 0.95rem;
   color: #fff;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.65) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.65) 100%);
   // backdrop-filter: blur(10px);
 }
 
@@ -385,15 +391,18 @@
   justify-content: space-between;
   gap: 0.5rem;
   flex-direction: column;
+
   &.location {
     flex-direction: row;
   }
 }
+
 .media-card__titles {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
+
 .media-card__header h3 {
   margin: 0;
   font-size: 1rem;
@@ -686,6 +695,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+
   strong {
     margin-left: 10px;
     font-size: 1.15rem;
@@ -700,6 +710,7 @@
   font-weight: 700;
   color: $color-text;
 }
+
 .room-card__toggle {
   display: flex;
   align-items: center;
@@ -736,12 +747,12 @@
   position: relative;
 }
 
-.check-input:checked + .check-box {
+.check-input:checked+.check-box {
   background-color: #3766a9;
   border-color: #3766a9;
 }
 
-.check-input:checked + .check-box::after {
+.check-input:checked+.check-box::after {
   content: "";
   position: absolute;
   top: 4px;
@@ -807,26 +818,32 @@
   .detail__header {
     flex-direction: column;
   }
+
   .detail__cta {
     max-width: 100%;
     width: 100%;
   }
+
   .room-card__content {
     flex-direction: column;
   }
+
   .room-card__actions {
     align-items: flex-start;
     flex-direction: column;
     flex: 1;
   }
+
   .room-card__meta {
     flex: 1;
   }
+
   .room-card__cta {
     align-self: stretch;
     text-align: center;
     width: 100%;
   }
+
   .detail-rooms__tabs {
     height: auto;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
