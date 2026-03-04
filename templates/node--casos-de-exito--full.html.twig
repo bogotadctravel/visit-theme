@@ -82,29 +82,9 @@
           <img src="{{file_url(node.field_fotos.0.entity.uri.value)}}" alt="obra">
         </div>
         <div class="text">
-          {% set meses = {
-          'Jan': 'Ene', 'Feb': 'Feb', 'Mar': 'Mar',
-          'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun',
-          'Jul': 'Jul', 'Aug': 'Ago', 'Sep': 'Sept',
-          'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic'
-          } %}
-
-          {% set raw_inicio = node.field_fecha_de_inicio.0.value %}
-          {% set raw_fin = node.field_fecha_de_finalizacion.0.value %}
-
-          {% set mes_en = raw_inicio|date('M') %}
-          {% set mes_es = meses[mes_en] %}
-          {% set dia_inicio = raw_inicio|date('j') %}
-          {% set dia_fin = raw_fin|date('j') %}
-
 
           <h1> {{ node.getTitle() }}</h1>
           <small>{{ node.field_lugar_del_evento.0.value }}</small>
-          <div class="date">
-            <div class="init"><strong>{{ dia_inicio }}</strong><small>{{ mes_es }}</small></div>
-            <span>-</span>
-            <div class="end"><strong>1{{ dia_fin }}</strong><small>{{ mes_es }}</small></div>
-          </div>
           {{ content.body }}
           
           <div class="contact">
@@ -123,7 +103,7 @@
 
     </div>
     {% set has_items = false %}
-    {% for item in eventosVisit %}
+    {% for item in casos_de_exito %}
       {% if item.id != node.nid.value %}
         {% set has_items = true %}
       {% endif %}
@@ -131,18 +111,18 @@
    {% if has_items %}
 <div class="lugares">
   <h4>
-    Otros eventos de {{ content.field_turcat.0['#title'] }} que te pueden interesar
+    Otros casos de éxito que te pueden interesar
   </h4>
 
   <ul>
     {% set count = 0 %}
 
-    {% for item in eventosVisit|shuffle %}
+    {% for item in casos_de_exito|shuffle %}
       {% if item.id != node.nid.value and count < 4 %}
 
         <li>
           <a href="{{ item.url }}">
-            <img src="{{ item.image }}" alt="{{ item.title }}">
+            <img src="{{ item.field_fotos.0 }}" alt="{{ item.title }}">
             <div class="title">{{ item.title }}</div>
           </a>
         </li>

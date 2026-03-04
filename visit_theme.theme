@@ -68,6 +68,7 @@ function visit_theme_preprocess_node(array &$variables) {
   $variables['eventosVisit'] = $content_loader->getEventosTeaserByMiceFlag(0, 6);
   $variables['eventosMICE']  = $content_loader->getEventosTeaserByMiceFlag(1, 6);
   $variables['atractivos']   = $content_loader->getNodesTeaser('atractivos');
+  $variables['casos_de_exito']   = $content_loader->getNodesTeaser('casos_de_exito');
    $variables['proveedores_conecta']      = $content_loader->getNodesTeaser('proveedores_conecta');
   // Full SOLO en página eventos
   if ($node->bundle() === 'eventos') {
@@ -102,7 +103,7 @@ function visit_theme_preprocess_node(array &$variables) {
     $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota');
   }
   if ($node->bundle() === 'pagina_eventos') {
-    $variables['casos_de_exito']   = $content_loader->getNodesTeaser('casos_de_exito');
+    
   }
   if ($node->bundle() === 'venues') {
     $variables['venues']      = $content_loader->getNodesTeaser('venues');
