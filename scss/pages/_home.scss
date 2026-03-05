@@ -355,16 +355,6 @@ section {
   }
 }
 
-.event-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg,
-      rgba(4, 18, 48, 0.9) 0%,
-      rgba(4, 18, 48, 0.25) 75%);
-  z-index: 1;
-}
-
 .event-card__media {
   position: absolute;
   inset: 0;
