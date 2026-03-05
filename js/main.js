@@ -1,25 +1,28 @@
 (function (Drupal, once) {
   Drupal.behaviors.iniciarAOS = {
     attach: function (context) {
-      // Usamos once para asegurar que solo se inicialice una vez por carga de página/AJAX
       once('init-aos', 'html', context).forEach(function () {
+
+        // Función interna para inicializar
+        const ejecutarAOS = () => {
+          if (typeof AOS !== 'undefined') {
+            AOS.init({
+              duration: 1000,
+              once: true,
+              disable: 'mobile', // Opcional: puedes probar si esto ayuda
+              startEvent: 'DOMContentLoaded',
+            });
+            AOS.refresh();
+          }
+        };
+
+        // Si ya existe, ejecutamos. Si no, esperamos un poco.
         if (typeof AOS !== 'undefined') {
-          AOS.init({
-            duration: 1000,
-            once: true,
-            // Agregamos esto para asegurar que detecte los elementos tras la carga de Drupal
-            startEvent: 'DOMContentLoaded',
-          });
-          // Refrescar AOS por si el contenido cargó después
-          AOS.refresh();
+          ejecutarAOS();
+        } else {
+          // Reintento para conexiones lentas o anónimos
+          window.addEventListener('load', ejecutarAOS);
         }
-      });
-    }
-  };
-  Drupal.behaviors.disableRightClick = {
-    attach: function (context, settings) {
-      document.addEventListener("contextmenu", function (e) {
-        e.preventDefault();
       });
     }
   };
