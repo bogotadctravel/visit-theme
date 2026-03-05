@@ -1,31 +1,27 @@
 (function (Drupal, once) {
   Drupal.behaviors.idtTheme = {
     attach: function (context) {
-      // Usamos once para evitar múltiples inicializaciones
-      once('init-aos', 'html', context).forEach(function () {
-
-        // Función interna de inicialización
-        const runAOS = () => {
-          if (typeof AOS !== 'undefined') {
-            AOS.init({
-              duration: 1000,
-              once: true,
-              startEvent: 'DOMContentLoaded',
-            });
-            // Forzamos un refresh para que detecte los elementos del DOM actuales
-            AOS.refresh();
-          }
-        };
-
-        // Lógica de espera:
-        // 1. Si ya existe el objeto AOS, ejecutar.
-        // 2. Si no existe (común en anónimos), esperar a que la ventana cargue todo.
+      // Función interna de inicialización
+      const runAOS = () => {
         if (typeof AOS !== 'undefined') {
-          runAOS();
-        } else {
-          window.addEventListener('load', runAOS);
+          AOS.init({
+            duration: 1000,
+            once: true,
+            startEvent: 'DOMContentLoaded',
+          });
+          // Forzamos un refresh para que detecte los elementos del DOM actuales
+          AOS.refresh();
         }
-      });
+      };
+
+      // Lógica de espera:
+      // 1. Si ya existe el objeto AOS, ejecutar.
+      // 2. Si no existe (común en anónimos), esperar a que la ventana cargue todo.
+      if (typeof AOS !== 'undefined') {
+        runAOS();
+      } else {
+        window.addEventListener('load', runAOS);
+      }
       document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
       /* ------------------------------
       * GASTRONOMY FILTER (checkboxes)
