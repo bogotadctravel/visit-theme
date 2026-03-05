@@ -1,5 +1,5 @@
 (function (Drupal, once) {
-  Drupal.behaviors.iniciarAOS = {
+  Drupal.behaviors.idtTheme = {
     attach: function (context) {
       // Usamos once para evitar múltiples inicializaciones
       once('init-aos', 'html', context).forEach(function () {
@@ -26,10 +26,6 @@
           window.addEventListener('load', runAOS);
         }
       });
-    }
-  };
-  Drupal.behaviors.idtTheme = {
-    attach: function (context) {
       document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
       /* ------------------------------
       * GASTRONOMY FILTER (checkboxes)
