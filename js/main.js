@@ -1,28 +1,31 @@
 (function (Drupal, once) {
   Drupal.behaviors.idtTheme = {
     attach: function (context) {
-      // Función interna de inicialización
-      const runAOS = () => {
-        if (typeof AOS !== 'undefined') {
-          AOS.init({
-            duration: 1000,
-            once: true,
-            startEvent: 'DOMContentLoaded',
-          });
-          // Forzamos un refresh para que detecte los elementos del DOM actuales
-          AOS.refresh();
-        }
-      };
+      // Usamos once para evitar múltiples inicializaciones
+      once('init-aos', 'html', context).forEach(function () {
 
-      // Lógica de espera:
-      // 1. Si ya existe el objeto AOS, ejecutar.
-      // 2. Si no existe (común en anónimos), esperar a que la ventana cargue todo.
-      runAOS();
-      if (typeof AOS !== 'undefined') {
-        runAOS();
-      } else {
-        window.addEventListener('load', runAOS);
-      }
+        // Función interna de inicialización
+        const runAOS = () => {
+          if (typeof AOS !== 'undefined') {
+            AOS.init({
+              duration: 1000,
+              once: true,
+              startEvent: 'DOMContentLoaded',
+            });
+            // Forzamos un refresh para que detecte los elementos del DOM actuales
+            AOS.refresh();
+          }
+        };
+
+        // Lógica de espera:
+        // 1. Si ya existe el objeto AOS, ejecutar.
+        // 2. Si no existe (común en anónimos), esperar a que la ventana cargue todo.
+        if (typeof AOS !== 'undefined') {
+          runAOS();
+        } else {
+          window.addEventListener('load', runAOS);
+        }
+      });
       document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
       /* ------------------------------
       * GASTRONOMY FILTER (checkboxes)
@@ -586,8 +589,8 @@
         }
       );
       /* ------------------------------
- * PLACES FILTER (Drupal behavior)
- * ------------------------------ */
+    * PLACES FILTER (Drupal behavior)
+    * ------------------------------ */
       once("idt-places-filter", "#places", context).forEach((wrapper) => {
         // Si prefieres usar la clase: once("idt-places-filter", ".places", context)
 

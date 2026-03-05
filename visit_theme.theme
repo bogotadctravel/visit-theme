@@ -33,8 +33,8 @@ function visit_theme_preprocess_taxonomy_term(array &$variables) {
   $variables['article']        = $content_loader->getNodesTeaserByCategory('article', $tid);
 
   // Eventos separados
-  $variables['eventosVisit']   = $content_loader->getEventosTeaserByCategoryAndMice($tid, 0);
-  $variables['eventosMICE']    = $content_loader->getEventosTeaserByCategoryAndMice($tid, 1);
+  $variables['eventosVisit']   = $content_loader->getEventosTeaserByCategoryAndMice($tid, 0, 50);
+  $variables['eventosMICE']    = $content_loader->getEventosTeaserByCategoryAndMice($tid, 1, 50);
 }
 function visit_theme_get_terms(string $vocab): array {
 
@@ -65,11 +65,11 @@ function visit_theme_preprocess_node(array &$variables) {
   $content_loader = \Drupal::service('idt_theme_support.content_loader');
 
   // Header siempre teaser
-  $variables['eventosVisit'] = $content_loader->getEventosTeaserByMiceFlag(0, 6);
-  $variables['eventosMICE']  = $content_loader->getEventosTeaserByMiceFlag(1, 6);
+  $variables['eventosVisit'] = $content_loader->getEventosTeaserByMiceFlag(0,50);
+  $variables['eventosMICE']  = $content_loader->getEventosTeaserByMiceFlag(1,50);
   $variables['atractivos']   = $content_loader->getNodesTeaser('atractivos');
   $variables['casos_de_exito']   = $content_loader->getNodesTeaser('casos_de_exito');
-   $variables['proveedores_conecta']      = $content_loader->getNodesTeaser('proveedores_conecta');
+   $variables['proveedores_conecta'] = $content_loader->getNodesTeaser('proveedores_conecta',60);
   // Full SOLO en página eventos
   if ($node->bundle() === 'eventos') {
     $variables['eventosFull'] = $content_loader->getNodesFull('eventos');
@@ -97,7 +97,7 @@ function visit_theme_preprocess_node(array &$variables) {
    
   }
   if ($node->bundle() === 'pagina_venues') {
-    $variables['venues']      = $content_loader->getNodesTeaser('venues');
+    $variables['venues']      = $content_loader->getNodesTeaser('venues',50);
   }
   if ($node->bundle() === 'pagina_por_que_bogota') {
     $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota',20);
@@ -106,7 +106,7 @@ function visit_theme_preprocess_node(array &$variables) {
     
   }
   if ($node->bundle() === 'venues') {
-    $variables['venues']      = $content_loader->getNodesTeaser('venues',20);
+    $variables['venues']      = $content_loader->getNodesTeaser('venues',50);
   }
   if($node->bundle() === 'page'){
     $variables['establecimientos']      = $content_loader->getNodesTeaser('establecimientos', 20);
