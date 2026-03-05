@@ -1,4 +1,21 @@
 (function (Drupal, once) {
+  Drupal.behaviors.iniciarAOS = {
+    attach: function (context) {
+      // Usamos once para asegurar que solo se inicialice una vez por carga de página/AJAX
+      once('init-aos', 'html', context).forEach(function () {
+        if (typeof AOS !== 'undefined') {
+          AOS.init({
+            duration: 1000,
+            once: true,
+            // Agregamos esto para asegurar que detecte los elementos tras la carga de Drupal
+            startEvent: 'DOMContentLoaded',
+          });
+          // Refrescar AOS por si el contenido cargó después
+          AOS.refresh();
+        }
+      });
+    }
+  };
   Drupal.behaviors.disableRightClick = {
     attach: function (context, settings) {
       document.addEventListener("contextmenu", function (e) {
@@ -9,14 +26,9 @@
   Drupal.behaviors.idtTheme = {
     attach: function (context) {
       document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
-      once('aos', context).forEach(() => {
-        if (window.AOS && typeof window.AOS.init === 'function') {
-          window.AOS.init();
-        }
-      });
       /* ------------------------------
- * GASTRONOMY FILTER (checkboxes)
- * ------------------------------ */
+      * GASTRONOMY FILTER (checkboxes)
+      * ------------------------------ */
       once("idt-gastro-filter", ".filters", context).forEach((filtersWrapper) => {
 
         const cards = context.querySelectorAll("#cardsList .card");

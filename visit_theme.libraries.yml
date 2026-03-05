@@ -1,8 +1,11 @@
-aos:
+aos-lib:
+  remote: https://github.com/michalsnik/aos
+  version: 2.3.1
+  js:
+    js/aos.js: { minified: true }
   css:
     theme:
-      https://unpkg.com/aos@2.3.1/dist/aos.css:
-        type: external
+      https://unpkg.com/aos@2.3.1/dist/aos.css: { type: external }
 splide:
   css:
     theme:
@@ -35,13 +38,12 @@ global-styling:
         type: external
 
   js:
-    js/aos.js: {}
     js/main.js: {}
 
   dependencies:
     - core/drupal
     - core/once
     - core/drupalSettings
-    - visit_theme/aos
+    - visit_theme/aos-lib
     - visit_theme/splide
     - visit_theme/fancybox
