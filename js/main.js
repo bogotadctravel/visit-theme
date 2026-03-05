@@ -1,29 +1,29 @@
 (function (Drupal, once) {
   Drupal.behaviors.iniciarAOS = {
     attach: function (context) {
+      // Usamos once para evitar múltiples inicializaciones
       once('init-aos', 'html', context).forEach(function () {
 
-        // Función interna para inicializar
-        const ejecutarAOS = () => {
+        // Función interna de inicialización
+        const runAOS = () => {
           if (typeof AOS !== 'undefined') {
-            console.log(AOS);
-
             AOS.init({
               duration: 1000,
               once: true,
-              disable: 'mobile', // Opcional: puedes probar si esto ayuda
               startEvent: 'DOMContentLoaded',
             });
+            // Forzamos un refresh para que detecte los elementos del DOM actuales
             AOS.refresh();
           }
         };
 
-        // Si ya existe, ejecutamos. Si no, esperamos un poco.
+        // Lógica de espera:
+        // 1. Si ya existe el objeto AOS, ejecutar.
+        // 2. Si no existe (común en anónimos), esperar a que la ventana cargue todo.
         if (typeof AOS !== 'undefined') {
-          ejecutarAOS();
+          runAOS();
         } else {
-          // Reintento para conexiones lentas o anónimos
-          window.addEventListener('load', ejecutarAOS);
+          window.addEventListener('load', runAOS);
         }
       });
     }
