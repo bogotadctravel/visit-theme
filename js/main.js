@@ -17,6 +17,7 @@
       // Lógica de espera:
       // 1. Si ya existe el objeto AOS, ejecutar.
       // 2. Si no existe (común en anónimos), esperar a que la ventana cargue todo.
+      runAOS();
       if (typeof AOS !== 'undefined') {
         runAOS();
       } else {
