@@ -6,6 +6,8 @@
         // Función interna para inicializar
         const ejecutarAOS = () => {
           if (typeof AOS !== 'undefined') {
+            console.log(AOS);
+
             AOS.init({
               duration: 1000,
               once: true,
