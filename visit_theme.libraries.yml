@@ -24,7 +24,7 @@ fancybox:
       minified: true
 
 global-styling:
-  version: 10.x
+  version: 11.x
 
   css:
     theme:
