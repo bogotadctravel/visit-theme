@@ -1,10 +1,11 @@
 aos-lib:
+  remote: https://github.com/michalsnik/aos
+  version: 2.3.1
+  js:
+    js/aos.js: { minified: true }
   css:
     theme:
-      https://unpkg.com/aos@2.3.1/dist/aos.css:
-        type: external
-  js:
-    js/aos.js: { minified: true } # Aquí va el archivo descargado de la CDN
+      https://unpkg.com/aos@2.3.1/dist/aos.css: { type: external }
 splide:
   css:
     theme:
