@@ -77,6 +77,11 @@
 
               {% if node.field_imagen_venues.0.entity is defined %}
   <img 
+  style="
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+"
     src="{{ file_url(node.field_imagen_venues.0.entity.uri.value )}}" 
     alt="{{ node.field_imagen_venues.0.alt }}"
   >
@@ -99,6 +104,11 @@
           <div class="portfolio-card__image" data-image="proveedores">
            {% if node.field_imagen_proveedores.0.entity is defined %}
   <img 
+  style="
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+"
     src="{{file_url(node.field_imagen_proveedores.0.entity.uri.value)}}" 
     alt="{{ node.field_imagen_proveedores.0.alt }}"
   >

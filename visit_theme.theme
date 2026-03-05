@@ -93,20 +93,20 @@ function visit_theme_preprocess_node(array &$variables) {
   if ($node->bundle() === 'pagina_de_inicio') {
     $variables['aliados']      = $content_loader->getNodesTeaser('aliados');
     $variables['article']      = $content_loader->getNodesTeaser('article');
-    $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota');
+    $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota',20);
    
   }
   if ($node->bundle() === 'pagina_venues') {
     $variables['venues']      = $content_loader->getNodesTeaser('venues');
   }
   if ($node->bundle() === 'pagina_por_que_bogota') {
-    $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota');
+    $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota',20);
   }
   if ($node->bundle() === 'pagina_eventos') {
     
   }
   if ($node->bundle() === 'venues') {
-    $variables['venues']      = $content_loader->getNodesTeaser('venues');
+    $variables['venues']      = $content_loader->getNodesTeaser('venues',20);
   }
   if($node->bundle() === 'page'){
     $variables['establecimientos']      = $content_loader->getNodesTeaser('establecimientos', 20);
