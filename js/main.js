@@ -9,14 +9,19 @@
   Drupal.behaviors.idtTheme = {
     attach: function (context) {
       document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
-      once('aos', context).forEach(() => {
-        if (window.AOS && typeof window.AOS.init === 'function') {
-          window.AOS.init();
-        }
-      });
+      if (typeof once === 'function') {
+        once('aos', 'html', context).forEach(() => {
+          if (window.AOS && typeof window.AOS.init === 'function') {
+            window.AOS.init({
+              // Opciones aquí
+              once: true,
+            });
+          }
+        });
+      }
       /* ------------------------------
- * GASTRONOMY FILTER (checkboxes)
- * ------------------------------ */
+      * GASTRONOMY FILTER (checkboxes)
+      * ------------------------------ */
       once("idt-gastro-filter", ".filters", context).forEach((filtersWrapper) => {
 
         const cards = context.querySelectorAll("#cardsList .card");
