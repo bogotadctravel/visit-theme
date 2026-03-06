@@ -1,5 +1,7 @@
 {% set is_mice = node.fields.field_evento_mice.value == '1' %}
-{# Header custom #}
+{% set is_miceArticle = node.fields.field_articulo_mice.value == '1' %}
+
+{# Header custom logic #}
 {% set visit_types = [
   'atractivos',
   'home_visit_2_0',
@@ -12,24 +14,25 @@
   'pagina_agenda_de_eventos'
 ] %}
 
-{# Header custom #}
-{% if is_mice %}
+{# Lógica del Header #}
+{# Si cualquiera de los dos campos es true, va a Conecta #}
+{% if is_mice or is_miceArticle %}
   {% include "@visit_theme/includes/header_conecta.html.twig" %}
 {% else %}
- {% if node is defined and node.bundle in visit_types %}
-  {% include "@visit_theme/includes/header_visit.html.twig" %}
-{% else %}
-  {% include "@visit_theme/includes/header_conecta.html.twig" %}
+  {# Si no es MICE, verificamos si el bundle pertenece a Visit #}
+  {% if node is defined and node.bundle in visit_types %}
+    {% include "@visit_theme/includes/header_visit.html.twig" %}
+  {% else %}
+    {% include "@visit_theme/includes/header_conecta.html.twig" %}
+  {% endif %}
 {% endif %}
-{% endif %}
-
 
 <main id="main-content" class="site-content">
   {{ page.content }}
 </main>
 
-{# Footer custom #}
-{% if is_mice %}
+{# Lógica del Footer #}
+{% if is_mice or is_miceArticle %}
   {% include "@visit_theme/includes/footer_conecta.html.twig" %}
 {% else %}
   {% if node is defined and node.bundle in visit_types %}
