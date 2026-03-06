@@ -193,23 +193,25 @@ main {
      object-fit: cover;
   display: block;
 }
+/* En tu CSS, modifica o añade esto */
+.slide__content {
+  overflow-y: hidden; /* Cambiamos de auto a hidden para controlarlo nosotros con JS */
+  scrollbar-width: none; /* Firefox */
+}
+.slide__content::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
 .slide__content {
   background: #0b132b;
-  padding: 3rem 2rem;
+  padding: 4rem 15% 4rem 5%;
   display: flex;
   flex-direction: column;
 }
 @media (min-width: 769px) {
   .slide__content {
-    padding: 4rem 10%;
     overflow-y: auto; /* ¡NUEVO! Permite scroll interno */
     height: 100vh;    /* ¡NUEVO! Limita la altura */
   }
-}
-
-/* Opcional: Estilizar la barra de scroll para que combine con tu diseño */
-.slide__content::-webkit-scrollbar {
-  width: 6px;
 }
 .slide__content::-webkit-scrollbar-thumb {
   background-color: rgba(255, 255, 255, 0.2);
@@ -248,10 +250,21 @@ main {
   margin-top: auto;
 }/*# sourceMappingURL=styles.css.map */
 .abImg{
-  width: 200px;
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  width: 100px;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
+.reading-progress-bar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 4px;
+    height: 0%; /* Empezará en cero */
+    background: #00e5ff; /* El color cyan que ya usas */
+    z-index: 101;
+    transition: height 0.1s ease-out;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
 }
 </style>
     <div class="ui-overlay">
@@ -260,6 +273,7 @@ main {
            
             <img src="/{{directory}}/images/downArr.svg" alt="Scroll Down" class="shake-vertical">
         </div>
+        <div class="reading-progress-bar"></div>
     </div>
 
     <main id="app">
@@ -288,6 +302,7 @@ main {
 
     let mm = gsap.matchMedia();
 
+
     // --- LÓGICA PARA ESCRITORIO ---
     mm.add("(min-width: 769px)", () => {
         let sections = document.querySelectorAll(".slide");
@@ -298,6 +313,15 @@ main {
         gsap.set(sections, { autoAlpha: 0, zIndex: 1 });
         gsap.set(sections[0], { autoAlpha: 1, zIndex: 2 });
         animarEntrada(sections[0], 0);
+
+        // Función para actualizar la barra de progreso
+        function updateProgressBar(content) {
+            if (content) {
+                const totalHeight = content.scrollHeight - content.clientHeight;
+                const progress = (content.scrollTop / totalHeight) * 100;
+                gsap.to(".reading-progress-bar", { height: `${progress}%`, duration: 0.2 });
+            }
+        }
 
         function gotoSection(index, direction) {
             if (animating) return;
@@ -330,6 +354,7 @@ main {
 
             animarEntrada(toSection, "-=0.6", tl);
             currentIndex = index;
+            gsap.set(".reading-progress-bar", { height: "0%" });
         }
 
         function animarEntrada(section, delayStr = "", timeline = null) {
@@ -368,51 +393,66 @@ main {
             window.scrollBy(0, direction === 'up' ? -20 : 20);
         }
 
-        let observer = Observer.create({
-            target: window,
-            type: "wheel,touch,pointer",
-            wheelSpeed: 1,
-            tolerance: 20,
-            preventDefault: true,
-            onDown: (self) => {
-                if (animating) return;
+// --- DENTRO DEL mm.add("(min-width: 769px)", ... ---
 
-                // ¡NUEVO! Lógica para scroll interno hacia abajo
-                let content = sections[currentIndex].querySelector('.slide__content');
-                if (content && content.scrollHeight > content.clientHeight) {
-                    // Si NO hemos llegado al final de la caja de texto (margen de 2px de error)
-                    if (Math.ceil(content.scrollTop + content.clientHeight) < content.scrollHeight - 2) {
-                        content.scrollTop += Math.abs(self.deltaY) || 40; // Desplazar el texto
-                        return; // Cancelar el cambio de slide
-                    }
-                }
-
-                if (currentIndex < sections.length - 1) {
-                    gotoSection(currentIndex + 1, 1);
-                } else {
-                    unlockScroll('down');
-                }
-            },
-            onUp: (self) => {
-                if (animating) return;
-
-                // ¡NUEVO! Lógica para scroll interno hacia arriba
-                let content = sections[currentIndex].querySelector('.slide__content');
-                if (content && content.scrollHeight > content.clientHeight) {
-                    // Si NO estamos al principio de la caja de texto
-                    if (content.scrollTop > 2) {
-                        content.scrollTop -= Math.abs(self.deltaY) || 40; // Desplazar el texto
-                        return; // Cancelar el cambio de slide
-                    }
-                }
-
-                if (currentIndex > 0) {
-                    gotoSection(currentIndex - 1, -1);
-                } else {
-                    unlockScroll('up');
-                }
+let observer = Observer.create({
+    target: window,
+    type: "wheel,touch,pointer",
+    wheelSpeed: 1,
+    tolerance: 10, // Bajamos la tolerancia para que responda más rápido pero suave
+    preventDefault: true,
+    onDown: (self) => {
+        if (animating) return;
+        let content = sections[currentIndex].querySelector('.slide__content');
+        if (content && content.scrollHeight > content.clientHeight) {
+            let isAtBottom = Math.ceil(content.scrollTop + content.clientHeight) >= content.scrollHeight - 5;
+            
+            if (!isAtBottom) {
+                // Scroll interno SUAVE en lugar de salto brusco
+                gsap.to(content, {
+                    scrollTop: content.scrollTop + 150, // Cantidad de scroll
+                    duration: 0.4,
+                    ease: "power1.out"
+                });
+                return;
             }
+        }
+        gsap.to(content, {
+            scrollTop: content.scrollTop + 150,
+            duration: 0.4,
+            ease: "power1.out",
+            onUpdate: () => updateProgressBar(content) // <--- Añade esto
         });
+
+        // Si ya llegamos al fondo, pasamos al siguiente slide
+        if (currentIndex < sections.length - 1) {
+            gotoSection(currentIndex + 1, 1);
+        } else {
+            unlockScroll('down');
+        }
+    },
+    onUp: (self) => {
+        if (animating) return;
+
+        let content = sections[currentIndex].querySelector('.slide__content');
+        
+        if (content && content.scrollTop > 5) {
+            // Scroll interno SUAVE hacia arriba
+            gsap.to(content, {
+                scrollTop: content.scrollTop - 150,
+                duration: 0.4,
+                ease: "power1.out"
+            });
+            return;
+        }
+
+        if (currentIndex > 0) {
+            gotoSection(currentIndex - 1, -1);
+        } else {
+            unlockScroll('up');
+        }
+    }
+});
         
         observer.disable();
 
