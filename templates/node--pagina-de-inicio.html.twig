@@ -33,10 +33,16 @@
     </form>
   </div>
 
-    {% set last_article = article|last %}   
+{# Filtramos el array para que solo contenga los que tienen field_articulo_mice == true #}
+{% set mice_articles = article|filter(v => v.field_articulo_mice == true) %}
+{# Obtenemos el último de esa lista filtrada #}
+{% set last_mice_article = mice_articles|last %}
+
+{# Solo renderizamos si encontramos al menos uno #}
+{% if last_mice_article %}
   <section
     class="news-card"
-    style="--news-card-image: url('{{ last_article.image }}')"
+    style="--news-card-image: url('{{ last_mice_article.image }}')"
   >
     <div class="news-card__bg" aria-hidden="true">
       <div class="news-card__bg-image"></div>
@@ -44,11 +50,11 @@
     <div class="news-card__content">
       <span class="news-card__tag">Noticias</span>
       <div class="news-card__text">
-         <h2>{{ last_article.title }}</h2>
+         <h2>{{ last_mice_article.title }}</h2>
          <p>
-           {{ last_article.introduccion}}
+           {{ last_mice_article.introduccion}}
          </p>
-        <a href="{{last_article.url}}" class="news-card__cta">
+        <a href="{{last_mice_article.url}}" class="news-card__cta">
           ver más
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -64,6 +70,7 @@
       </div>
     </div>
   </section>
+    {% endif %}
 
   <section class="portfolio" id="portafolio">
     <div class="portfolio__header">

@@ -88,11 +88,11 @@ function visit_theme_preprocess_node(array &$variables) {
     
     $variables['atractivos']   = $content_loader->getNodesTeaser('atractivos');
     $variables['hoteles']      = $content_loader->getNodesTeaser('hoteles');
-    $variables['article']      = $content_loader->getNodesTeaser('article');
+    $variables['article']      = $content_loader->getNodesTeaser('article', 50);
   }
   if ($node->bundle() === 'pagina_de_inicio') {
     $variables['aliados']      = $content_loader->getNodesTeaser('aliados');
-    $variables['article']      = $content_loader->getNodesTeaser('article');
+    $variables['article']      = $content_loader->getNodesTeaser('article', 50);
     $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota',20);
    
   }
