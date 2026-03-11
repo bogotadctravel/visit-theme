@@ -815,17 +815,12 @@ section {
   overflow: hidden;
   margin: 30px auto 0;
   width: 90%;
+  display: flex;
   color: #fff;
 }
 
-.news-card__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
 .news-card__bg-image {
-  width: 100%;
+  width: 60%;
   height: 100%;
   background-image: var(--news-card-image);
   background-size: cover;
@@ -834,22 +829,11 @@ section {
   transform: scale(1.02);
 }
 
-.news-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg,
-      rgba(7, 21, 41, 0.85) 0%,
-      rgba(7, 21, 41, 0.45) 50%,
-      rgba(7, 21, 41, 0.2) 100%);
-  z-index: 1;
-}
-
 .news-card__content {
   position: relative;
   z-index: 2;
   padding: 1rem 2rem;
-  max-width: 100%;
+  max-width: 40%;
   height: 100%;
 }
 
