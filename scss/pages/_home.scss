@@ -870,14 +870,16 @@ section {
 
 .news-card h2 {
   margin: 0 0 1rem;
-  font-size: clamp(1.75rem, 4vw, 32px);
-  color: #fff;
+  font-size: 24px;
+  color: #1c3d89;
+  font-weight: bold;
 }
 
 .news-card p {
-  margin: 0 0 0.5rem;
-  font-size: 1.05rem;
-  line-height: 1.6;
+  margin: 0 0 30px;
+  font-size: 16px;
+  line-height: 28px;
+  color: #000000;
 }
 
 .news-card__cta {
@@ -899,7 +901,7 @@ section {
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgb(0 0 0 / 20%);
     transform: translateY(-1px);
   }
 }
