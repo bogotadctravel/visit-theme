@@ -1,0 +1,76 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: visit_theme\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "ui.portfolio"
+msgstr "Portfolio"
+
+msgid "ui.venues"
+msgstr "Venues"
+
+msgid "ui.suppliers"
+msgstr "Suppliers"
+
+msgid "ui.see_more"
+msgstr "see more +"
+
+msgid "ui.why_bogota"
+msgstr "Why Bogotá?"
+
+msgid "ui.partners"
+msgstr "Partners"
+
+msgid "ui.more_options"
+msgstr "More options"
+
+msgid "ui.schedule"
+msgstr "Schedule"
+
+msgid "ui.successful_events"
+msgstr "Successful events"
+
+msgid "ui.privacy_policy"
+msgstr "Privacy policy"
+
+msgid "ui.terms_of_use"
+msgstr "Terms of use"
+
+msgid "ui.resolution_239"
+msgstr "Resolution 239 of November 5, 2021"
+
+msgid "ui.city_brand"
+msgstr "City brand"
+
+msgid "ui.ideal_place_intro"
+msgstr "Discover the ideal place for your event"
+
+msgid "ui.max_capacity"
+msgstr "Maximum auditorium capacity"
+
+msgid "ui.location"
+msgstr "Location"
+
+msgid "ui.select_location"
+msgstr "Select a location"
+
+msgid "ui.venue_type"
+msgstr "Venue type"
+
+msgid "ui.select_venue_type"
+msgstr "Select the venue type"
+
+msgid "ui.service_type"
+msgstr "Service type"
+
+msgid "ui.upcoming_events_bogota"
+msgstr "Find out about upcoming events in Bogotá"
+
+msgid "ui.successful_events_bogota"
+msgstr "Successful events in Bogotá"
+
+msgid "ui.swipe_more"
+msgstr "Swipe and learn more!"

@@ -2,14 +2,14 @@
   <main class="events-main">
     <section class="events__page" id="events">
       <div class="events__header">
-        <h1>Conoce los próximos eventos en Bogotá</h1>
+        <h1>{{"ui.upcoming_events_bogota"|trans}}</h1>
       </div>
       <div class="events__filters">
           <button type="button" data-tid="all">Todos</button>
          {% for item in tipos_de_evento %}
         <button type="button" data-tid="{{item.tid}}">{{ item.name }}</button>
         {% endfor %}
-         {% for item in tipos_de_evento_mice %}
+         {% for item in taxonomy('tipos_de_evento_mice') %}
         <button type="button" data-tid="{{item.tid}}">{{ item.name }}</button>
         {% endfor %}
 
@@ -20,6 +20,7 @@
           href="{{ item.url }}"
           class="event-card"
           data-carousel-item
+          data-type="{{ item.categoria.tid }}"
         >
           <div
             class="event-card__media"
