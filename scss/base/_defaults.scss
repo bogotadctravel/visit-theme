@@ -220,10 +220,6 @@ $transition-speed: 0.3s;
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba($btn-color, 0.5);
     background-color: color.adjust($btn-color, $lightness: 5%);
-
-    .floating-btn__icon {
-      transform: rotate(90deg);
-    }
   }
 
   &:active {
