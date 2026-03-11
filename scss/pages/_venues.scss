@@ -212,11 +212,9 @@ $places-search-card-border: rgba($blue-light, 0.2);
   border-radius: 999px;
   background-color: rgba(#cfd7e4, 0.95);
   border: 1px solid rgba($blue-light, 0.12);
-  background-image: radial-gradient(
-    circle,
-    rgba(#7b879c, 0.45) 1px,
-    transparent 1px
-  );
+  background-image: radial-gradient(circle,
+      rgba(#7b879c, 0.45) 1px,
+      transparent 1px);
   background-size: 20px 6px;
   background-repeat: repeat-x;
 }
@@ -226,11 +224,9 @@ $places-search-card-border: rgba($blue-light, 0.2);
   border-radius: 999px;
   background-color: rgba(#cfd7e4, 0.95);
   border: 1px solid rgba($blue-light, 0.12);
-  background-image: radial-gradient(
-    circle,
-    rgba(#7b879c, 0.45) 1px,
-    transparent 1px
-  );
+  background-image: radial-gradient(circle,
+      rgba(#7b879c, 0.45) 1px,
+      transparent 1px);
   background-size: 20px 6px;
   background-repeat: repeat-x;
 }
@@ -300,7 +296,6 @@ $places-search-card-border: rgba($blue-light, 0.2);
   letter-spacing: 0.05em;
   color: $blue-primary;
   min-width: 120px;
-  text-transform: uppercase;
   flex: 1;
   background: transparent;
 }
