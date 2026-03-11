@@ -1,0 +1,131 @@
+{#
+/**
+ * @file
+ * Plantilla personalizada para el selector de idiomas en forma de Dropdown.
+ */
+#}
+<style>
+/* --- SELECTOR DE IDIOMAS: DROPDOWN ESTILO HOVER --- */
+
+/* Contenedor principal para posicionar el menú */
+.language-dropdown {
+  position: relative;
+  display: inline-block;
+  margin: 0 15px; /* Ajusta el espacio respecto a los otros elementos del header */
+  font-family: inherit; /* Asegura que herede la fuente del header */
+}
+
+/* El botón visible (Idioma actual) */
+.language-dropdown__toggle {
+  background: transparent;
+  border: none;
+  color: #ffffff; /* Ajusta el color si es necesario */
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Espacio entre el texto y la flecha */
+}
+
+/* Pequeña flecha hacia abajo */
+.language-dropdown__arrow {
+  font-size: 10px;
+}
+
+/* El menú desplegable (oculto por defecto) */
+.language-dropdown__menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%); /* Centra el menú bajo el botón */
+  background-color: #ffffff; /* Fondo blanco para las opciones */
+  min-width: 60px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 4px; /* Bordes ligeramente redondeados */
+  padding: 5px 0;
+  margin: 0;
+  list-style: none;
+  
+  /* Efecto de transición suave */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 1000;
+}
+
+/* Mostrar el menú al hacer hover en el contenedor */
+.language-dropdown:hover .language-dropdown__menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Cada elemento de la lista */
+.language-dropdown__item {
+  margin: 0;
+}
+
+/* Los enlaces dentro del menú */
+.language-link {
+  color: #333333; /* Texto oscuro sobre el fondo blanco */
+  padding: 8px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  transition: background-color 0.2s ease;
+}
+
+/* Efecto hover en las opciones */
+.language-link:hover {
+  background-color: #f1f1f1; /* Gris claro al pasar el cursor */
+}
+
+/* Estilo para el idioma activo en la lista desplegada */
+.language-link.is-active {
+  background-color: #e0e0e0; /* Un gris un poco más oscuro para denotar que es el actual */
+  font-weight: 700;
+  pointer-events: none; /* Evita que hagan clic en el mismo idioma */
+}
+</style>
+
+{% if links -%}
+  <div class="language-dropdown">
+    {# Definimos los idiomas permitidos #}
+    {% set allowed_langs = ['es', 'en'] %}
+
+    {# Botón principal (Idioma activo) #}
+    {% set current_lang = '' %}
+    {% for key, item in links %}
+      {% set lang_prefix = key|split('-')|first|lower %}
+      {# Solo procesamos si está en nuestra lista permitida #}
+      {% if lang_prefix in allowed_langs and 'is-active' in item.attributes.class %}
+        {% set current_lang = lang_prefix|upper %}
+      {% endif %}
+    {% endfor %}
+
+    <button class="language-dropdown__toggle" aria-haspopup="true" aria-expanded="false">
+      <span class="language-dropdown__arrow">▼</span>
+    </button>
+
+    {# Lista de opciones #}
+    <ul class="language-dropdown__menu">
+      {% for key, item in links %}
+        {% set lang_prefix = key|split('-')|first|lower %}
+        
+        {# MAGIA: Solo renderizamos si el prefijo es 'es' o 'en' #}
+        {% if lang_prefix in allowed_langs %}
+          <li class="language-dropdown__item">
+            {% set custom_link = item.link|merge({
+              '#title': lang_prefix|upper
+            }) %}
+            
+            {{ custom_link }}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{%- endif %}

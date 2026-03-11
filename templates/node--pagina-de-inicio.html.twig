@@ -8,10 +8,10 @@
       </label>
 
       <label class="search-card__field">
-        <span class="search-card__label">Venue</span>
+        <span class="search-card__label">{{"ui.venues"|trans}}</span>
         <select name="type">
-          <option value="venues">Venue</option>
-          <option value="proveedores_conecta">Proveedores</option>
+          <option value="venues">{{"ui.venues"|trans}}</option>
+          <option value="proveedores_conecta">{{"ui.suppliers"|trans}}</option>
         </select>
       </label>
 
@@ -34,7 +34,7 @@
   </div>
 
 {# Filtramos el array para que solo contenga los que tienen field_articulo_mice == true #}
-{% set mice_articles = article|filter(v => v.field_articulo_mice == true) %}
+{% set mice_articles = article|shuffle|filter(v => v.field_articulo_mice == true) %}
 {# Obtenemos el último de esa lista filtrada #}
 {% set last_mice_article = mice_articles|last %}
 
@@ -48,14 +48,14 @@
       <div class="news-card__bg-image"></div>
     </div>
     <div class="news-card__content">
-      <span class="news-card__tag">Noticias</span>
+      <span class="news-card__tag">{{"ui.news"|trans}}</span>
       <div class="news-card__text">
          <h2>{{ last_mice_article.title }}</h2>
          <p>
            {{ last_mice_article.introduccion}}
          </p>
         <a href="{{last_mice_article.url}}" class="news-card__cta">
-          ver más
+         {{"ui.see_more"|trans}}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -74,7 +74,7 @@
 
   <section class="portfolio" id="portafolio">
     <div class="portfolio__header">
-      <h2>Portafolio</h2>
+      <h2>{{"ui.portfolio"|trans}}</h2>
     </div>
 
     <div class="portfolio__grid">
@@ -97,11 +97,11 @@
         </div>
         <div class="portfolio-card__body">
           <div class="portfolio-card__text">
-            <h3>Venues</h3>
+            <h3>{{"ui.venues"|trans}}</h3>
             {{node.field_texto_venues.0.value|raw}}
           </div>
-          <a class="portfolio-card__cta" type="button" href="/venues"
-            >ver más +</a
+          <a class="portfolio-card__cta" type="button" href="{{ path('<front>') }}/venues"
+            >{{"ui.see_more"|trans}}</a
           >
         </div>
       </article>
@@ -124,11 +124,11 @@
         </div>
         <div class="portfolio-card__body">
           <div class="portfolio-card__text">
-            <h3>Proveedores</h3>
+            <h3>{{"ui.suppliers"|trans}}</h3>
             {{node.field_texto_proveedores.0.value|raw}}
           </div>
-          <a class="portfolio-card__cta" type="button" href="/proveedores"
-            >ver más +</a
+          <a class="portfolio-card__cta" type="button" href="{{ path('<front>') }}/proveedores"
+            >{{"ui.see_more"|trans}}</a
           >
         </div>
       </article>
@@ -137,7 +137,7 @@
 
    <section class="why-bogota" id="porque">
     <header class="why-bogota__header">
-      <h2>¿Por qué Bogotá?</h2>
+      <h2>{{"ui.why_bogota"|trans}}</h2>
     </header>
     <div class="why-bogota__grid">
       {% for item in por_que_bogota %}
@@ -246,7 +246,7 @@
   {% if pasados is not empty %}
   <section class="success-events" id="success-events">
     <header class="success-events__header">
-      <h2>Eventos exitosos</h2>
+      <h2>{{"ui.successful_events"|trans}}</h2>
     </header>
     <div class="success-carousel" data-carousel>
       <button
@@ -326,7 +326,7 @@
 
   <section class="allies" id="allies">
     <header class="allies__header">
-      <h2>Aliados</h2>
+      <h2>{{"ui.partners"|trans}}</h2>
     {{node.field_texto_aliados.0.value|raw}}
     </header>
     <div class="allies-carousel" data-carousel>

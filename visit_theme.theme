@@ -68,7 +68,7 @@ function visit_theme_preprocess_node(array &$variables) {
   $variables['eventosVisit'] = $content_loader->getEventosTeaserByMiceFlag(0,50);
   $variables['eventosMICE']  = $content_loader->getEventosTeaserByMiceFlag(1,50);
   $variables['atractivos']   = $content_loader->getNodesTeaser('atractivos');
-  $variables['casos_de_exito']   = $content_loader->getNodesTeaser('casos_de_exito');
+  $variables['casos_de_exito']   = $content_loader->getNodesTeaser('casos_de_exito',30);
    $variables['proveedores_conecta'] = $content_loader->getNodesTeaser('proveedores_conecta',60);
   // Full SOLO en página eventos
   if ($node->bundle() === 'eventos') {
