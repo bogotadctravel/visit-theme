@@ -123,6 +123,7 @@
   .search-card__field {
     flex: 1;
     letter-spacing: 0.08em;
+    width: 50%;
 
     &+.search-card__field {
       text-align: right;
