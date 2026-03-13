@@ -1,0 +1,35 @@
+{# 1. Extraemos los valores crudos para los data-attributes #}
+{% set capacidad = row._entity.field_aforo_maximo_en_auditorio.value %}
+{% set tipo_venue = row._entity.field_tipo_de_venue.target_id %}
+
+{# 2. Extraemos los IDs de las zonas #}
+{% set zonas_tids = [] %}
+{% for term in row._entity.field_turzone %}
+    {% set zonas_tids = zonas_tids|merge([term.target_id]) %}
+{% endfor %}
+
+{# 3. Extraemos la URL de la imagen de fondo #}
+{% set image_url = '' %}
+{% if row._entity.field_image.entity %}
+    {% set image_url = file_url(row._entity.field_image.entity.uri.value) %}
+{% endif %}
+
+{# 4. Armamos la tarjeta #}
+<a class="place-card" style="position: relative;" 
+   href="{{ url('entity.node.canonical', {'node': row._entity.id()}) }}" 
+   data-capacity="{{ capacidad }}" 
+   data-location="{{ zonas_tids|join(',') }}" 
+   data-type="{{ tipo_venue }}">
+   
+    <div class="place-card__media place-card__media--a" aria-hidden="true" style="background-image: url('{{ image_url }}');"></div>
+    
+    <div class="place-card__body">
+        <h3 class="place-card__title">{{ fields.title.content|striptags }}</h3>
+    </div>
+    
+    {% if row._entity.field_aprobado_marca_ciudad.value == '1' %}
+    <div class="marca" style="position: absolute;top: 130px;right: 0;width: 160px;height: 50px;">
+        <img src="/{{ directory }}/images/marcaciudad.png" alt="Marca de la ciudad" width="100%"/>
+    </div>
+    {% endif %}
+</a>

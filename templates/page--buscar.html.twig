@@ -1,0 +1,156 @@
+<style>
+    .item-list {
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        padding: 20px;
+        min-height: 800px;
+    }
+
+    .item-list ul {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(200px, 1fr));
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .item-list ul {
+            grid-template-columns: repeat(2, minmax(200px, 1fr));
+        }
+    }
+
+    .views-field.views-field-field-image {
+        width: 100%;
+        border-radius: 8px;
+        height: 200px;
+        overflow: hidden;
+        object-fit: cover;
+    }
+
+    .views-field.views-field-field-image:hover img {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+    }
+
+    .item-list ul li img {
+        width: 100%;
+        border-radius: 8px;
+        object-fit: contain;
+    }
+
+    /* Agrega algo de estilo básico para contener los filtros si lo necesitas */
+    .search-filters-container {
+        max-width: 1200px;
+        margin: 20px auto 0;
+        padding: 0 20px;
+    }
+</style>
+
+{% include "@visit_theme/includes/header_conecta.html.twig" %}
+
+<main id="main-content" class="site-content">
+    <div id="places">
+        {# Capturamos el parámetro 'type' de la URL #}
+        <div class="search-filters-container">
+            {# Mostrar filtros de VENUES si el type es 'venues' #}
+            {% if search_type == 'venues' %}
+            <div class="places__search-card">
+                <div class="places__search-field places__search-field--range">
+                    <span class="places__search-label">{{"ui.max_capacity"|trans}}</span>
+                    <div class="places-range" data-range-control>
+                        <output class="places-range__bubble" for="places-capacity" aria-live="polite">
+                            <span data-range-value>0</span>
+                        </output>
+                        <input type="range" id="places-capacity" name="capacity" min="0" max="10000" step="10" value="0"
+                            aria-label="Aforo máximo en auditorio" />
+                    </div>
+                </div>
+
+                <label class="places__search-field">
+                    <span class="places__search-label">{{"ui.location"|trans}}</span>
+                    <div class="places-input places-input--select">
+                        <span class="places-input__icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.6">
+                                <circle cx="11" cy="11" r="6" />
+                                <path d="m16.5 16.5 3.5 3.5" stroke-linecap="round" />
+                            </svg>
+                        </span>
+                        <select name="location" aria-label="Ubicación">
+                            <option value="">{{"ui.select_location"|trans}}</option>
+
+                            {% for item in zonas_de_la_ciudad %}
+                            <option value="{{item.tid}}">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="places-input__icon places-input__icon--trailing" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.6">
+                                <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+                </label>
+                <label class="places__search-field">
+                    <span class="places__search-label">{{"ui.venue_type"|trans}}</span>
+                    <div class="places-input places-input--select">
+                        <span class="places-input__icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.6">
+                                <circle cx="11" cy="11" r="6" />
+                                <path d="m16.5 16.5 3.5 3.5" stroke-linecap="round" />
+                            </svg>
+                        </span>
+                        <select name="type" aria-label="Tipo de venue">
+                            <option value="">{{"ui.select_venue_type"|trans}}</option>
+                            {% for item in tipo_de_venue %}
+                            <option value="{{item.tid}}">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="places-input__icon places-input__icon--trailing" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.6">
+                                <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+                </label>
+            </div>
+
+            {# Mostrar filtros de PROVEEDORES si el type es 'proveedores_conecta' #}
+            {% elseif search_type == 'proveedores_conecta' %}
+            <div class="places__search-card">
+                <label class="places__search-field">
+                    <span class="places__search-label">{{"ui.service_type"|trans}}</span>
+                    <div class="places-input places-input--select">
+                        <span class="places-input__icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.6">
+                                <circle cx="11" cy="11" r="6" />
+                                <path d="m16.5 16.5 3.5 3.5" stroke-linecap="round" />
+                            </svg>
+                        </span>
+                        <select name="type" aria-label="Tipo de servicio">
+                            {% for item in taxonomy("tipos_de_proveedor_mice") %}
+                            <option value="{{item.tid}}">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <span class="places-input__icon places-input__icon--trailing" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1.6">
+                                <path d="m6 9 6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </div>
+                </label>
+            </div>
+            {% endif %}
+        </div>
+
+        {# El contenido principal de la página (resultados de la vista/búsqueda) #}
+        {{ page.content }}
+    </div>
+</main>
+
+{% include "@visit_theme/includes/footer_conecta.html.twig" %}

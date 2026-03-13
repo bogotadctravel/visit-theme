@@ -593,6 +593,7 @@
     * ------------------------------ */
       once("idt-places-filter", "#places", context).forEach((wrapper) => {
         // Si prefieres usar la clase: once("idt-places-filter", ".places", context)
+        console.log(wrapper);
 
         if (!wrapper) {
           console.warn("Places filter: no se encontró el contenedor #places en el contexto.");
@@ -606,8 +607,10 @@
         const cards = wrapper.querySelectorAll(".place-card");
         const typeSelect = wrapper.querySelector("select[name='type']");
 
+
+
         // Debug (opcional) — coméntalo si no quieres logs
-        // console.log('places filter init', { chips, range, rangeValue, locationSelect, cards });
+        console.log('places filter init', { chips, range, rangeValue, locationSelect, cards });
 
         // Estado actual de filtros
         let filters = {

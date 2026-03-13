@@ -281,6 +281,9 @@ function visit_theme_preprocess_block(array &$variables) {
  * Implements hook_preprocess_HOOK().
  */
 function visit_theme_preprocess_page(&$variables) {
+  $search_type = \Drupal::request()->query->get('type');
+  $variables['search_type'] = $search_type;
+  
   $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
   $variables['#attached']['drupalSettings']['visit_theme'] = [
     'themePath' => base_path() . $theme_path,
@@ -321,4 +324,3 @@ function visit_theme_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormSt
   // Clase al botón.
   $form['actions']['submit']['#attributes']['class'][] = 'login-button';
 }
-
