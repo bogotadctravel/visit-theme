@@ -822,10 +822,19 @@ section {
   background: #e0e0e0;
   box-shadow: 11px 11px 22px #afafaf,
     -11px -11px 22px #ffffff;
+
+  @media only screen and (max-width: 1023px) {
+    flex-direction: column;
+  }
 }
 
 .news-card__bg {
   width: 60%;
+
+  @media only screen and (max-width: 1023px) {
+    width: 100%;
+
+  }
 }
 
 .news-card__bg-image {
@@ -845,6 +854,11 @@ section {
   max-width: 40%;
   height: 100%;
   background-color: #fff;
+
+  @media only screen and (max-width: 1023px) {
+    max-width: 100%;
+
+  }
 }
 
 .news-card__text {
