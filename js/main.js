@@ -40,67 +40,64 @@
           return;
         }
 
-        /* ============================================
-         * 1. Ocultar filtros sin items
-         * ============================================ */
-        function updateAvailableFilters() {
+        // Función auxiliar para extraer datos de la card
+        function getCardTerms(card) {
+          return [
+            ...(card.dataset.categoria || "").split(","),
+            ...(card.dataset.zona || "").split(","),
+            ...(card.dataset.precios || "").split(","),
+            ...(card.dataset.servicios || "").split(","),
+            ...(card.dataset.tipo || "").split(",")
+          ].filter(t => t !== ""); // Limpiar vacíos
+        }
 
+        function updateAvailableFilters(activeFilters = []) {
           checkboxes.forEach((cb) => {
-            const tid = cb.value;
-            let exists = false;
+            // Si ya está chequeado, lo dejamos habilitado para que puedan desmarcarlo
+            if (cb.checked) {
+              cb.parentElement.style.opacity = "1";
+              cb.disabled = false;
+              return;
+            }
 
-            cards.forEach((card) => {
-              const categorias = (card.dataset.categoria || "").split(",");
-              const zonas = (card.dataset.zona || "").split(",");
-              const precios = (card.dataset.precios || "").split(",");
-              const servicios = (card.dataset.servicios || "").split(",");
-              const tipo = (card.dataset.tipo || "").split(",");
-              const zona = (card.dataset.zona || "").split(",");
+            // Simulamos: "¿Qué pasaría si marco este checkbox específico?"
+            const potentialFilters = [...activeFilters, cb.value];
 
-              if (categorias.includes(tid) || zonas.includes(tid) || precios.includes(tid) || servicios.includes(tid) || tipo.includes(tid) || zona.includes(tid)
-              ) {
-                exists = true;
-              }
+            const wouldHaveResults = Array.from(cards).some((card) => {
+              const cardTerms = getCardTerms(card);
+              return potentialFilters.every((f) => cardTerms.includes(f));
             });
 
-            // Ocultar label si no hay items con ese tid
-            cb.closest("label").style.display = exists ? "block" : "none";
+            // Si no habría resultados, visualmente lo "apagamos"
+            if (wouldHaveResults) {
+              cb.disabled = false;
+              cb.parentElement.style.opacity = "1";
+              cb.parentElement.style.pointerEvents = "auto";
+            } else {
+              cb.disabled = true;
+              cb.parentElement.style.opacity = "0.4"; // Feedback visual de deshabilitado
+              cb.parentElement.style.pointerEvents = "none";
+            }
           });
         }
 
         /* ============================================
-         * 2. Aplicar filtros seleccionados
-         * ============================================ */
+        * 2. Aplicar filtros seleccionados (Lógica AND)
+        * ============================================ */
         function applyFilters() {
-
-          // Obtener seleccionados
           const activeFilters = Array.from(checkboxes)
             .filter((cb) => cb.checked)
             .map((cb) => cb.value);
 
-          // Si no hay filtros → mostrar todo
-          if (activeFilters.length === 0) {
-            cards.forEach((card) => (card.style.display = ""));
-            return;
-          }
-
-          // Filtrar cards
+          // 1. Aplicar el filtrado real a las cards (Lógica AND)
           cards.forEach((card) => {
-
-            const categorias = (card.dataset.categoria || "").split(",");
-            const zonas = (card.dataset.zona || "").split(",");
-            const precios = (card.dataset.precios || "").split(",");
-            const servicios = (card.dataset.servicios || "").split(",");
-            const tipo = (card.dataset.tipo || "").split(",");
-            const zona = (card.dataset.zona || "").split(",");
-
-            const terms = [...categorias, ...zonas, ...precios, ...servicios, ...tipo, ...zona];
-
-            // Match si tiene alguno seleccionado
-            const match = activeFilters.some((f) => terms.includes(f));
-
+            const cardTerms = getCardTerms(card);
+            const match = activeFilters.length === 0 || activeFilters.every((f) => cardTerms.includes(f));
             card.style.display = match ? "" : "none";
           });
+
+          // 2. Actualizar qué filtros seguirían dando resultados (Predictivo)
+          updateAvailableFilters(activeFilters);
         }
 
         /* ============================================
@@ -109,13 +106,10 @@
         checkboxes.forEach((cb) => {
           cb.addEventListener("change", applyFilters);
         });
-
-        // Ejecutar al inicio
-        updateAvailableFilters();
         applyFilters();
       });
 
-      once('fancybox', context).forEach(() => {
+      once('fancybox', 'html', context).forEach(() => {
         if (window.Fancybox && typeof window.Fancybox.bind === 'function') {
           window.Fancybox.bind("[data-fancybox]", {
           });

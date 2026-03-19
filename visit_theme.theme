@@ -9,6 +9,9 @@ use Drupal\visit_theme\Service\ContentLoader;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\TermInterface;
 use Drupal\file\Entity\File;
+use Drupal\node\NodeInterface;
+use \Drupal\contact\Entity\ContactForm;
+use Drupal\contact\Entity\Message;
 
 function visit_theme_preprocess_taxonomy_term(array &$variables) {
 
@@ -55,202 +58,261 @@ function visit_theme_get_terms(string $vocab): array {
 
 
 function visit_theme_preprocess_node(array &$variables) {
-  $node = $variables['node'] ?? NULL;
-  if (!$node instanceof Node) {
+  // 1. Validaciones tempranas
+  if ($variables['view_mode'] !== 'full') {
     return;
   }
-  $variables['categorias_eventos'] = visit_theme_get_terms('categoria_eventos');
-  $variables['tipo_de_venue'] = visit_theme_get_terms('tipo_de_venue');
-  $variables['zonas_de_la_ciudad'] = visit_theme_get_terms('zonas_de_la_ciudad');
+
+  $node = $variables['node'] ?? NULL;
+  if (!$node instanceof NodeInterface) {
+    return;
+  }
+
+  $bundle = $node->bundle();
   $content_loader = \Drupal::service('idt_theme_support.content_loader');
 
-  // Header siempre teaser
-  $variables['eventosVisit'] = $content_loader->getEventosTeaserByMiceFlag(0,50);
-  $variables['eventosMICE']  = $content_loader->getEventosTeaserByMiceFlag(1,50);
-  $variables['atractivos']   = $content_loader->getNodesTeaser('atractivos');
-  $variables['casos_de_exito']   = $content_loader->getNodesTeaser('casos_de_exito',30);
-   $variables['proveedores_conecta'] = $content_loader->getNodesTeaser('proveedores_conecta',60);
-  // Full SOLO en página eventos
-  if ($node->bundle() === 'eventos') {
-    $variables['eventosFull'] = $content_loader->getNodesFull('eventos');
-  }else {
-    $variables['eventosFull'] = [];
+  // 2. Variables Globales (Si de verdad se necesitan en TODOS los nodos 'full')
+  // Considera mover esto dentro de los cases específicos si no se usan en todos lados.
+  $variables['categorias_eventos']  = visit_theme_get_terms('categoria_eventos');
+  $variables['tipo_de_venue']       = visit_theme_get_terms('tipo_de_venue');
+  $variables['zonas_de_la_ciudad']  = visit_theme_get_terms('zonas_de_la_ciudad');
+
+  $variables['eventosVisit']        = $content_loader->getEventosTeaserByMiceFlag(0, 50);
+  $variables['eventosMICE']         = $content_loader->getEventosTeaserByMiceFlag(1, 50);
+  $variables['atractivos']          = $content_loader->getNodesTeaser('atractivos');
+  $variables['casos_de_exito']      = $content_loader->getNodesTeaser('casos_de_exito', 30);
+  $variables['proveedores_conecta'] = $content_loader->getNodesTeaser('proveedores_conecta', 60);
+  $variables['article'] = $content_loader->getNodesTeaser('article', 50);
+
+  // 3. Lógica específica por Tipo de Contenido (Bundle)
+  switch ($bundle) {
+    case 'atractivos':
+      if ($node->hasField('field_latlong') && !$node->get('field_latlong')->isEmpty()) {
+        $values = $node->get('field_latlong')->getValue();
+
+     if (isset($values[0]['value']) && isset($values[1]['value'])) {
+          $val_a = (float) $values[0]['value'];
+          $val_b = (float) $values[1]['value'];
+
+          // Como en Colombia la Latitud es positiva (~ 4.6) y la Longitud es negativa (~ -74)
+          // El número mayor siempre será la Latitud.
+          if ($val_a > $val_b) {
+            $lat = $val_a;
+            $lng = $val_b;
+          } else {
+            $lat = $val_b;
+            $lng = $val_a;
+          }
+
+          $variables['nodos_cercanos'] = $content_loader->obtenerNodosCercanos($lat, $lng, 5.0, 20, $node->id());
+          // 👇 Dile a Drupal que si algún atractivo cambia, debe limpiar el caché de este nodo
+          $variables['#cache']['tags'][] = 'node_list:atractivos';
+        }
+      }
+      break;
+
+    case 'eventos':
+      $variables['eventosFull'] = $content_loader->getNodesFull('eventos');
+      break;
+
+    case 'venues':
+      $variables['salones_de_venues_mice'] = $content_loader->getSalonesByVenue($node->id());
+      $variables['venues'] = $content_loader->getNodesTeaser('venues', 50);
+      break;
+
+    case 'home_visit_2_0':
+      $variables['hoteles'] = $content_loader->getNodesTeaser('hoteles');
+        $variables['article'] = $content_loader->getNodesTeaser('article', 50);
+      break;
+
+    case 'pagina_de_inicio':
+      $variables['aliados'] = $content_loader->getNodesTeaser('aliados');
+      $variables['por_que_bogota'] = $content_loader->getNodesTeaser('por_que_bogota', 20);
+        $variables['article'] = $content_loader->getNodesTeaser('article', 50);
+      break;
+
+    case 'pagina_venues':
+      $variables['venues'] = $content_loader->getNodesTeaser('venues', 50);
+      break;
+
+    case 'pagina_por_que_bogota':
+      $variables['por_que_bogota'] = $content_loader->getNodesTeaser('por_que_bogota', 20);
+      break;
+    case 'establecimientos':
+        if ($node->hasField('field_latlong') && !$node->get('field_latlong')->isEmpty()) {
+        $values = $node->get('field_latlong')->getValue();
+
+     if (isset($values[0]['value']) && isset($values[1]['value'])) {
+          $val_a = (float) $values[0]['value'];
+          $val_b = (float) $values[1]['value'];
+
+          // Como en Colombia la Latitud es positiva (~ 4.6) y la Longitud es negativa (~ -74)
+          // El número mayor siempre será la Latitud.
+          if ($val_a > $val_b) {
+            $lat = $val_a;
+            $lng = $val_b;
+          } else {
+            $lat = $val_b;
+            $lng = $val_a;
+          }
+
+          $variables['nodos_cercanos'] = $content_loader->obtenerNodosCercanos($lat, $lng, 5.0, 20, $node->id());
+          // 👇 Dile a Drupal que si algún atractivo cambia, debe limpiar el caché de este nodo
+          $variables['#cache']['tags'][] = 'node_list:atractivos';
+        }
+      }
+      break;
+    case 'hoteles':
+        if ($node->hasField('field_latlong') && !$node->get('field_latlong')->isEmpty()) {
+        $values = $node->get('field_latlong')->getValue();
+
+     if (isset($values[0]['value']) && isset($values[1]['value'])) {
+          $val_a = (float) $values[0]['value'];
+          $val_b = (float) $values[1]['value'];
+
+          // Como en Colombia la Latitud es positiva (~ 4.6) y la Longitud es negativa (~ -74)
+          // El número mayor siempre será la Latitud.
+          if ($val_a > $val_b) {
+            $lat = $val_a;
+            $lng = $val_b;
+          } else {
+            $lat = $val_b;
+            $lng = $val_a;
+          }
+
+          $variables['nodos_cercanos'] = $content_loader->obtenerNodosCercanos($lat, $lng, 5.0, 20, $node->id());
+          // 👇 Dile a Drupal que si algún atractivo cambia, debe limpiar el caché de este nodo
+          $variables['#cache']['tags'][] = 'node_list:atractivos';
+        }
+      }
+      break;
+
+    case 'page':
+      $variables['establecimientos'] = $content_loader->getNodesTeaser('establecimientos', 20);
+      $variables['hoteles'] = $content_loader->getNodesTeaser('hoteles', 20);
+      $variables['article'] = $content_loader->getNodesTeaser('article', 50);
+      break;
   }
 
-  // Salones SOLO en venues
-  if ($node->bundle() === 'venues') {
-    $variables['salones_de_venues_mice'] =
-      $content_loader->getSalonesByVenue($node->id());
-  }else {
-    $variables['salones_de_venues_mice'] = [];
-  }
-  if ($node->bundle() === 'home_visit_2_0') {
-    
-    $variables['atractivos']   = $content_loader->getNodesTeaser('atractivos');
-    $variables['hoteles']      = $content_loader->getNodesTeaser('hoteles');
-    $variables['article']      = $content_loader->getNodesTeaser('article', 50);
-  }
-  if ($node->bundle() === 'pagina_de_inicio') {
-    $variables['aliados']      = $content_loader->getNodesTeaser('aliados');
-    $variables['article']      = $content_loader->getNodesTeaser('article', 50);
-    $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota',20);
-   
-  }
-  if ($node->bundle() === 'pagina_venues') {
-    $variables['venues']      = $content_loader->getNodesTeaser('venues',50);
-  }
-  if ($node->bundle() === 'pagina_por_que_bogota') {
-    $variables['por_que_bogota']      = $content_loader->getNodesTeaser('por_que_bogota',20);
-  }
-  if ($node->bundle() === 'pagina_eventos') {
-    
-  }
-  if ($node->bundle() === 'venues') {
-    $variables['venues']      = $content_loader->getNodesTeaser('venues',50);
-  }
-  if($node->bundle() === 'page'){
-    $variables['establecimientos']      = $content_loader->getNodesTeaser('establecimientos', 20);
-    $variables['hoteles']      = $content_loader->getNodesTeaser('hoteles', 20);
-
-  }
-    $request = \Drupal::request();
-
-  /***********************
-    * 1. Leer parámetros URL
-    ***********************/
+  // 4. Lógica de Parámetros URL y Recomendaciones
+  // IMPORTANTE: Esto define qué contextos de caché usar.
+  $variables['#cache']['contexts'][] = 'url.query_args';
+  
+  $request = \Drupal::request();
   $intereses_ids = $request->query->all('intereses');
   $recomendacion_id = $request->query->get('recomendaciones');
-
   $fecha_salida = $request->query->get('fecha_salida');
   $fecha_retorno = $request->query->get('fecha_retorno');
 
-  $dias = 1; // Valor por defecto
-if (!empty($fecha_salida) && !empty($fecha_retorno)) {
-    $fecha_salida_dt = \DateTime::createFromFormat('Y-m-d', $fecha_salida);
-    $fecha_retorno_dt = \DateTime::createFromFormat('Y-m-d', $fecha_retorno);
-    if ($fecha_salida_dt && $fecha_retorno_dt) {
+  // Solo procesar la carga pesada si realmente hay parámetros en la URL
+  if (!empty($intereses_ids) || !empty($recomendacion_id) || !empty($fecha_salida)) {
+    
+    $dias = 1;
+    if (!empty($fecha_salida) && !empty($fecha_retorno)) {
+      $fecha_salida_dt = \DateTime::createFromFormat('Y-m-d', $fecha_salida);
+      $fecha_retorno_dt = \DateTime::createFromFormat('Y-m-d', $fecha_retorno);
+      if ($fecha_salida_dt && $fecha_retorno_dt) {
         $dias = max(1, $fecha_salida_dt->diff($fecha_retorno_dt)->days + 1);
+      }
     }
-}
 
-// Cantidad de recomendaciones por día
-$recomendaciones_por_dia = 5;
+    $limite_items = $dias * 5; // 5 recomendaciones por día
 
-// Total de ítems a traer
-$limite_items = $dias * $recomendaciones_por_dia;
+    // Cargar intereses y banner
+    $intereses_terms = [];
+    $banner_url = NULL;
 
-
-
-  /***********************
-    * 2. Cargar términos intereses
-    * vocabulario: categorias_turisticas
-    ***********************/
-  $intereses_terms = [];
-
-  if (!empty($intereses_ids)) {
-    $intereses_terms = \Drupal::entityTypeManager()
-      ->getStorage('taxonomy_term')
-      ->loadMultiple($intereses_ids);
-  }
-
-  $variables['intereses_terms'] = $intereses_terms;
-
-  // Después de cargar los términos de intereses
-  $banner_url = NULL;
-
-  if (!empty($intereses_terms)) {
-    $first_term = reset($intereses_terms);
-
-    if ($first_term->hasField('field_imagen_principal') && !$first_term->get('field_imagen_principal')->isEmpty()) {
+    if (!empty($intereses_ids)) {
+      $intereses_terms = \Drupal::entityTypeManager()
+        ->getStorage('taxonomy_term')
+        ->loadMultiple($intereses_ids);
+      
+      $first_term = reset($intereses_terms);
+      if ($first_term && $first_term->hasField('field_imagen_principal') && !$first_term->get('field_imagen_principal')->isEmpty()) {
         $file = $first_term->get('field_imagen_principal')->entity;
         if ($file instanceof File) {
-            // Obtener URL pública de la imagen
-            $banner_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+          $banner_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
         }
+      }
     }
-  }
 
-  $variables['banner_interes_url'] = $banner_url;
+    // Cargar término recomendación
+    $recomendacion_term = !empty($recomendacion_id) ? 
+      \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($recomendacion_id) : NULL;
 
+    // Buscar nodos relacionados (Optimizando a una sola entidad Storage en memoria)
+    $contenido = [];
+    $tipos_a_buscar = ['atractivos', 'eventos', 'rutas'];
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
 
-  /***********************
-    * 3. Cargar término recomendación
-    * vocabulario: recomendaciones
-    ***********************/
-  $recomendacion_term = NULL;
-
-  if (!empty($recomendacion_id)) {
-    $recomendacion_term = \Drupal::entityTypeManager()
-      ->getStorage('taxonomy_term')
-      ->load($recomendacion_id);
-  }
-
-  $variables['recomendacion_term'] = $recomendacion_term;
-
-
-  /***********************
-  * 4. Buscar nodos relacionados
-  * Tipos: atractivo, evento, ruta
-  * Campos: field_turpara o field_turcat
-  ***********************/
-  $contenido = [];
-
-foreach (['atractivos', 'eventos', 'rutas'] as $tipo) {
-    $query = \Drupal::entityQuery('node')
+    foreach ($tipos_a_buscar as $tipo) {
+      $query = $node_storage->getQuery()
         ->accessCheck(TRUE)
         ->condition('status', 1)
         ->condition('type', $tipo)
         ->range(0, $limite_items);
 
-    if (!empty($recomendacion_id) || !empty($intereses_ids)) {
+      if (!empty($recomendacion_id) || !empty($intereses_ids)) {
         $or_group = $query->orConditionGroup();
         if (!empty($recomendacion_id)) {
-            $or_group->condition('field_turpara.target_id', $recomendacion_id);
+          $or_group->condition('field_turpara.target_id', $recomendacion_id);
         }
         if (!empty($intereses_ids)) {
-            $or_group->condition('field_turcat.target_id', $intereses_ids, 'IN');
+          $or_group->condition('field_turcat.target_id', $intereses_ids, 'IN');
         }
         $query->condition($or_group);
+      }
+
+      $nids = $query->execute();
+      if (!empty($nids)) {
+        $contenido = array_merge($contenido, $node_storage->loadMultiple($nids));
+        // Etiqueta de caché para que se limpie si se crean nuevos nodos de este tipo
+        $variables['#cache']['tags'][] = 'node_list:' . $tipo; 
+      }
     }
 
-    $nids = $query->execute();
-    if (!empty($nids)) {
-        $contenido = array_merge($contenido, \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($nids));
-    }
-}
+    // Separar por tipo y asignar a Twig
+    $variables['intereses_terms'] = $intereses_terms;
+    $variables['banner_interes_url'] = $banner_url;
+    $variables['recomendacion_term'] = $recomendacion_term;
+    $variables['contenido_recomendado'] = $contenido;
+    
+    $variables['atractivos_rec'] = [];
+    $variables['eventos_rec'] = [];
+    $variables['rutas_rec'] = [];
 
-  $variables['contenido_recomendado'] = $contenido;
-
-
-
-  /***********************
-    * 5. Separar por tipo
-    ***********************/
-  $variables['atractivos'] = [];
-  $variables['eventos'] = [];
-  $variables['rutas'] = [];
-
-  foreach ($contenido as $node) {
-
-    if ($node->bundle() === 'atractivos') {
-      $variables['atractivos'][] = $node;
+    foreach ($contenido as $nodo_rec) {
+      $b = $nodo_rec->bundle();
+      if ($b === 'atractivos') $variables['atractivos_rec'][] = $nodo_rec;
+      elseif ($b === 'eventos') $variables['eventos_rec'][] = $nodo_rec;
+      elseif ($b === 'rutas') $variables['rutas_rec'][] = $nodo_rec;
     }
 
-    elseif ($node->bundle() === 'eventos') {
-      $variables['eventos'][] = $node;
-    }
-
-    elseif ($node->bundle() === 'rutas') {
-      $variables['rutas'][] = $node;
-    }
+    $variables['fecha_salida'] = $fecha_salida;
+    $variables['fecha_retorno'] = $fecha_retorno;
   }
+  // Al final del todo, justo antes de cerrar la función, añadimos el formulario:
+  
+  // 1. Definir el ID de máquina de tu formulario de contacto
+  $contact_form_id = 'guardar_itinerario'; 
 
+  // 2. Cargar el entity type manager
+  $entity_type_manager = \Drupal::entityTypeManager();
+  
+  // 3. Verificar si el formulario existe
+  $contact_form_entity = $entity_type_manager->getStorage('contact_form')->load($contact_form_id);
 
-  /***********************
-    * 6. Pasar fechas a Twig
-    ***********************/
-  $variables['fecha_salida'] = $fecha_salida;
-  $variables['fecha_retorno'] = $fecha_retorno;
+  if ($contact_form_entity) {
+    // Crear el mensaje
+    $message = $entity_type_manager
+      ->getStorage('contact_message')
+      ->create([
+        'contact_form' => $contact_form_id,
+      ]);
+
+    // Obtener el formulario renderizable y pasarlo a la plantilla del nodo
+    $variables['contact_form'] = \Drupal::service('entity.form_builder')->getForm($message);
+  }
 }
 function visit_theme_preprocess_block(array &$variables) {
   // Identify your view block plugin.
@@ -311,6 +373,29 @@ function visit_theme_preprocess_page(&$variables) {
     // Pasar al Twig
     $variables[$twig_var] = $menu;
   }
+ // 1. Definir el ID de máquina de tu formulario de contacto
+  $contact_form_id = 'guardar_itinerario'; 
+
+  // 2. Cargar el entity type manager correctamente desde el contenedor \Drupal
+  $entity_type_manager = \Drupal::entityTypeManager();
+  
+  // 3. Verificar si el formulario existe antes de intentar crearlo
+  $contact_form_entity = $entity_type_manager->getStorage('contact_form')->load($contact_form_id);
+
+  if ($contact_form_entity) {
+    // Crear un mensaje vacío basado en ese formulario
+    $message = $entity_type_manager
+      ->getStorage('contact_message')
+      ->create([
+        'contact_form' => $contact_form_id,
+      ]);
+
+    // Obtener el formulario renderizable
+    $variables['contact_form'] = \Drupal::service('entity.form_builder')->getForm($message);
+  } else {
+    // Si no lo encuentra, pasamos un valor nulo o un mensaje de error para debug
+    $variables['contact_form'] = NULL;
+  }
 }
 
 function visit_theme_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
@@ -323,4 +408,33 @@ function visit_theme_form_user_login_form_alter(&$form, \Drupal\Core\Form\FormSt
 
   // Clase al botón.
   $form['actions']['submit']['#attributes']['class'][] = 'login-button';
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function visit_theme_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Verificamos que sea exactamente nuestro formulario de itinerario
+  if ($form_id === 'contact_message_guardar_itinerario_form') {
+    
+    // 1. Renombrar los campos nativos
+    $form['name']['#title'] = t('Nombre');
+    $form['mail']['#title'] = t('Correo electrónico');
+
+    // 2. Ocultar y pre-llenar el Asunto
+    $form['subject']['#type'] = 'hidden';
+    $form['subject']['#value'] = t('Tu Itinerario de Visit Bogotá');
+
+    // 3. Ocultar el campo Mensaje visualmente (aquí inyectaremos el JS)
+    $form['message']['#wrapper_attributes']['style'] = 'display: none;';
+
+    // 4. Ocultar checkbox de "Copia" y botón "Vista previa"
+    $form['copy']['#access'] = FALSE;
+    $form['actions']['preview']['#access'] = FALSE;
+
+    // 5. Añadir clases de Bootstrap para que se vea bien
+    $form['name']['#attributes']['class'][] = 'form-control mb-3';
+    $form['mail']['#attributes']['class'][] = 'form-control mb-3';
+    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-primary w-100';
+  }
 }

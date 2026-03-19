@@ -1,3 +1,150 @@
+<style>
+@media print {
+    /* Forzar fondo de colores e imágenes */
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+    /* Ocultar elementos innecesarios */
+    header, footer, .planifica-container, .itinerario-footer, .banner, .tag, .splide__arrows {
+        display: none !important;
+    }
+
+    /* Ajustar layout para papel */
+    .itinerario, .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Mostrar cards en lista para que no se corten */
+    .grid-atractivos, .grid-events {
+        display: block !important;
+    }
+
+    .card {
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+        border: 1px solid #eee;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .card .image img {
+        width: 150px; /* Tamaño fijo en impresión */
+        height: auto;
+    }
+}
+/* Agrega esto a tu bloque <style> */
+.field--name-field-datos-itinerario {
+    display: none !important;
+}
+/* --- ESTILOS DEL FOOTER DE ITINERARIO --- */
+
+.itinerario-footer {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+/* Estilo para el botón de PDF */
+.btn-descargar-pdf {
+    border-width: 2px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 12px 20px;
+}
+
+.btn-descargar-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Separador visual en escritorio */
+@media (min-width: 768px) {
+    .border-md-end {
+        border-right: 1px solid #dee2e6;
+    }
+}
+
+/* --- ESTILOS DEL FORMULARIO INYECTADO --- */
+
+.form-itinerario-custom form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaciado moderno entre campos */
+}
+
+/* Etiquetas (Labels) */
+.form-itinerario-custom label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+}
+
+/* Inputs (Nombre y Email) */
+.form-itinerario-custom textarea,
+.form-itinerario-custom input[type="text"],
+.form-itinerario-custom input[type="email"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #ced4da;
+    border-radius: 8px; /* Bordes suaves */
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background-color: #fff;
+}
+
+.form-itinerario-custom input[type="text"]:focus,
+.form-itinerario-custom input[type="email"]:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}
+
+/* Botón de Submit de Drupal */
+.form-itinerario-custom .form-actions {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+.form-itinerario-custom input[type="submit"] {
+    background-color: #0d6efd; /* Azul primary */
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50rem; /* Estilo pill (píldora) */
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.form-itinerario-custom input[type="submit"]:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+}
+
+/* * LIMPIEZA DRUPAL:
+ * Ocultamos wrappers residuales que el hook_form_alter 
+ * no siempre quita visualmente.
+ */
+.form-itinerario-custom .js-form-item-subject,
+.form-itinerario-custom .js-form-item-message,
+.form-itinerario-custom .js-form-item-copy,
+.form-itinerario-custom #edit-preview {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Asegurar que la descripción de los campos (si la hay) sea sutil */
+.form-itinerario-custom .description {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 4px;
+}
+</style>
 <div class="itinerario">
     <main>
         <div class="banner" style="background-image: url({{ banner_interes_url }});">
@@ -26,14 +173,12 @@
             <li class="card" data-aos="zoom-in" data-aos-delay="300">
               <a href="{{ path('entity.node.canonical', {'node': node.id}) }}">
                 <div class="image">
-                  {% if node.field_mainimg.entity %}
-                    <img src="{{ file_url(node.field_mainimg.entity.fileuri) }}"
-                        alt="{{ node.label }}">
-                  {% endif %}
+                    <img src="{{ node.image }}"
+                        alt="{{ node.title }}">
                 </div>
 
                 <div class="title">
-                  {{ node.label }}
+                  {{ node.title }}
                 </div>
 
               </a>
@@ -48,22 +193,19 @@
     <div class="splide__track">
 
       <ul class="splide__list grid-events">
-
-        {% for node in eventos %}
+        {% for node in eventosVisit %}
           <li class="splide__slide">
             <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
                style="background-image: url(
-                 {% if node.field_mainimg.entity %}
-                   {{ file_url(node.field_mainimg.entity.fileuri) }}
-                 {% endif %}
+                   {{ node.image }}
                );">
 
               <div class="tag">
-                {{ recomendacion_term.label }}
+                {{ node.categoria.name }}
               </div>
 
               <span class="title">
-                {{ node.label }}
+                {{ node.title }}
               </span>
 
               {% if node.field_fecha.value %}
@@ -75,17 +217,15 @@
             </a>
           </li>
         {% endfor %}
-
       </ul>
 
     </div>
   </section>
 </div>
-
+{% if rutas  is not empty %}
       <div class="rutas">
   <div class="container">
     <h3>{{"ui.tourist_routes"|trans}}</h3>
-
     <ul>
       {% for node in rutas|shuffle|slice(0, 4) %}
         <li class="card">
@@ -109,6 +249,62 @@
 
   </div>
 </div>
+ {% endif %}
+
 
     </main>
 </div>
+  <div class="planifica-container" data-aos="fade-right">
+           {% include "@visit_theme/includes/planifica.html.twig" %}
+        </div>
+{# Al final de tu <main> o antes del footer #}
+<section class="itinerario-footer container mt-5 mb-5">
+    <div class="row align-items-center bg-light p-4 rounded shadow-sm">
+        
+        <div class="col-md-6 text-center border-md-end mb-4 mb-md-0">
+            <h4 class="mb-3">{{ "Guarda una copia offline"|trans }}</h4>
+            <button onclick="window.print();" class="btn btn-outline-primary btn-lg w-75 rounded-pill btn-descargar-pdf">
+                <i class="fas fa-file-pdf me-2"></i> {{ "Descargar PDF"|trans }}
+            </button>
+        </div>
+        
+        <div class="col-md-6 ps-md-5 form-itinerario-custom">
+            <h4 class="mb-4">{{ "Recibir este itinerario por correo"|trans }}</h4>
+            {% if contact_form %}
+                {{ contact_form }}
+            {% else %}
+                <p>Cargando formulario...</p>
+            {% endif %}
+        </div>
+
+    </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            let lista = [];
+            
+            // Recolectar Atractivos
+            document.querySelectorAll('.grid-atractivos .title').forEach(item => {
+                lista.push("- " + item.innerText.trim());
+            });
+            
+            // Recolectar Eventos (si los hay en la vista actual)
+            document.querySelectorAll('.eventos .title').forEach(item => {
+                lista.push("- " + item.innerText.trim());
+            });
+
+            // Buscar el textarea nativo de "Mensaje" de Drupal
+            let campoMensaje = form.querySelector('textarea[name^="message"]');
+            
+            if (campoMensaje) {
+                // Formateamos el texto que llegará al correo
+                campoMensaje.value = "Hola, aquí está el itinerario planificado:\n\n" + lista.join('\n');
+            }
+        });
+    }
+});
+</script>

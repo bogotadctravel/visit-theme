@@ -35,7 +35,9 @@
                             {% for item in establecimientos |shuffle %}
                             {% set categorias = (item.categoria_gastronomica|default([]))|map(t => t.tid)|join(',') %}
                             {% set zonas      = (item.zonagast|default([]))|map(t => t.tid)|join(',') %}
-                            <li data-aos="zoom-in" data-aos-delay="300" class="card"   data-categoria="{{ categorias }}" data-zona="{{ zonas }}">
+                            {% set precios    = (item.field_rango_de_precios|default([]))|map(t => t.tid)|join(',') %}
+                            {% set tipo       = (item.field_tipo_de_alojamiento|default([]))|map(t => t.tid)|join(',') %}
+                            <li data-aos="zoom-in" data-aos-delay="300" class="card"   data-categoria="{{ categorias }}" data-zona="{{ zonas }}" data-precios="{{ precios }}" data-servicios="{{ servicios }}" data-tipo="{{ tipo }}">
                                 <a href="{{ item.url }}">
                                     <div class="image">
                                         <img src="{{ item.image }}" alt="{{ item.title }}">

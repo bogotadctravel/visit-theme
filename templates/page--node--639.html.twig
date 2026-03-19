@@ -1,0 +1,29 @@
+   {% include "@visit_theme/includes/header_visit.html.twig" %}
+<main id="main-content" class="site-content">
+    <div class="que-hacer">
+            <div class="container">
+                <h3>{{"ui.what_to_do_in_bogota"|trans}}</h3>
+                <h4>{{"ui.explore_all_experiences"|trans}}</h4>
+                <ul class="grid-categories">
+                    {% for item in taxonomy('categorias_turisticas') %}
+                    <li data-aos="zoom-in" data-aos-delay="300">
+                        <a href="{{item.url}}" style="background-image: url({{item.image}});">
+                            <span class="title">{{ item.name }}</span>
+                            <small>Explora más <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </small>
+                        </a>
+                    </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+        </div>
+            <div class="planifica-container" data-aos="fade-right">
+             {% include "@visit_theme/includes/planifica.html.twig" %}
+        </div>
+</main>
+  {% include "@visit_theme/includes/footer_visit.html.twig" %}

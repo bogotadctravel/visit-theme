@@ -35,12 +35,20 @@
                         <h3 class="place-card__title">{{ item.title }}</h3>
                     </div>
                       {% if item.field_aprobado_marca_ciudad == '1' %}
-                    <div class="marca" style="position: absolute;top: 130px;right: 0;width: 160px;height: 50px;">
-                    <img src="/{{ directory }}/images/marcaciudad.png" alt="Marca de la ciudad"  width="100%"/>
+                    <div class="marca" style="position: absolute;
+    top: 110px;
+    right: 8px;
+    width: 110px;">
+                    <img src="/{{ directory }}/images/marcaciudad3.png" alt="Marca de la ciudad"  width="100%"/>
                     </div>
                     {% endif %}
                 </a>
             {% endfor %}
             </div>
         </section>
+            <div style="padding: 40px 20px; text-align: center; background-color: #fff;">
+  <p style="max-width: 900px; margin: 0 auto; font-size: 14px; color: #4f4f4f; line-height: 1.6; font-style: italic; font-weight: bold;">
+    Las empresas y venues que cuentan con el sello de marca son aquellas que aplicaron formalmente al proceso de solicitud de autorización de uso de la Marca Ciudad y cumplieron con los requisitos establecidos para obtener esta distinción.
+  </p>
+</div>
     </main>

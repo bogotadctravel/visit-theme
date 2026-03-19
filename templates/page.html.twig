@@ -1,7 +1,11 @@
+{# 1. Definición de IDs específicos (puedes añadir más aquí separados por comas) #}
+{% set conecta_node_ids = ['639'] %}
+
+{# 2. Verificación de campos y pertenencia al array de IDs #}
 {% set is_mice = node.fields.field_evento_mice.value == '1' %}
 {% set is_miceArticle = node.fields.field_articulo_mice.value == '1' %}
-
-{# Header custom logic #}
+{% set is_specific_id = node.id in conecta_node_ids %}
+{# 3. Listado de tipos de contenido de Visit #}
 {% set visit_types = [
   'atractivos',
   'home_visit_2_0',
@@ -11,33 +15,34 @@
   'eventos',
   'page',
   'article',
-  'pagina_agenda_de_eventos'
+  'pagina_agenda_de_eventos',
+  'pagina-que-hacer'
 ] %}
 
-{# Lógica del Header #}
-{# Si cualquiera de los dos campos es true, va a Conecta #}
-{% if is_mice or is_miceArticle %}
+{# 4. Lógica de decisión #}
+{# Usamos Conecta si: es MICE, está en la lista de IDs, o NO es un bundle de Visit #}
+{% set use_conecta = true %}
+
+{% if not is_mice and not is_miceArticle and not is_specific_id %}
+  {% if node is defined and node.bundle in visit_types %}
+    {% set use_conecta = false %}
+  {% endif %}
+{% endif %}
+
+{# --- RENDER DEL HEADER --- #}
+{% if use_conecta %}
   {% include "@visit_theme/includes/header_conecta.html.twig" %}
 {% else %}
-  {# Si no es MICE, verificamos si el bundle pertenece a Visit #}
-  {% if node is defined and node.bundle in visit_types %}
-    {% include "@visit_theme/includes/header_visit.html.twig" %}
-  {% else %}
-    {% include "@visit_theme/includes/header_conecta.html.twig" %}
-  {% endif %}
+  {% include "@visit_theme/includes/header_visit.html.twig" %}
 {% endif %}
 
 <main id="main-content" class="site-content">
   {{ page.content }}
 </main>
 
-{# Lógica del Footer #}
-{% if is_mice or is_miceArticle %}
+{# --- RENDER DEL FOOTER --- #}
+{% if use_conecta %}
   {% include "@visit_theme/includes/footer_conecta.html.twig" %}
 {% else %}
-  {% if node is defined and node.bundle in visit_types %}
-    {% include "@visit_theme/includes/footer_visit.html.twig" %}
-  {% else %}
-    {% include "@visit_theme/includes/footer_conecta.html.twig" %}
-  {% endif %}
+  {% include "@visit_theme/includes/footer_visit.html.twig" %}
 {% endif %}

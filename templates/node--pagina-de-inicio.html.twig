@@ -182,40 +182,65 @@
           </svg>
         </button>
           
-        <div class="events__viewport" data-carousel-viewport>
-          <div class="events__track" data-carousel-track>
-            {% for item in eventosMICE|reverse|slice(0, 5) %} {% set raw_inicio =
-            item.field_fecha_de_inicio %} {% set raw_fin =
-            item.field_fecha_de_finalizacion %} {% set mes_en =
-            raw_inicio|date('M') %} {% set mes_es = meses[mes_en] %} {% set
-            dia_inicio = raw_inicio|date('j') %} {% set dia_fin =
-            raw_fin|date('j') %}
-            {% set anio_inicio = raw_inicio|date('Y') %}
+  <div class="events__viewport" data-carousel-viewport>
+  <div class="events__track" data-carousel-track>
+    {% set meses = {
+      '1': 'Ene', '2': 'Feb', '3': 'Mar', '4': 'Abr',
+      '5': 'May', '6': 'Jun', '7': 'Jul', '8': 'Ago',
+      '9': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dic'
+    } %}
 
-            <a class="event-card" data-carousel-item href="{{ item.url }}">
-              <div
-                class="event-card__media"
-                aria-hidden="true"
-                style="background-image: url({{ item.image }});"
-              ></div>
+    {# 1. Definimos la fecha actual (Timestamp) #}
+    {% set current_date = "now"|date('U') %}
+    
+    {# 2. Filtramos eventos futuros #}
+    {% set eventos_filtrados = [] %}
+    {% for item in eventosMICE %}
+      {# Comparamos contra la fecha de inicio del evento #}
+      {% if item.field_fecha_de_inicio|date('U') >= current_date %}
+        {% set eventos_filtrados = eventos_filtrados|merge([item]) %}
+      {% endif %}
+    {% endfor %}
 
-              <div class="event-card__content">
-                <h3>{{ item.title }}</h3>
-                <div class="event-card__meta">
-                  <span class="event-card__meta-item">
+    {# 3. Iteramos (Limitado a 5 y con el reverse si lo necesitas) #}
+    {% for item in eventos_filtrados|slice(0, 5) %}
+      {% set raw_inicio = item.field_fecha_de_inicio %}
+      {% set raw_fin = item.field_fecha_de_finalizacion %}
+      
+      {# Detectar idioma (Asegúrate que lang_code esté disponible en tu preprocess) #}
+     {# Intenta obtenerlo del nodo, luego del bloque, y si no, usa 'es' por defecto #}
+{% set lenguaje_actual = node.langcode.value ?: language.getId() ?: 'es' %}
+
+      {% if lenguaje_actual == 'es' %}
+        {# Usamos el número del mes (1 al 12) como llave del array #}
+        {% set mes_display = meses[raw_inicio|date('n')] %}
+      {% else %}
+        {# Formato de 3 letras en inglés (Jan, Feb, etc.) #}
+        {% set mes_display = raw_inicio|date('M') %}
+      {% endif %}
+
+      {% set dia_inicio = raw_inicio|date('j') %}
+      {% set dia_fin = raw_fin|date('j') %}
+      {% set anio_inicio = raw_inicio|date('Y') %}
+
+      <a class="event-card" data-carousel-item href="{{ item.url }}">
+        <div class="event-card__media" aria-hidden="true" style="background-image: url({{ item.image }});"></div>
+
+        <div class="event-card__content">
+          <h3>{{ item.title }}</h3>
+          <div class="event-card__meta">
+            <span class="event-card__meta-item">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M6.75 3a.75.75 0 0 0 0 1.5H7.5V6h-3A2.25 2.25 0 0 0 2.25 8.25v10.5A2.25 2.25 0 0 0 4.5 21h15a2.25 2.25 0 0 0 2.25-2.25V8.25A2.25 2.25 0 0 0 19.5 6h-3V4.5h.75a.75.75 0 0 0 0-1.5h-3a.75.75 0 0 0 0 1.5h.75V6h-6V4.5h.75a.75.75 0 0 0 0-1.5h-3Zm-1.5 6.75A.75.75 0 0 1 6 9h12a.75.75 0 0 1 .75.75v8.25c0 .414-.336.75-.75.75H6a.75.75 0 0 1-.75-.75Z"/>
-                      </svg>
-                    <span>{{ mes_es }} {{ dia_inicio }} - {{ dia_fin }} del {{anio_inicio}}</span>
-                  </span>
-
-                  
-                </div>
-              </div>
-            </a>
-            {% endfor %}
+                <path d="M6.75 3a.75.75 0 0 0 0 1.5H7.5V6h-3A2.25 2.25 0 0 0 2.25 8.25v10.5A2.25 2.25 0 0 0 4.5 21h15a2.25 2.25 0 0 0 2.25-2.25V8.25A2.25 2.25 0 0 0 19.5 6h-3V4.5h.75a.75.75 0 0 0 0-1.5h-3a.75.75 0 0 0 0 1.5h.75V6h-6V4.5h.75a.75.75 0 0 0 0-1.5h-3Zm-1.5 6.75A.75.75 0 0 1 6 9h12a.75.75 0 0 1 .75.75v8.25c0 .414-.336.75-.75.75H6a.75.75 0 0 1-.75-.75Z"/>
+              </svg>
+              <span>{{ mes_display }} {{ dia_inicio }} - {{ dia_fin }} del {{ anio_inicio }}</span>
+            </span>
           </div>
         </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
         <button
           class="events__nav events__nav--next"
           type="button"

@@ -13,14 +13,19 @@
                     stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             {{"ui.what_are_your_interests"|trans}}</p>
-        <ul class="tags">
-            {% for cat in taxonomy('categorias_turisticas') %}
-            <li>
-                <input type="checkbox" id="{{ cat.name }}" name="intereses[]" value="{{ cat.tid }}">
-                <label for="{{ cat.name }}">{{ cat.name }}</label>
-            </li>
-            {% endfor %}
-        </ul>
+      <ul class="tags">
+    {% for cat in taxonomy('categorias_turisticas') %}
+    <li>
+        <input type="checkbox" 
+               id="{{ cat.name }}" 
+               name="intereses[]" 
+               value="{{ cat.tid }}"
+               {# Si el ID de la categoría coincide con term.id, marcamos 'checked' #}
+               {% if term.id is defined and cat.tid == term.id %}checked{% endif %}>
+        <label for="{{ cat.name }}">{{ cat.name }}</label>
+    </li>
+    {% endfor %}
+</ul>
         <span>
 
             <label for="">{{"ui.who_are_you_traveling_with"|trans}}</label>
@@ -51,3 +56,21 @@
         </button>
     </form>
 </div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date();
+    
+    // Create "Two days from now" date
+    const twoDaysLater = new Date();
+    twoDaysLater.setDate(today.getDate() + 2);
+
+    // Helper function to format date to YYYY-MM-DD
+    const formatDate = (date) => date.toISOString().split('T')[0];
+
+    // Assign values to inputs
+    document.getElementById('fecha_salida').value = formatDate(today);
+    document.getElementById('fecha_retorno').value = formatDate(twoDaysLater);
+});
+</script>
