@@ -48,4 +48,84 @@
             }
         }
     }
+
+    /* Posicionamiento del CTA */
+    .banner-main-cta {
+        position: absolute;
+        bottom: 40px;
+        /* Ajusta según la altura de tus subtítulos */
+        left: 40px;
+        /* Lo mantiene a la izquierda para balancear con el widget derecho */
+        z-index: 10;
+        /* Asegura que esté por encima del video */
+    }
+
+    /* Estilo visual del Botón */
+    .btn-primary-cta {
+        display: inline-block;
+        padding: 15px 30px;
+        background-color: #243b67;
+        /* Azul del logo de Bogotá (Aprox) */
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        /* Cambia a la tipografía de tu sitio */
+        font-size: 1.1rem;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 8px;
+        /* Bordes redondeados */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Efecto Hover para motivar el clic */
+    .btn-primary-cta:hover {
+        background-color: #f7a800;
+        /* Amarillo del logo de Bogotá (Aprox) para contraste al pasar el mouse */
+        color: #243b67;
+        transform: translateY(-2px);
+        /* Pequeño salto al hacer hover */
+    }
+
+    /* --- RESPONSIVE: TABLETS Y MÓVILES GRANDES --- */
+    @media (max-width: 768px) {
+        .banner-main-cta {
+            /* Cambiamos la posición a centrada */
+            left: 50%;
+            bottom: 80px;
+            /* Lo subimos para dar espacio a los subtítulos */
+            transform: translateX(-50%);
+            /* Este es el truco para centrarlo horizontalmente de forma exacta */
+            width: 80%;
+            /* Evita que el botón toque los bordes de la pantalla */
+            text-align: center;
+        }
+
+        .btn-primary-cta {
+            width: 100%;
+            /* Hace que el botón ocupe todo el ancho de su contenedor (el 80% que definimos arriba) */
+            padding: 12px 20px;
+            /* Reducimos un poco el grosor del botón */
+            font-size: 1rem;
+            /* Hacemos la letra un poco más pequeña */
+            box-sizing: border-box;
+            /* Previene que el padding rompa las dimensiones del botón */
+        }
+    }
+
+    /* --- RESPONSIVE: MÓVILES PEQUEÑOS --- */
+    @media (max-width: 480px) {
+        .banner-main-cta {
+            bottom: 90px;
+            /* Le damos un poco más de margen inferior por si los subtítulos ocupan 2 o 3 líneas */
+            width: 90%;
+            /* Aprovechamos un poco más el espacio horizontal */
+        }
+
+        .btn-primary-cta {
+            font-size: 0.95rem;
+            /* Ajuste fino de tipografía */
+            padding: 12px 10px;
+        }
+    }
 }

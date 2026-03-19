@@ -14,10 +14,80 @@
 .non-white {
   filter: saturate(0%) invert(100%);
 }
- .planifica-container{
-        background: linear-gradient(180deg, #254681 0%, #3F89DE 100%);
-        .planifica{
-                margin: 0 auto;
-                    top: -50px;
-        }
-    }
+
+.planifica-container {
+  background: linear-gradient(180deg, #254681 0%, #3F89DE 100%);
+
+  .planifica {
+    margin: 0 auto;
+    top: -50px;
+  }
+}
+
+/* Contenedor principal */
+.list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  margin-bottom: 20px;
+}
+
+.list strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+/* Contenedor de los tags */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  /* Espacio entre tags */
+}
+
+/* Estilo de la etiqueta (Tag) */
+.tag-item {
+  background-color: #f0f0f0;
+  /* Color de fondo suave */
+  color: #555;
+  padding: 5px 15px;
+  border-radius: 20px;
+  /* Bordes redondeados */
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+}
+
+.tag-item:hover {
+  background-color: #007bff;
+  /* Color al pasar el mouse */
+  color: white;
+  border-color: #007bff;
+}
+
+/* Ajustes para los iconos de contacto */
+.flexList {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.flexList img {
+  width: 20px;
+  height: auto;
+}
+
+.flexList a {
+  text-decoration: none;
+  color: #333;
+}
+
+.feed-icon {
+  display: none;
+}
