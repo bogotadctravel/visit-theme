@@ -29,7 +29,7 @@
             position: absolute;
             bottom: 50px;
             max-width: 540px;
-            width: 100%;
+            width: 90%;
 
             h2 {
                 font-weight: 300;
@@ -138,6 +138,10 @@
             font-size: 32px;
             text-align: right;
             color: #000;
+
+            @media only screen and (max-width: 1023px) {
+                text-align: center;
+            }
 
         }
 
