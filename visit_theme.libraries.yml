@@ -42,7 +42,7 @@ fancybox:
       { type: external, minified: true }
 
 global-styling:
-  version: 32.x
+  version: 35.x
   css:
     theme:
       css/styles.css: {}
