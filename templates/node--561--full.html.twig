@@ -20,7 +20,7 @@
                                 {{ cat.name }}
                             </label>
                             {% endfor %}
-                            <h3>Zonas</h3>
+                            <h3>Tipo de alojamiento</h3>
                             {% for cat in taxonomy('tipos_de_alojamiento') %}
                             <label for="{{ cat.tid }}">
                                 <input type="checkbox" name="{{ cat.name }}" id="{{ cat.tid }}" value="{{ cat.tid }}">

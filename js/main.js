@@ -81,9 +81,9 @@
 
               data.forEach((result) => {
                 const title = result.title || "";
-                const url   = result.view_node || "#";
-                const type  = result.type || "";
-                const img   = getResultImage(result);
+                const url = result.view_node || "#";
+                const type = result.type || "";
+                const img = getResultImage(result);
 
                 searchResults.innerHTML += `
                   <li title="${title}">
@@ -187,9 +187,10 @@
               cb.disabled = false;
               cb.parentElement.style.opacity = "1";
               cb.parentElement.style.pointerEvents = "auto";
+              cb.parentElement.style.display = "block"; // Feedback visual de deshabilitado
             } else {
               cb.disabled = true;
-              cb.parentElement.style.opacity = "0.4"; // Feedback visual de deshabilitado
+              cb.parentElement.style.display = "none"; // Feedback visual de deshabilitado
               cb.parentElement.style.pointerEvents = "none";
             }
           });
