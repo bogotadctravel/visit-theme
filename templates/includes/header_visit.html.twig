@@ -3,7 +3,7 @@
             <div class="container">
                 <div class="links">
                      {% for item in menu_topbar_visit['#items'] %}
-                            <a href="{{ item.url }}">{{ item.title }}</a>
+                            <a href="{{ item.url }}" target="blank" aria-label="{{ item.title }}">{{ item.title }}</a>
                         {% endfor %}
                 </div>
                  <div class="search-comp">
