@@ -1,3 +1,13 @@
+.atractivos {
+    h2 {
+        font-weight: 800;
+        font-size: 32px;
+        text-align: center;
+        color: #000;
+        margin-bottom: 55px;
+    }
+}
+
 .atractivo {
     .banner {
         height: calc(80vh - 120px);
@@ -6,16 +16,19 @@
         background-repeat: no-repeat;
         width: 100%;
         position: relative;
-        &::after{
+
+        &::after {
             content: '';
             width: 100%;
             height: 100%;
-            background: linear-gradient(0deg,rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);
             position: absolute;
-            top: 0;left: 0;
-            
+            top: 0;
+            left: 0;
+
         }
-        .container{
+
+        .container {
             position: relative;
             height: 100%;
             z-index: 2;
@@ -100,7 +113,9 @@
         margin: 0 auto;
         gap: 55px;
         padding: 127px 20px;
-        .galeria,.info{
+
+        .galeria,
+        .info {
             width: 50%;
 
         }
@@ -112,7 +127,8 @@
         max-width: 580px;
         gap: 30px;
         flex-direction: column;
-        iframe{
+
+        iframe {
             width: 100%;
             height: 310px;
             border-radius: 20px;
@@ -121,9 +137,10 @@
     }
 
     .galeria {
-            position: sticky;
-    top: 90px;
-    height: max-content;
+        position: sticky;
+        top: 90px;
+        height: max-content;
+
         img {
             width: 100%;
             height: 100%;
@@ -281,8 +298,8 @@
                 .title {
                     padding: 20px;
                     background-color: #fff;
-font-weight: 800;
-font-size: 16px;
+                    font-weight: 800;
+                    font-size: 16px;
 
                     border-radius: 0 0 10px 10px;
 
@@ -290,7 +307,8 @@ font-size: 16px;
             }
         }
     }
-    .planifica{
+
+    .planifica {
         margin: 80px auto;
     }
 }
@@ -299,14 +317,18 @@ font-size: 16px;
 @media (max-width: 1024px) {
     .atractivo {
         .banner {
-            background-attachment: scroll; /* iOS parallax fix */
+            background-attachment: scroll;
+            /* iOS parallax fix */
 
             .text {
                 left: 20px;
                 transform: none;
                 width: calc(100% - 40px);
 
-                h1 { font-size: 32px; line-height: 36px; }
+                h1 {
+                    font-size: 32px;
+                    line-height: 36px;
+                }
             }
         }
 
@@ -316,7 +338,9 @@ font-size: 16px;
             gap: 40px;
 
             .galeria,
-            .info { width: 100%; }
+            .info {
+                width: 100%;
+            }
         }
 
         .galeria {
@@ -340,7 +364,10 @@ font-size: 16px;
 @media (max-width: 600px) {
     .atractivo {
         .banner .text {
-            h1 { font-size: 24px; line-height: 28px; }
+            h1 {
+                font-size: 24px;
+                line-height: 28px;
+            }
 
             .comollegar {
                 flex-direction: column;
