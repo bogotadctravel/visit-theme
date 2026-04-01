@@ -1,0 +1,24 @@
+<div class="blog">
+    <main>
+     {% if article is not empty %}
+        <div class="blog" data-aos="fade-down">
+            <h5>Blog</h5>
+            <ul class="grid-blogs container">
+                {% for item in article %}
+
+
+                <li><a href="{{item.url}}">
+                        <div class="image">
+                            <img src="{{item.image}}" alt="blog title">
+                        </div>
+                        <div class="title">
+                            {{item.title}}
+                        </div>
+                        <div class="tag">{{item.categoria.name}}</div>
+                    </a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+ </main>
+</div>

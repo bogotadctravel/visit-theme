@@ -44,7 +44,7 @@
                             {% set servicios = item.field_servicios_del_hotel|map(t => t.tid)|join(',') %}
                             {% set tipo = item.field_tipo_de_alojamiento|map(t => t.tid)|join(',') %}
                             {% set zonas = item.field_turzone|map(t => t.tid)|join(',') %}
-                            <li data-aos="zoom-in" data-aos-delay="300" class="card"   data-precios="{{ precios }}" data-servicios="{{ servicios }}" data-tipo="{{ tipo }}" data-zona="{{ zonas }}">
+                            <li  class="card"   data-precios="{{ precios }}" data-servicios="{{ servicios }}" data-tipo="{{ tipo }}" data-zona="{{ zonas }}">
                                 <a href="{{ item.url }}" class="card-link">
                                     <div class="image">
                                         <img src="{{ item.image }}" alt="{{ item.title }}">

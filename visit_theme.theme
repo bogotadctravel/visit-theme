@@ -188,8 +188,8 @@ function visit_theme_preprocess_node(array &$variables) {
       break;
 
     case 'page':
-      $variables['establecimientos'] = $content_loader->getNodesTeaser('establecimientos', 20);
-      $variables['hoteles'] = $content_loader->getNodesTeaser('hoteles', 20);
+      $variables['establecimientos'] = $content_loader->getNodesTeaser('establecimientos', 50);
+      $variables['hoteles'] = $content_loader->getNodesTeaser('hoteles', 50);
       $variables['article'] = $content_loader->getNodesTeaser('article', 50);
       break;
   }
