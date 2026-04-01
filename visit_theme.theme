@@ -13,6 +13,7 @@ use Drupal\node\NodeInterface;
 use \Drupal\contact\Entity\ContactForm;
 use Drupal\contact\Entity\Message;
 
+
 function visit_theme_preprocess_taxonomy_term(array &$variables) {
 
   $term = $variables['term'] ?? NULL;
@@ -20,7 +21,9 @@ function visit_theme_preprocess_taxonomy_term(array &$variables) {
     return;
   }
 
-  if ($term->bundle() !== 'categorias_turisticas') {
+  // Check if the term belongs to either the categories OR subcategories bundle.
+  $allowed_bundles = ['categorias_turisticas', 'subcategorias_turisticas'];
+  if (!in_array($term->bundle(), $allowed_bundles)) {
     return;
   }
 
@@ -30,14 +33,14 @@ function visit_theme_preprocess_taxonomy_term(array &$variables) {
   $content_loader = \Drupal::service('idt_theme_support.content_loader');
 
   // Tipos normales teaser
-  $variables['atractivos']     = $content_loader->getNodesTeaserByCategory('atractivos', $tid);
-  $variables['rutas']          = $content_loader->getNodesTeaserByCategory('rutas', $tid);
-  $variables['experiencias']   = $content_loader->getNodesTeaserByCategory('experiencias', $tid);
-  $variables['article']        = $content_loader->getNodesTeaserByCategory('article', $tid);
+  $variables['atractivos']   = $content_loader->getNodesTeaserByCategory('atractivos', $tid);
+  $variables['rutas']        = $content_loader->getNodesTeaserByCategory('rutas', $tid);
+  $variables['experiencias'] = $content_loader->getNodesTeaserByCategory('experiencias', $tid);
+  $variables['article']      = $content_loader->getNodesTeaserByCategory('article', $tid);
 
   // Eventos separados
-  $variables['eventosVisit']   = $content_loader->getEventosTeaserByCategoryAndMice($tid, 0, 50);
-  $variables['eventosMICE']    = $content_loader->getEventosTeaserByCategoryAndMice($tid, 1, 50);
+  $variables['eventosVisit'] = $content_loader->getEventosTeaserByCategoryAndMice($tid, 0, 50);
+  $variables['eventosMICE']  = $content_loader->getEventosTeaserByCategoryAndMice($tid, 1, 50);
 }
 function visit_theme_get_terms(string $vocab): array {
 

@@ -1,5 +1,19 @@
+{# 1. Creamos un arreglo vacío para guardar los IDs #}
+{% set ids_relacionados = [] %}
+
+{# 2. Recorremos el campo de Drupal para extraer solo el 'target_id' de cada término referenciado #}
+{% for item in term.field_rel_cat %}
+  {% set ids_relacionados = ids_relacionados|merge([item.target_id]) %}
+{% endfor %}
+
+{# 3. Verificamos que sí encontramos IDs antes de llamar a la función #}
+{% if ids_relacionados is not empty %}
+  
+  {# 4. Llamamos a tu función pasando el arreglo limpio de IDs (sin corchetes extra) #}
+  {% set terminos_filtrados = taxonomy('categorias_turisticas', ids_relacionados) %}
+{% endif %}
 <div class="product">
-    <div class="banner" style="background-image: url({{file_url(term.field_imagen_principal.entity.fileuri)}});">
+    <div class="banner" style="background-image: url({{terminos_filtrados[0].image}});">
         <div class="container">
 
             <div class="text">
@@ -9,7 +23,9 @@
             </div>
         </div>
     </div>
+    <div class="atractivos">
     {% if atractivos is not empty %}
+     <h2>{{ term.name.value }}: ATRACTIVOS EN BOGOTA</h2>
     <ul class="grid-atractivos container">
         {% for item in atractivos|shuffle %}
         <li class="card" data-aos="zoom-in" data-aos-delay="300"><a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
@@ -23,6 +39,7 @@
         {% endfor %}
     </ul>
     {% endif %}
+    </div>
 
 
     {% if eventos is not empty %}
