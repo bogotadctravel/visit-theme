@@ -11,6 +11,7 @@ libraries:
 regions:
   header: Header
   headerTheme: Header Theme
+  headerVisit: Header Visit
   content: Content
   sidebar: Sidebar
   footer: Footer
