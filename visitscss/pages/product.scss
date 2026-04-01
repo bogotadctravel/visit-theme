@@ -58,6 +58,92 @@
         }
     }
 
+    /* Contenedor principal de los pills */
+    .subcategories-pills-wrapper {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    /* Lista deslizable horizontalmente */
+    .pills-scroll-container {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 12px;
+        padding: 0 0 10px 0;
+        /* Padding inferior para que la sombra o borde no se corte */
+        margin: 0;
+        list-style: none;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    /* Ocultar barra de scroll en navegadores WebKit */
+    .pills-scroll-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* El elemento individual del pill */
+    .pill-item {
+        flex: 0 0 auto;
+        /* Evita que los items se encojan */
+    }
+
+    /* Enlace interno que le da forma a la píldora */
+    .pill-link {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        /* Color del borde como en tu imagen */
+        border-radius: 50px;
+        /* Forma de píldora redonda */
+        padding: 4px 16px 4px 4px;
+        /* Padding ajustado para dar espacio a la imagen y al texto */
+        text-decoration: none;
+        color: #333333;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .pill-link:hover {
+        background-color: #f5f5f5;
+        border-color: #cccccc;
+    }
+
+    /* Imagen circular dentro del pill */
+    .pill-img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 8px;
+        /* Separación entre la imagen y el texto */
+        flex-shrink: 0;
+    }
+
+    .pill-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Placeholder gris por si la subcategoría no tiene imagen */
+    .img-placeholder {
+        width: 100%;
+        height: 100%;
+        background-color: #e0e0e0;
+    }
+
+    /* Texto del pill */
+    .pill-name {
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        /* Evita que el texto salte a la siguiente línea */
+    }
+
     .atractivos {
         padding: 50px 20px;
 
