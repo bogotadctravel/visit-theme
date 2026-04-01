@@ -169,7 +169,7 @@
                             <div class="mega-menu" aria-hidden="true">
                                 <div class="mega-menu__inner">
                                     <div class="mega-menu-grid">
-                                        {% for cat in categorias %}
+                                        {% for cat in categorias|shuffle %}
                                         <div class="mega-column">
                                             <a href="{{ cat.url }}" class="mega-title">{{ cat.name }}</a>
                                             <ul class="mega-links">
