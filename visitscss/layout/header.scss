@@ -204,7 +204,7 @@ header {
     /* ── Mega menu panel ── */
     .mega-menu {
       position: absolute;
-      top: 100%;
+      top: 70%;
       left: 0;
       width: 100%;
       background: #1a2b4a;
@@ -370,8 +370,11 @@ header {
   /* ── Top-bar: hide non-essential items on small screens ── */
   @media (max-width: 1024px) {
     .top-bar {
+
       .links,
-      .social { display: none; }
+      .social {
+        display: none;
+      }
 
       .container {
         justify-content: space-between;
@@ -389,6 +392,10 @@ header {
   }
 
   @media (max-width: 480px) {
-    .top-bar { display: none; } /* fully hide top bar on phones */
+    .top-bar {
+      display: none;
+    }
+
+    /* fully hide top bar on phones */
   }
 }
