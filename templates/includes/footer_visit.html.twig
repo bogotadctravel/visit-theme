@@ -57,7 +57,7 @@
                 </ul>
             </div>
 
-            <!-- Col 4 -->
+            {# <!-- Col 4 -->
             <div class="footer-col">
                 <h4>Planifica tu viaje</h4>
                 <ul>
@@ -65,20 +65,20 @@
                     <li><a href="{{ item.url }}">{{ item.title }}</a></li>
                     {% endfor %}
                 </ul>
-            </div>
+            </div> #}
         </div>
 
         <!-- Footer bottom -->
         <div class="footer-bottom">
             <p>
-                2025 © Todos los derechos reservados por el Instituto Distrital de Turismo
+                {{ 'now' | date('Y') }} © Todos los derechos reservados por el Instituto Distrital de Turismo
                 de Bogotá
             </p>
             <ul>
                 <li><a href="#">Políticas de privacidad</a></li>
                 <li><a href="#">Términos de uso</a></li>
-                <li><a href="#">Resolución 239 del 5 de noviembre del 2021</a></li>
-                <li><a href="#">Marca ciudad</a></li>
+                <li><a target="_blank" href="https://files.visitbogota.co/sites/default/files/2022-03/Res.%20239%205-11-2021%20Por%20la%20cual%20se%20reglmente%20el%20acceso%20a%20un%20banco%20de%20imagenes%20del%20IDT.pdf" title="Resolución 239 del 5 de noviembre de 2021" aria-label="Resolución 239 del 5 de noviembre de 2021">Resolución 239 del 5 de noviembre del 2021</a></li>
+                <li><a target="_blank" href="https://www.idt.gov.co/es/marca-ciudad">Marca ciudad</a></li>
             </ul>
         </div>
     </footer>
