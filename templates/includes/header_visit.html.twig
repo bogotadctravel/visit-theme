@@ -174,7 +174,11 @@
                                             <a href="{{ cat.url }}" class="mega-title">{{ cat.name }}</a>
                                             <ul class="mega-links">
                                                 {% for subcat in subcategorias %}
-                                                    {% if subcat.field_rel_cat.target_id == cat.tid %}
+                                                    {% set rel_tids = [] %}
+                                                    {% for rel in subcat.cat_rel %}
+                                                        {% set rel_tids = rel_tids|merge([rel.tid]) %}
+                                                    {% endfor %}
+                                                    {% if cat.tid in rel_tids %}
                                                     <li><a href="{{ subcat.url }}">{{ subcat.name }}</a></li>
                                                     {% endif %}
                                                 {% endfor %}
