@@ -401,7 +401,7 @@ header {
 }
 
 /* 1. Contenedor principal del bloque */
-#block-visit-theme-alternadordeidioma {
+#block-visit-theme-alternadordeidioma-2 {
   display: flex;
   align-items: center;
   margin: 0 15px;
@@ -409,7 +409,7 @@ header {
 }
 
 /* 2. La lista desordenada (quitamos las viñetas y la hacemos horizontal) */
-#block-visit-theme-alternadordeidioma ul.links {
+#block-visit-theme-alternadordeidioma-2 ul.links {
   display: flex;
   align-items: center;
   gap: 15px;
@@ -420,7 +420,7 @@ header {
 }
 
 /* 3. Estilos de los enlaces de idioma */
-#block-visit-theme-alternadordeidioma ul.links li a {
+#block-visit-theme-alternadordeidioma-2 ul.links li a {
   color: #ffffff;
   /* Color del texto. Cámbialo si tu fondo es claro */
   text-decoration: none;
@@ -432,12 +432,12 @@ header {
 }
 
 /* 4. Efecto hover al pasar el mouse */
-#block-visit-theme-alternadordeidioma ul.links li a:hover {
+#block-visit-theme-alternadordeidioma-2 ul.links li a:hover {
   opacity: 0.7;
 }
 
 /* 5. Resaltar el idioma que está activo actualmente */
-#block-visit-theme-alternadordeidioma ul.links li a.is-active {
+#block-visit-theme-alternadordeidioma-2 ul.links li a.is-active {
   font-weight: 700;
   border-bottom: 2px solid #ffffff;
   /* Subrayado elegante para el idioma actual */
