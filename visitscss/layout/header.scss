@@ -399,3 +399,59 @@ header {
     /* fully hide top bar on phones */
   }
 }
+
+/* 1. Contenedor principal del bloque */
+#block-visit-theme-alternadordeidioma {
+  display: flex;
+  align-items: center;
+  margin: 0 15px;
+  /* Ajusta este margen para separarlo del logo y el botón Stopover */
+}
+
+/* 2. La lista desordenada (quitamos las viñetas y la hacemos horizontal) */
+#block-visit-theme-alternadordeidioma ul.links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  /* Espacio entre cada idioma */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Estilos de los enlaces de idioma */
+#block-visit-theme-alternadordeidioma ul.links li a {
+  color: #ffffff;
+  /* Color del texto. Cámbialo si tu fondo es claro */
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  /* Muestra los nombres en MAYÚSCULA */
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* 4. Efecto hover al pasar el mouse */
+#block-visit-theme-alternadordeidioma ul.links li a:hover {
+  opacity: 0.7;
+}
+
+/* 5. Resaltar el idioma que está activo actualmente */
+#block-visit-theme-alternadordeidioma ul.links li a.is-active {
+  font-weight: 700;
+  border-bottom: 2px solid #ffffff;
+  /* Subrayado elegante para el idioma actual */
+  pointer-events: none;
+  /* Deshabilita el clic en el idioma en el que ya estamos */
+}
+
+.headerTheme>div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+}
+
+.top-nav {
+  z-index: 12;
+}
