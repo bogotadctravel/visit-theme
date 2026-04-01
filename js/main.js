@@ -5,33 +5,115 @@
   * SEARCH COMPONENT TOGGLE
   * ------------------------------ */
       once("idt-search-toggle", ".search-comp", context).forEach((searchComp) => {
-        // 1. Log para confirmar que encontramos el componente
-        console.log("✅ Componente search-comp encontrado:", searchComp);
-
-        const openBtn = document.querySelector("#openSearch");
+        const openBtn = searchComp.querySelector("#openSearch");
         const overlay = searchComp.querySelector(".overlay");
         const closeBtn = overlay ? overlay.querySelector(".close") : null;
+        const searchInput = searchComp.querySelector("#search-input");
+        const searchResults = searchComp.querySelector("#search-results");
 
-        // 2. Log para ver qué elementos encontramos dentro
-        console.log("🔍 Elementos del buscador:", { openBtn, overlay, closeBtn });
+        const closeSearch = () => {
+          if (!overlay) return;
+          overlay.classList.remove("active");
+          if (searchInput) searchInput.value = "";
+          if (searchResults) searchResults.innerHTML = "";
+        };
 
         if (openBtn && overlay) {
           openBtn.addEventListener("click", () => {
-            console.log("👉 Click en abrir buscador"); // Log al hacer click
             overlay.classList.toggle("active");
+            if (overlay.classList.contains("active") && searchInput) {
+              searchInput.focus();
+            }
           });
-        } else {
-          console.warn("⚠️ No se encontró el botón #openSearch o el .overlay");
         }
 
-        if (closeBtn && overlay) {
-          closeBtn.addEventListener("click", () => {
-            console.log("👉 Click en cerrar buscador"); // Log al hacer click
-            overlay.classList.toggle("active");
-          });
-        } else {
-          console.warn("⚠️ No se encontró el botón de cierre dentro del overlay");
+        if (closeBtn) {
+          closeBtn.addEventListener("click", closeSearch);
         }
+
+        // Close on Escape key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && overlay && overlay.classList.contains("active")) {
+            closeSearch();
+          }
+        });
+
+        // Close on background click
+        if (overlay) {
+          overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) closeSearch();
+          });
+        }
+
+        if (!searchInput || !searchResults) return;
+
+        let controller = new AbortController();
+
+        function getResultImage(result) {
+          return result.field_mainimg
+            || result.field_cover
+            || result.field_image
+            || result.field_imagen_proveedores
+            || result.field_imagen_mobile
+            || "";
+        }
+
+        async function performSearch(query) {
+          try {
+            if (query !== "") {
+              const lang = (drupalSettings && drupalSettings.path && drupalSettings.path.currentLanguage) || "es";
+              const signal = controller.signal;
+
+              const response = await fetch(
+                `/${lang}/api/search?query=${encodeURIComponent(query)}`,
+                { signal }
+              );
+
+              if (!response.ok) throw new Error("Error al realizar la consulta");
+
+              const data = await response.json();
+              searchResults.innerHTML = "";
+
+              if (data.length === 0) {
+                searchResults.innerHTML = `<li class="no-results">No se encontraron resultados</li>`;
+                return;
+              }
+
+              data.forEach((result) => {
+                const title = result.title || "";
+                const url   = result.view_node || "#";
+                const type  = result.type || "";
+                const img   = getResultImage(result);
+
+                searchResults.innerHTML += `
+                  <li title="${title}">
+                    <a href="${url}">
+                      ${img ? `<img src="${img}" alt="${title}">` : `<div class="no-img"></div>`}
+                      <div class="info">
+                        <p>${title}</p>
+                        <span>${type}</span>
+                      </div>
+                    </a>
+                  </li>`;
+              });
+            } else {
+              searchResults.innerHTML = "";
+            }
+          } catch (error) {
+            if (error.name !== "AbortError") {
+              console.error("Search error:", error.message);
+            }
+          }
+        }
+
+        searchInput.addEventListener("keyup", (event) => {
+          const query = event.target.value;
+
+          controller.abort();
+          controller = new AbortController();
+
+          performSearch(query);
+        });
       });
       // Usamos once para evitar múltiples inicializaciones
       once('init-aos', 'html', context).forEach(function () {
