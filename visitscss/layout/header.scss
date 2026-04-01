@@ -408,6 +408,12 @@ header {
   /* Ajusta este margen para separarlo del logo y el botón Stopover */
 }
 
+#block-visit-theme-alternadordeidioma-2 h2 {
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #FFF;
+}
+
 /* 2. La lista desordenada (quitamos las viñetas y la hacemos horizontal) */
 #block-visit-theme-alternadordeidioma-2 ul.links {
   display: flex;
@@ -443,6 +449,12 @@ header {
   /* Subrayado elegante para el idioma actual */
   pointer-events: none;
   /* Deshabilita el clic en el idioma en el que ya estamos */
+}
+
+.headerVisit .language-link {
+  width: 100%;
+  color: #000;
+
 }
 
 .headerVisit>div {
