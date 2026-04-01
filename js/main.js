@@ -1,6 +1,38 @@
 (function (Drupal, once) {
   Drupal.behaviors.idtTheme = {
     attach: function (context) {
+      /* ------------------------------
+  * SEARCH COMPONENT TOGGLE
+  * ------------------------------ */
+      once("idt-search-toggle", ".search-comp", context).forEach((searchComp) => {
+        // 1. Log para confirmar que encontramos el componente
+        console.log("✅ Componente search-comp encontrado:", searchComp);
+
+        const openBtn = document.querySelector("#openSearch");
+        const overlay = searchComp.querySelector(".overlay");
+        const closeBtn = overlay ? overlay.querySelector(".close") : null;
+
+        // 2. Log para ver qué elementos encontramos dentro
+        console.log("🔍 Elementos del buscador:", { openBtn, overlay, closeBtn });
+
+        if (openBtn && overlay) {
+          openBtn.addEventListener("click", () => {
+            console.log("👉 Click en abrir buscador"); // Log al hacer click
+            overlay.classList.toggle("active");
+          });
+        } else {
+          console.warn("⚠️ No se encontró el botón #openSearch o el .overlay");
+        }
+
+        if (closeBtn && overlay) {
+          closeBtn.addEventListener("click", () => {
+            console.log("👉 Click en cerrar buscador"); // Log al hacer click
+            overlay.classList.toggle("active");
+          });
+        } else {
+          console.warn("⚠️ No se encontró el botón de cierre dentro del overlay");
+        }
+      });
       // Usamos once para evitar múltiples inicializaciones
       once('init-aos', 'html', context).forEach(function () {
 
@@ -108,7 +140,6 @@
         });
         applyFilters();
       });
-
       once('fancybox', 'html', context).forEach(() => {
         if (window.Fancybox && typeof window.Fancybox.bind === 'function') {
           window.Fancybox.bind("[data-fancybox]", {
@@ -125,16 +156,7 @@
       });
 
       const qs = (selector, scope = context) => scope.querySelector(selector);
-      if (document.querySelector("search-comp")) {
-        document.querySelector("#openSearch").addEventListener("click", () => {
-          document.querySelector(".search-comp .overlay").classList.toggle("active");
-        });
-        document
-          .querySelector(".search-comp .overlay .close")
-          .addEventListener("click", () => {
-            document.querySelector(".search-comp .overlay").classList.toggle("active");
-          });
-      }
+
 
       /* ------------------------------
        * TOP NAV
