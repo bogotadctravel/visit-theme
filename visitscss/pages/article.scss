@@ -1,6 +1,12 @@
 .article {
     .container {
         padding: 50px;
+
+        .banner {
+            img {
+                width: 100%;
+            }
+        }
     }
 
     h1 {
