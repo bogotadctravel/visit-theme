@@ -1,7 +1,6 @@
 <div class="product">
     <div class="banner" style="background-image: url({{file_url(term.field_imagen_principal.entity.fileuri)}});">
         <div class="container">
-
             <div class="text">
                 <h2>Visit Bogotá</h2>
                 <h1>{{ term.name.value }}</h1>
@@ -9,6 +8,46 @@
             </div>
         </div>
     </div>
+
+    {# --- INICIO FILTRO DE SUBCATEGORÍAS --- #}
+    {% set subcategorias = taxonomy('subcategorias_turisticas') %}
+    {% set related_subcats = [] %}
+
+    {% for subcat in subcategorias %}
+        {% set rel_tids = [] %}
+        {% for rel in subcat.cat_rel %}
+            {% set rel_tids = rel_tids|merge([rel.tid]) %}
+        {% endfor %}
+        
+        {# Se compara el TID de la categoría principal actual con las categorías relacionadas de la subcategoría #}
+        {% if term.id() in rel_tids or term.tid.value in rel_tids %}
+            {% set related_subcats = related_subcats|merge([subcat]) %}
+        {% endif %}
+    {% endfor %}
+
+    {% if related_subcats is not empty %}
+    <div class="subcategories-pills-wrapper container" data-aos="fade-up">
+        <ul class="pills-scroll-container">
+            {% for subcat in related_subcats %}
+            <li class="pill-item">
+                <a href="{{ subcat.url }}" class="pill-link">
+                    <div class="pill-img">
+                        {# NOTA: Cambia 'field_imagen' por el nombre máquina real del campo de imagen en tu taxonomía de subcategorías #}
+                        {% if subcat.field_imagen %}
+                            <img src="{{ file_url(subcat.field_imagen.entity.fileuri) }}" alt="{{ subcat.name }}">
+                        {% else %}
+                            <div class="img-placeholder"></div>
+                        {% endif %}
+                    </div>
+                    <span class="pill-name">{{ subcat.name }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {# --- FIN FILTRO DE SUBCATEGORÍAS --- #}
+
     {% if atractivos is not empty %}
     <ul class="grid-atractivos container">
         {% for item in atractivos|shuffle %}
@@ -66,6 +105,7 @@
         </section>
     </div>
     {% endif %}
+    
     {% if rutas is not empty %}
     <div class="rutas">
         <div class="container">
@@ -88,7 +128,6 @@
             </ul>
         </div>
     </div>
-
     {% endif %}
 
 
@@ -111,8 +150,8 @@
         </ul>
     </div>
     {% endif %}
+    
     {% if experiencias is not empty %}
-
     <div class="rutas">
         <div class="container">
             <h3>Experiencias relacionadas</h3>
