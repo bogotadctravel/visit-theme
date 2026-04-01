@@ -1,8 +1,11 @@
   <div class="article">
-    <div class="banner" style="background-image: url({{file_url(node.field_cover.entity.fileuri)}});">
+  <div class="container">
         <h1>{{ node.getTitle() }}</h1>
+    <div class="banner">
+    <img src="{{ file_url(node.field_mainimg.entity.fileuri) }}" alt="{{ node.label }}">
     </div>
       <div class="content">
           {{ content.body }}
       </div>
+  </div>
   </div>
