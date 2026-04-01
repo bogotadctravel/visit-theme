@@ -866,6 +866,94 @@
       function updateCarousel() {
         track.style.transform = "translateX(-" + (index * 100) + "%)";
       }
+
+      /* ------------------------------
+       * MEGA MENU
+       * ------------------------------ */
+      once("mega-menu", ".main-nav", context).forEach((nav) => {
+        const items = [...nav.querySelectorAll(".nav-item.has-mega")];
+        const toggle = nav.querySelector(".nav-toggle");
+        const list = nav.querySelector(".nav-list");
+        let activeItem = null;
+
+        const isMobile = () => window.innerWidth < 1025;
+
+        const closeItem = (item) => {
+          if (!item) return;
+          const panel = item.querySelector(".mega-menu");
+          if (panel) {
+            panel.classList.remove("is-open");
+            panel.setAttribute("aria-hidden", "true");
+          }
+          item.classList.remove("is-active");
+          const link = item.querySelector(".nav-link");
+          if (link) link.setAttribute("aria-expanded", "false");
+        };
+
+        const closeAll = () => {
+          closeItem(activeItem);
+          activeItem = null;
+        };
+
+        const openItem = (item) => {
+          if (activeItem && activeItem !== item) closeItem(activeItem);
+          const panel = item.querySelector(".mega-menu");
+          if (!panel) return;
+          panel.classList.add("is-open");
+          panel.setAttribute("aria-hidden", "false");
+          item.classList.add("is-active");
+          const link = item.querySelector(".nav-link");
+          if (link) link.setAttribute("aria-expanded", "true");
+          activeItem = item;
+        };
+
+        items.forEach((item) => {
+          // Desktop: hover
+          item.addEventListener("mouseenter", () => {
+            if (!isMobile()) openItem(item);
+          });
+          item.addEventListener("mouseleave", () => {
+            if (!isMobile()) closeAll();
+          });
+
+          // Mobile: tap top-level link to accordion-toggle
+          const link = item.querySelector(".nav-link");
+          if (link) {
+            link.addEventListener("click", (e) => {
+              if (!isMobile()) return;
+              e.preventDefault();
+              activeItem === item ? closeAll() : openItem(item);
+            });
+          }
+        });
+
+        // Close on outside click
+        document.addEventListener("click", (e) => {
+          if (!nav.contains(e.target)) closeAll();
+        });
+
+        // Escape closes panel and/or mobile nav
+        document.addEventListener("keydown", (e) => {
+          if (e.key !== "Escape") return;
+          closeAll();
+          if (list && list.classList.contains("is-open")) {
+            list.classList.remove("is-open");
+            if (toggle) toggle.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        // Mobile hamburger toggle
+        if (toggle && list) {
+          toggle.addEventListener("click", () => {
+            const isOpen = toggle.getAttribute("aria-expanded") === "true";
+            toggle.setAttribute("aria-expanded", String(!isOpen));
+            toggle.setAttribute("aria-label", !isOpen ? "Cerrar menú" : "Abrir menú");
+            list.classList.toggle("is-open", !isOpen);
+            if (isOpen) closeAll();
+          });
+        }
+      });
+
     }, // end attach
   };
 })(Drupal, once);

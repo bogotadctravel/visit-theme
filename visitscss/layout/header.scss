@@ -92,10 +92,11 @@ header {
   ===================== */
   .bottom-bar {
     background-color: #e6e6e6;
+    position: relative;
 
     .container {
       height: 80px;
-      
+
     align-items: center;
     justify-content: space-between;
     }
@@ -107,70 +108,244 @@ header {
       }
     }
 
-    nav {
-      ul {
+    /* ── Main nav (desktop) ── */
+    nav.main-nav {
+      display: flex;
+      align-items: center;
+
+      .nav-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 36px;
+        height: 36px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        flex-shrink: 0;
+
+        span {
+          display: block;
+          width: 100%;
+          height: 2px;
+          background: #1a1a1a;
+          border-radius: 2px;
+          transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        &[aria-expanded="true"] {
+          span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+          span:nth-child(2) { opacity: 0; }
+          span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        }
+      }
+
+      .nav-list {
         list-style: none;
         display: flex;
+        align-items: center;
         gap: 28px;
         margin: 0;
         padding: 0;
+      }
 
-        li {
-          position: relative;
+      .nav-item {
+        position: relative;
 
-          > a {
-            color: #1a1a1a;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 8px 0;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        &.has-mega {
+          position: static; /* mega-menu positions relative to .bottom-bar */
+        }
 
-            &:hover {
-              color: #35498e;
-            }
+        &.is-active > .nav-link {
+          color: #35498e;
+
+          .nav-link__arrow {
+            transform: rotate(180deg);
           }
+        }
+      }
 
-          /* Flecha dropdown */
-          &:has(ul) > a::after {
-            content: "";
-            background-image: url(../img/arrowdrop.png);
-            background-size: contain;
-            background-repeat: no-repeat;
-            width: 12px;
-            height: 6px;
+      .nav-link {
+        color: #1a1a1a;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 0;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        transition: color 0.2s;
+
+        &:hover {
+          color: #35498e;
+        }
+
+        .nav-link__arrow {
+          transition: transform 0.25s ease;
+          flex-shrink: 0;
+        }
+      }
+    }
+
+    /* ── Mega menu panel ── */
+    .mega-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #1a2b4a;
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+
+      &.is-open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      &__inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 40px 24px 48px;
+      }
+    }
+
+    .mega-menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px 40px;
+    }
+
+    .mega-column {
+      min-width: 0;
+    }
+
+    .mega-title {
+      color: #FAC533;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: block;
+      margin-bottom: 14px;
+      text-decoration: none;
+      cursor: default;
+
+      &:is(a) {
+        cursor: pointer;
+        &:hover { color: #ffd966; }
+      }
+    }
+
+    .mega-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li + li {
+        margin-top: 2px;
+      }
+
+      a {
+        color: rgba(255, 255, 255, 0.75);
+        text-decoration: none;
+        font-size: 14px;
+        display: block;
+        padding: 5px 0;
+        line-height: 1.4;
+        transition: color 0.15s ease;
+
+        &:hover {
+          color: #fff;
+        }
+
+        &.mega-link--featured {
+          color: #fff;
+          font-weight: 600;
+          font-size: 15px;
+        }
+      }
+    }
+
+    /* ── Responsive: tablet / mobile ── */
+    @media (max-width: 1024px) {
+      nav.main-nav {
+        .nav-toggle {
+          display: flex;
+        }
+
+        .nav-list {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: #fff;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0;
+          overflow-y: auto;
+          padding: 72px 0 40px;
+          z-index: 300;
+
+          &.is-open {
+            display: flex;
           }
+        }
 
-          /* Dropdown */
-          ul {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: #fff;
-            min-width: 220px;
-            display: none;
-            padding: 12px 0;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            z-index: 100;
+        .nav-item.has-mega {
+          position: relative; /* restore for accordion */
+        }
 
-            li {
-              a {
-                padding: 10px 20px;
-                display: block;
-                color: #333;
+        .nav-link {
+          padding: 16px 24px;
+          border-bottom: 1px solid #f0f0f0;
+          width: 100%;
+          box-sizing: border-box;
+          justify-content: space-between;
+        }
+      }
 
-                &:hover {
-                  background: #f5f5f5;
-                  color: #35498e;
-                }
-              }
-            }
-          }
+      .mega-menu {
+        position: static;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+        background: #f4f6fb;
+        box-shadow: none;
+        display: none;
 
-          &:hover ul {
-            display: block;
-          }
+        &.is-open {
+          display: block;
+        }
+
+        &__inner {
+          padding: 16px 24px 24px;
+        }
+      }
+
+      .mega-menu-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .mega-title {
+        color: #35498e;
+      }
+
+      .mega-links a {
+        color: #444;
+
+        &:hover {
+          color: #35498e;
+        }
+
+        &.mega-link--featured {
+          color: #1a1a1a;
         }
       }
     }

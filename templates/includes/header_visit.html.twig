@@ -148,30 +148,75 @@
                         </g>
                     </svg>
                 </a>
-                <nav>
-                    <ul>
-                        <li>
-                            <a href="/pagina-que-hacer">Qué hacer</a>
-                            {% if taxonomy('categorias_turisticas') is not empty %}
-                            <ul>
-                            {% for item in taxonomy('categorias_turisticas') %}
-                            <li><a href="{{ item.url }}">{{ item.name }}</a></li>
-                            {% endfor %}
-                            </ul>
-                            {% endif %}  
+                <nav class="main-nav">
+                    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <ul class="nav-list">
+
+                        {# ── Qué hacer (taxonomy) ── #}
+                        {% set has_tax = taxonomy('categorias_turisticas') is not empty %}
+                        <li class="nav-item{% if has_tax %} has-mega{% endif %}">
+                            <a href="/pagina-que-hacer" class="nav-link">
+                                Qué hacer
+                                {% if has_tax %}
+                                <svg class="nav-link__arrow" width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                {% endif %}
+                            </a>
+                            {% if has_tax %}
+                            <div class="mega-menu" aria-hidden="true">
+                                <div class="mega-menu__inner">
+                                    <div class="mega-menu-grid">
+                                        <div class="mega-column">
+                                            <span class="mega-title">Categorías turísticas</span>
+                                            <ul class="mega-links">
+                                                {% for tax_item in taxonomy('categorias_turisticas') %}
+                                                <li><a href="{{ tax_item.url }}">{{ tax_item.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
                         </li>
-                         {% for item in menu_principal_visitbogota['#items'] %}
-                        <li class="{{ item.attributes.class|join(' ') }}">
-                            <a href="{{ item.url }}">{{ item.title }}</a>
+
+                        {# ── Dynamic menu items ── #}
+                        {% for item in menu_principal_visitbogota['#items'] %}
+                        <li class="nav-item {{ item.attributes.class|join(' ') }}{% if item.below %} has-mega{% endif %}">
+                            <a href="{{ item.url }}" class="nav-link"{% if item.below %} aria-expanded="false"{% endif %}>
+                                {{ item.title }}
+                                {% if item.below %}
+                                <svg class="nav-link__arrow" width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                {% endif %}
+                            </a>
                             {% if item.below %}
-                            <ul>
-                                {% for subitem in item.below %}
-                                <li><a href="{{ subitem.url }}">{{ subitem.title }}</a></li>
-                                {% endfor %}
-                            </ul>
+                            <div class="mega-menu" aria-hidden="true">
+                                <div class="mega-menu__inner">
+                                    <div class="mega-menu-grid">
+                                        {% for subitem in item.below %}
+                                        <div class="mega-column">
+                                            {% if subitem.below %}
+                                                <a href="{{ subitem.url }}" class="mega-title">{{ subitem.title }}</a>
+                                                <ul class="mega-links">
+                                                    {% for nested in subitem.below %}
+                                                    <li><a href="{{ nested.url }}">{{ nested.title }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            {% else %}
+                                                <ul class="mega-links">
+                                                    <li><a href="{{ subitem.url }}" class="mega-link--featured">{{ subitem.title }}</a></li>
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
                             {% endif %}
                         </li>
                         {% endfor %}
+
                     </ul>
                 </nav>
             </div>
