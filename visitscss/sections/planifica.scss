@@ -115,6 +115,13 @@
          }
      }
 
+     @media (max-width: 767px) {
+         margin-top: -40px; /* reduce negative overlap on small screens */
+         padding: 24px 16px;
+
+         form { grid-template-columns: 1fr; }
+     }
+
      /* Layout de inputs (desktop) */
      @media (min-width: 768px) {
          form {

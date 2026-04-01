@@ -294,3 +294,81 @@ font-size: 16px;
         margin: 80px auto;
     }
 }
+
+/* ── Atractivo responsive ── */
+@media (max-width: 1024px) {
+    .atractivo {
+        .banner {
+            background-attachment: scroll; /* iOS parallax fix */
+
+            .text {
+                left: 20px;
+                transform: none;
+                width: calc(100% - 40px);
+
+                h1 { font-size: 32px; line-height: 36px; }
+            }
+        }
+
+        .flex {
+            flex-direction: column;
+            padding: 60px 20px;
+            gap: 40px;
+
+            .galeria,
+            .info { width: 100%; }
+        }
+
+        .galeria {
+            position: static;
+        }
+
+        .video {
+            width: calc(100% - 40px);
+            height: auto;
+            aspect-ratio: 16 / 9;
+            margin: 0 auto -100px;
+        }
+
+        .lugares ul {
+            grid-template-columns: repeat(2, 1fr);
+            padding: 0 20px;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .atractivo {
+        .banner .text {
+            h1 { font-size: 24px; line-height: 28px; }
+
+            .comollegar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+
+        .galeria .parent {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+        }
+
+        .galeria .div2,
+        .galeria .div3,
+        .galeria .div4,
+        .galeria .div5,
+        .galeria .div6 {
+            grid-row: auto;
+            grid-column: auto;
+        }
+
+        .video {
+            margin-bottom: -40px;
+        }
+
+        .lugares ul {
+            grid-template-columns: 1fr;
+        }
+    }
+}

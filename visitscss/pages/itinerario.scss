@@ -355,3 +355,54 @@
 
     }
 }
+
+/* ── Itinerario responsive ── */
+@media (max-width: 1024px) {
+    .itinerario {
+        .banner {
+            background-attachment: scroll;
+
+            .text {
+                width: calc(100% - 40px);
+                h1 { font-size: 32px; line-height: 36px; }
+            }
+        }
+
+        .grid-atractivos {
+            grid-template-columns: repeat(2, 1fr);
+            padding: 60px 20px;
+        }
+
+        .rutas {
+            .container {
+                flex-direction: column;
+                padding: 60px 20px;
+            }
+
+            h3 { text-align: center; }
+
+            ul {
+                width: 100%;
+                padding: 40px 0 0;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .itinerario {
+        .banner .text {
+            h1 { font-size: 24px; line-height: 28px; }
+
+            .data {
+                flex-wrap: wrap;
+                .item { min-width: 80px; }
+            }
+        }
+
+        .grid-atractivos { grid-template-columns: 1fr; }
+
+        .rutas ul { grid-template-columns: 1fr; }
+    }
+}

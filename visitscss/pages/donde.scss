@@ -3,6 +3,10 @@
         display: grid;
         grid-template-columns: 328px auto;
         gap: 21px;
+
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr;
+        }
     }
 
     .left {

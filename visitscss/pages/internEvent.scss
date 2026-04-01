@@ -234,3 +234,58 @@
          }
      }
  }
+
+/* ── internEvent responsive ── */
+@media (max-width: 1024px) {
+    .intern_event {
+        .info {
+            flex-direction: column;
+            padding: 20px;
+
+            .image,
+            .text { width: 100%; }
+
+            .image img {
+                position: static;
+                height: 280px;
+            }
+
+            .text h1 { font-size: 32px; line-height: 38px; }
+
+            .text .date strong { font-size: 60px; line-height: 1; }
+        }
+
+        .lugares {
+            padding: 80px 20px 60px;
+
+            ul { grid-template-columns: repeat(2, 1fr); }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .intern_event {
+        .info {
+            .text h1 { font-size: 24px; line-height: 28px; }
+
+            .text .date {
+                flex-wrap: wrap;
+                gap: 12px;
+
+                strong { font-size: 40px; }
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+
+                .btn { min-width: unset; width: 100%; }
+            }
+
+            ul { flex-direction: column; gap: 12px; }
+        }
+
+        .lugares ul { grid-template-columns: 1fr; }
+    }
+}

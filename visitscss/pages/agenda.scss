@@ -267,3 +267,36 @@
         }
     }
 }
+
+/* ── Agenda responsive ── */
+@media (max-width: 1024px) {
+    .agenda {
+        .banner {
+            background-attachment: scroll;
+
+            .text {
+                width: calc(100% - 40px);
+                h1 { font-size: 28px; }
+            }
+        }
+
+        .grid-atractivos {
+            grid-template-columns: repeat(2, 1fr);
+            padding: 0 20px 80px;
+            margin: 0 auto;
+        }
+
+        form {
+            flex-direction: column;
+            margin: 24px 20px;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .agenda {
+        .banner .text h1 { font-size: 22px; }
+
+        .grid-atractivos { grid-template-columns: 1fr; }
+    }
+}

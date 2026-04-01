@@ -87,6 +87,11 @@
         /* Pequeño salto al hacer hover */
     }
 
+    /* --- iOS parallax fix --- */
+    @media (max-width: 1024px) {
+        .banner { background-attachment: scroll; }
+    }
+
     /* --- RESPONSIVE: TABLETS Y MÓVILES GRANDES --- */
     @media (max-width: 768px) {
         .banner-main-cta {

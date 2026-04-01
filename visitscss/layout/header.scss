@@ -21,7 +21,8 @@ header {
       align-items: center;
       justify-content: flex-end;
       gap: 30px;
-      .links{
+
+      .links {
         display: flex;
         align-items: center;
         gap: 30px;
@@ -31,8 +32,9 @@ header {
     a {
       color: #fff;
       text-decoration: underline;
-          display: flex;
-      &:hover{
+      display: flex;
+
+      &:hover {
         opacity: 0.8;
       }
     }
@@ -56,8 +58,9 @@ header {
           cursor: pointer;
           color: #fff;
           position: relative;
-    display: flex;
-    align-items: center;
+          display: flex;
+          align-items: center;
+
           ul {
             position: absolute;
             top: 100%;
@@ -97,8 +100,8 @@ header {
     .container {
       height: 80px;
 
-    align-items: center;
-    justify-content: space-between;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .logo {
@@ -136,9 +139,17 @@ header {
         }
 
         &[aria-expanded="true"] {
-          span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-          span:nth-child(2) { opacity: 0; }
-          span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+          span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+          }
+
+          span:nth-child(2) {
+            opacity: 0;
+          }
+
+          span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+          }
         }
       }
 
@@ -155,10 +166,11 @@ header {
         position: relative;
 
         &.has-mega {
-          position: static; /* mega-menu positions relative to .bottom-bar */
+          position: static;
+          /* mega-menu positions relative to .bottom-bar */
         }
 
-        &.is-active > .nav-link {
+        &.is-active>.nav-link {
           color: #35498e;
 
           .nav-link__arrow {
@@ -239,7 +251,10 @@ header {
 
       &:is(a) {
         cursor: pointer;
-        &:hover { color: #ffd966; }
+
+        &:hover {
+          color: #ffd966;
+        }
       }
     }
 
@@ -248,7 +263,7 @@ header {
       padding: 0;
       margin: 0;
 
-      li + li {
+      li+li {
         margin-top: 2px;
       }
 
@@ -298,7 +313,8 @@ header {
         }
 
         .nav-item.has-mega {
-          position: relative; /* restore for accordion */
+          position: relative;
+          /* restore for accordion */
         }
 
         .nav-link {
@@ -349,5 +365,30 @@ header {
         }
       }
     }
+  }
+
+  /* ── Top-bar: hide non-essential items on small screens ── */
+  @media (max-width: 1024px) {
+    .top-bar {
+      .links,
+      .social { display: none; }
+
+      .container {
+        justify-content: space-between;
+        padding: 0 16px;
+      }
+    }
+
+    .bottom-bar .container {
+      padding: 0 16px;
+
+      .logo svg {
+        max-height: 44px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .top-bar { display: none; } /* fully hide top bar on phones */
   }
 }
