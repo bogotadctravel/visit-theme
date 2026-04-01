@@ -154,10 +154,12 @@
                     </button>
                     <ul class="nav-list">
 
-                        {# ── Qué hacer (taxonomy) ── #}
-                        {% set has_tax = taxonomy('categorias_turisticas') is not empty %}
+                        {# ── Qué hacer (taxonomy: categorias + subcategorias) ── #}
+                        {% set categorias   = taxonomy('categorias_turisticas') %}
+                        {% set subcategorias = taxonomy('subcategorias_turisticas') %}
+                        {% set has_tax = categorias is not empty %}
                         <li class="nav-item{% if has_tax %} has-mega{% endif %}">
-                            <a href="/pagina-que-hacer" class="nav-link">
+                            <a href="/pagina-que-hacer" class="nav-link"{% if has_tax %} aria-expanded="false"{% endif %}>
                                 Qué hacer
                                 {% if has_tax %}
                                 <svg class="nav-link__arrow" width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -167,14 +169,18 @@
                             <div class="mega-menu" aria-hidden="true">
                                 <div class="mega-menu__inner">
                                     <div class="mega-menu-grid">
+                                        {% for cat in categorias %}
                                         <div class="mega-column">
-                                            <span class="mega-title">Categorías turísticas</span>
+                                            <a href="{{ cat.url }}" class="mega-title">{{ cat.name }}</a>
                                             <ul class="mega-links">
-                                                {% for tax_item in taxonomy('categorias_turisticas') %}
-                                                <li><a href="{{ tax_item.url }}">{{ tax_item.name }}</a></li>
+                                                {% for subcat in subcategorias %}
+                                                    {% if subcat.field_rel_cat.target_id == cat.tid %}
+                                                    <li><a href="{{ subcat.url }}">{{ subcat.name }}</a></li>
+                                                    {% endif %}
                                                 {% endfor %}
                                             </ul>
                                         </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
