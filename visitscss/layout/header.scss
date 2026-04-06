@@ -230,18 +230,22 @@ header {
       &__inner {
         max-width: 1280px;
         margin: 0 auto;
-        padding: 40px 24px 48px;
+        padding: 28px 24px 32px;
       }
     }
 
     .mega-menu-grid {
+      column-count: 4;
+      column-gap: 40px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px 40px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px 32px;
     }
 
     .mega-column {
       min-width: 0;
+      break-inside: avoid;
+      margin-bottom: 24px;
     }
 
     .mega-title {
@@ -270,7 +274,7 @@ header {
       margin: 0;
 
       li+li {
-        margin-top: 2px;
+        margin-top: 0;
       }
 
       a {
@@ -278,8 +282,8 @@ header {
         text-decoration: none;
         font-size: 14px;
         display: block;
-        padding: 5px 0;
-        line-height: 1.4;
+        padding: 3px 0;
+        line-height: 1.3;
         transition: color 0.15s ease;
 
         &:hover {
