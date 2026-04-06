@@ -1,6 +1,6 @@
  <header>
         <div class="top-bar">
-            <div class="container">
+            <div class="container" style="margin: 0 auto;padding: 0 24px;display: flex;align-items: center;max-width:100%;">
                 <div class="links">
                      {% for item in menu_topbar_visit['#items'] %}
                             <a href="{{ item.url }}" target="blank" aria-label="{{ item.title }}">{{ item.title }}</a>
@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="bottom-bar">
-            <div class="container">
+            <div  style="margin: 0 auto;padding: 0 24px;display: flex;     height: 80px;align-items: center;justify-content: space-between;">
                 <a href="/node/548" class="logo">
                     <svg width="224" height="112" viewBox="0 0 147 75" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="Group 3">
@@ -89,30 +89,68 @@
                                 <svg class="nav-link__arrow" width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 {% endif %}
                             </a>
-                            {% if has_tax %}
-                            <div class="mega-menu" aria-hidden="true">
-                                <div class="mega-menu__inner">
-                                    <div class="mega-menu-grid">
-                                        {% for cat in categorias|shuffle %}
-                                        <div class="mega-column">
-                                            <a href="{{ cat.url }}" class="mega-title">{{ cat.name }}</a>
-                                            <ul class="mega-links">
-                                                {% for subcat in subcategorias %}
-                                                    {% set rel_tids = [] %}
-                                                    {% for rel in subcat.cat_rel %}
-                                                        {% set rel_tids = rel_tids|merge([rel.tid]) %}
-                                                    {% endfor %}
-                                                    {% if cat.tid in rel_tids %}
-                                                    <li><a href="{{ subcat.url }}">{{ subcat.name }}</a></li>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                            {% endif %}
+                           {% if has_tax %}
+
+{% set cats_with_children = [] %}
+{% set cats_without_children = [] %}
+
+{# Clasificar categorías #}
+{% for cat in categorias %}
+    {% set has_children = false %}
+
+    {% for subcat in subcategorias %}
+        {% set rel_tids = [] %}
+        {% for rel in subcat.cat_rel %}
+            {% set rel_tids = rel_tids|merge([rel.tid]) %}
+        {% endfor %}
+
+        {% if cat.tid in rel_tids %}
+            {% set has_children = true %}
+        {% endif %}
+    {% endfor %}
+
+    {% if has_children %}
+        {% set cats_with_children = cats_with_children|merge([cat]) %}
+    {% else %}
+        {% set cats_without_children = cats_without_children|merge([cat]) %}
+    {% endif %}
+{% endfor %}
+
+<div class="mega-menu" aria-hidden="true">
+    <div class="mega-menu__inner">
+        <div class="mega-menu-grid">
+
+            {# Primero categorías con subcategorías #}
+            {% for cat in cats_with_children %}
+            <div class="mega-column">
+                <a href="{{ cat.url }}" class="mega-title">{{ cat.name }}</a>
+                <ul class="mega-links">
+                    {% for subcat in subcategorias %}
+                        {% set rel_tids = [] %}
+                        {% for rel in subcat.cat_rel %}
+                            {% set rel_tids = rel_tids|merge([rel.tid]) %}
+                        {% endfor %}
+
+                        {% if cat.tid in rel_tids %}
+                        <li><a href="{{ subcat.url }}">{{ subcat.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+
+            {# Luego categorías sin subcategorías #}
+            {% for cat in cats_without_children %}
+            <div class="mega-column">
+                <a href="{{ cat.url }}" class="mega-title">{{ cat.name }}</a>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endif %}
                         </li>
 
                         {# ── Dynamic menu items ── #}
