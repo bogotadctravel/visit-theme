@@ -165,7 +165,9 @@
                 {# Verificamos si la variable existe para no imprimir "km" vacíos #}
 
                     <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
-                        <img src="{{item.image }}" alt="atra">
+                        <div class="image">
+                            <img src="{{item.image }}" alt="atra">
+                        </div>
                         <div class="title">{{item.title}}</div>
                     </a>
                 </li>
