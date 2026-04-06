@@ -169,25 +169,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function(){
 
     const { jsPDF } = window.jspdf;
 
-    document.getElementById('generarPdf').addEventListener('click', async function(){
+    const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
+
+    if(!form) return;
+
+    form.addEventListener('submit', function(){
 
         let lista = [];
 
-        document.querySelectorAll('.grid-atractivos .title').forEach(item => {
+        document.querySelectorAll('.grid-atractivos .title').forEach(item=>{
             lista.push(item.innerText.trim());
         });
 
-        document.querySelectorAll('.eventos .title').forEach(item => {
+        document.querySelectorAll('.eventos .title').forEach(item=>{
             lista.push(item.innerText.trim());
         });
 
         const fechaSalida = document.querySelector('#fecha_salida')?.value || "";
         const fechaRetorno = document.querySelector('#fecha_retorno')?.value || "";
 
+        let campoMensaje = form.querySelector('textarea[name^="message"]');
+
+        if(campoMensaje){
+            campoMensaje.value =
+            "Hola, aquí está el itinerario planificado:\n\n" +
+            lista.join('\n');
+        }
+
+        // GENERAR PDF
         const pdf = new jsPDF();
 
         let y = 20;
@@ -195,13 +208,12 @@ document.addEventListener('DOMContentLoaded', function() {
         pdf.setFontSize(22);
         pdf.text("Itinerario Bogotá", 20, y);
 
-        y += 10;
+        y += 12;
 
         pdf.setFontSize(12);
         pdf.text("Fecha salida: " + fechaSalida, 20, y);
 
         y += 8;
-
         pdf.text("Fecha retorno: " + fechaRetorno, 20, y);
 
         y += 15;
@@ -226,36 +238,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         pdf.save("itinerario-bogota.pdf");
-
-    });
-
-});document.addEventListener('DOMContentLoaded', function(){
-
-    const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
-
-    if(!form) return;
-
-    form.addEventListener('submit', function(){
-
-        let lista = [];
-
-        document.querySelectorAll('.grid-atractivos .title').forEach(item=>{
-            lista.push("- " + item.innerText.trim());
-        });
-
-        document.querySelectorAll('.eventos .title').forEach(item=>{
-            lista.push("- " + item.innerText.trim());
-        });
-
-        let campoMensaje = form.querySelector('textarea[name^="message"]');
-
-        if(campoMensaje){
-
-            campoMensaje.value =
-            "Hola, aquí está el itinerario planificado:\n\n" +
-            lista.join('\n');
-
-        }
 
     });
 
