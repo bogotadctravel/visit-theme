@@ -2,19 +2,22 @@
     <main>
         <div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
             <video id="videoBase" src="/{{ directory }}/video/video.mp4" loop muted autoplay></video>
-
-            <video id="videoCampaign" src="/{{ directory }}/video/videocamp.mp4" muted></video>
-<div class="banner-main-cta">
+            {% if node.fields.field_video_campana.0.value is not empty %}
+            <video id="videoCampaign" src="{{node.fields.field_video_campana.0.value}}" muted></video>
+            {% endif %}
+            <div class="banner-main-cta">
                 <a href="{{node.fields.field_link_cta_banner.0.value}}" class="btn-primary-cta">
                    {{node.fields.field_texto_cta_banner.0.value}}
                 </a>
             </div>
+            {% if node.fields.field_video_campana.0.value is not empty %}
             <button type="button" id="playcampaign">
                 <div class="campaign" id="campaign">
                     <img src="/{{ directory }}/images/visitbogota/playcampaign.png" alt="play" class="play">
-                    <img src="/{{ directory }}/images/visitbogota/campaign.png" alt="campaign" id="campaignImage">
+                    <img src="{{node.fields.field_imagen_campana.0.value}}" alt="campaign" id="campaignImage">
                 </div>
             </button>
+            {% endif %}
         </div>
         {% include "@visit_theme/includes/planifica.html.twig" %}
         <div class="que-hacer">
@@ -52,12 +55,11 @@
             <section class="splide" aria-label="Splide Basic HTML Example">
                 <div class="splide__track">
                     <ul class="splide__list grid-events ">
-
                         {% for item in eventosVisit |shuffle %}
-
                         <li class="splide__slide">
-                            <a href="{{item.url}}" style="background-image: url({{item.image}});">
-
+                            <a href="{{item.url}}">
+                            <img src="{{item.image}}" alt="{{item.title}}" class="event-image">
+                            <div class="event-info">
                                 <span class="title"> {{item.title}}</span>
                                 <div class="date"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +68,7 @@
                                             stroke="white" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                    OCT 9 - 13
+                                     {{ node.field_fecha.value|date("M d") }}
                                 </div>
                                 <div class="place"><svg width="298" height="16" viewBox="0 0 298 16" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -82,6 +84,8 @@
                                     </svg>
                                     {{item.fields.field_lugar_del_evento.0.value}}
                                 </div>
+                            </div>
+
                             </a>
                         </li>
                         {% endfor %}
