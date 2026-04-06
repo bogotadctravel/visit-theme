@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: visit_theme\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "ui.open_main_menu"
+msgstr "Abrir menú principal"
+
+msgid "ui.close_main_menu"
+msgstr "Cerrar menú principal"
+
+msgid "ui.quick_access"
+msgstr "Accesos rápidos"
+
+msgid "ui.go_to_stopover_bogota"
+msgstr "Ir a StopOver Bogotá"
+
+msgid "ui.what_to_do"
+msgstr "Qué hacer"
+
+msgid "ui.more_options_heading"
+msgstr "Más opciones"
+
+msgid "ui.all_rights_reserved_full"
+msgstr "Todos los derechos reservados por el Instituto Distrital de Turismo de Bogotá"
+
+msgid "ui.privacy_policy_link"
+msgstr "Políticas de privacidad"
+
+msgid "ui.terms_of_use_link"
+msgstr "Términos de uso"
+
+msgid "ui.resolution_239_link"
+msgstr "Resolución 239 del 5 de noviembre del 2021"
+
+msgid "ui.city_brand_link"
+msgstr "Marca ciudad"
+
+msgid "ui.open_menu"
+msgstr "Abrir menú"
+
+msgid "ui.close_menu"
+msgstr "Cerrar menú"
+
+msgid "ui.search_experiences_label"
+msgstr "Buscador de experiencias"
+
+msgid "ui.search_placeholder"
+msgstr "BUSCAR"
+
+msgid "ui.search_experience_sr"
+msgstr "Buscar experiencia"
+
+msgid "ui.previous_event"
+msgstr "Evento anterior"
+
+msgid "ui.next_event"
+msgstr "Evento siguiente"
+
+msgid "ui.previous_carousel"
+msgstr "Carrusel anterior"
+
+msgid "ui.next_carousel"
+msgstr "Carrusel siguiente"
+
+msgid "ui.previous_ally"
+msgstr "Aliado anterior"
+
+msgid "ui.next_ally"
+msgstr "Aliado siguiente"
+
+msgid "ui.events_page_heading"
+msgstr "Estos son los eventos que puedes hacer en Bogotá"
+
+msgid "ui.swipe_to_discover"
+msgstr "¡Desliza y conoce más!"
+
+msgid "ui.all_filter"
+msgstr "Todos"
+
+msgid "ui.max_auditorium_capacity"
+msgstr "Aforo máximo en auditorio"
+
+msgid "ui.location_aria"
+msgstr "Ubicación"
+
+msgid "ui.venue_type_aria"
+msgstr "Tipo de venue"
+
+msgid "ui.service_type_aria"
+msgstr "Tipo de servicio"
+
+msgid "ui.brand_seal_disclaimer"
+msgstr "Las empresas y venues que cuentan con el sello de marca son aquellas que aplicaron formalmente al proceso de solicitud de autorización de uso de la Marca Ciudad y cumplieron con los requisitos establecidos para obtener esta distinción."
+
+msgid "ui.open_linkedin_idt"
+msgstr "Abrir LinkedIn IDT"
+
+msgid "ui.open_instagram_idt"
+msgstr "Abrir Instagram IDT"
+
+msgid "ui.open_youtube_idt"
+msgstr "Abrir YouTube IDT"
+
+msgid "ui.open_facebook_idt"
+msgstr "Abrir Facebook IDT"
+
+msgid "ui.register_here"
+msgstr "Regístrate aquí"
+
+msgid "ui.no_results_found"
+msgstr "No se encontraron resultados"
+
+msgid "ui.thanks_for_interest"
+msgstr "Gracias por tu interes"

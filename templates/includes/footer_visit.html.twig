@@ -34,7 +34,7 @@
 
             <!-- Col 2 -->
             <div class="footer-col">
-                <h4>Qué hacer</h4>
+                <h4>{{"ui.what_to_do"|t}}</h4>
                 <ul>
                   {% if taxonomy('categorias_turisticas') is not empty %}
                             <ul>
@@ -49,7 +49,7 @@
 
             <!-- Col 3 -->
             <div class="footer-col">
-                <h4>Más opciones</h4>
+                <h4>{{"ui.more_options"|t}}</h4>
                 <ul>                  
                     {% for item in mas_opciones['#items'] %}
                     <li><a href="{{ item.url }}">{{ item.title }}</a></li>
@@ -75,10 +75,10 @@
                 de Bogotá
             </p>
             <ul>
-                <li><a href="#">Políticas de privacidad</a></li>
-                <li><a href="#">Términos de uso</a></li>
-                <li><a target="_blank" href="https://files.visitbogota.co/sites/default/files/2022-03/Res.%20239%205-11-2021%20Por%20la%20cual%20se%20reglmente%20el%20acceso%20a%20un%20banco%20de%20imagenes%20del%20IDT.pdf" title="Resolución 239 del 5 de noviembre de 2021" aria-label="Resolución 239 del 5 de noviembre de 2021">Resolución 239 del 5 de noviembre del 2021</a></li>
-                <li><a target="_blank" href="https://www.idt.gov.co/es/marca-ciudad">Marca ciudad</a></li>
+                <li><a href="#">{{"ui.privacy_policy"|t}}</a></li>
+                <li><a href="#">{{"ui.terms_of_use"|t}}</a></li>
+                <li><a target="_blank" href="https://files.visitbogota.co/sites/default/files/2022-03/Res.%20239%205-11-2021%20Por%20la%20cual%20se%20reglmente%20el%20acceso%20a%20un%20banco%20de%20imagenes%20del%20IDT.pdf" title="{{"ui.resolution_239"|t}}" aria-label="{{"ui.resolution_239"|t}}">{{"ui.resolution_239"|t}}</a></li>
+                <li><a target="_blank" href="https://www.idt.gov.co/es/marca-ciudad">{{"ui.city_brand"|t}}</a></li>
             </ul>
         </div>
     </footer>

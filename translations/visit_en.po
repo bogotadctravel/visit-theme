@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: visit_theme\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "ui.open_main_menu"
+msgstr "Open main menu"
+
+msgid "ui.close_main_menu"
+msgstr "Close main menu"
+
+msgid "ui.quick_access"
+msgstr "Quick access"
+
+msgid "ui.go_to_stopover_bogota"
+msgstr "Go to StopOver Bogotá"
+
+msgid "ui.what_to_do"
+msgstr "What to do"
+
+msgid "ui.more_options_heading"
+msgstr "More options"
+
+msgid "ui.all_rights_reserved_full"
+msgstr "All rights reserved by the Instituto Distrital de Turismo de Bogotá"
+
+msgid "ui.privacy_policy_link"
+msgstr "Privacy policy"
+
+msgid "ui.terms_of_use_link"
+msgstr "Terms of use"
+
+msgid "ui.resolution_239_link"
+msgstr "Resolution 239 of November 5, 2021"
+
+msgid "ui.city_brand_link"
+msgstr "City brand"
+
+msgid "ui.open_menu"
+msgstr "Open menu"
+
+msgid "ui.close_menu"
+msgstr "Close menu"
+
+msgid "ui.search_experiences_label"
+msgstr "Experience search"
+
+msgid "ui.search_placeholder"
+msgstr "SEARCH"
+
+msgid "ui.search_experience_sr"
+msgstr "Search experience"
+
+msgid "ui.previous_event"
+msgstr "Previous event"
+
+msgid "ui.next_event"
+msgstr "Next event"
+
+msgid "ui.previous_carousel"
+msgstr "Previous carousel"
+
+msgid "ui.next_carousel"
+msgstr "Next carousel"
+
+msgid "ui.previous_ally"
+msgstr "Previous partner"
+
+msgid "ui.next_ally"
+msgstr "Next partner"
+
+msgid "ui.events_page_heading"
+msgstr "These are the events you can attend in Bogotá"
+
+msgid "ui.swipe_to_discover"
+msgstr "Swipe to discover more!"
+
+msgid "ui.all_filter"
+msgstr "All"
+
+msgid "ui.max_auditorium_capacity"
+msgstr "Maximum auditorium capacity"
+
+msgid "ui.location_aria"
+msgstr "Location"
+
+msgid "ui.venue_type_aria"
+msgstr "Venue type"
+
+msgid "ui.service_type_aria"
+msgstr "Service type"
+
+msgid "ui.brand_seal_disclaimer"
+msgstr "Companies and venues bearing the brand seal are those that formally applied for authorization to use the City Brand and met the established requirements to obtain this distinction."
+
+msgid "ui.open_linkedin_idt"
+msgstr "Open LinkedIn IDT"
+
+msgid "ui.open_instagram_idt"
+msgstr "Open Instagram IDT"
+
+msgid "ui.open_youtube_idt"
+msgstr "Open YouTube IDT"
+
+msgid "ui.open_facebook_idt"
+msgstr "Open Facebook IDT"
+
+msgid "ui.register_here"
+msgstr "Register here"
+
+msgid "ui.no_results_found"
+msgstr "No results found"
+
+msgid "ui.thanks_for_interest"
+msgstr "Thank you for your interest"

@@ -73,7 +73,7 @@
                     </svg>
                 </a>
                 <nav class="main-nav">
-                    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+                    <button class="nav-toggle" aria-label="{{"ui.open/close_menu|t"}}" aria-expanded="false">
                         <span></span><span></span><span></span>
                     </button>
                     <ul class="nav-list">
@@ -84,7 +84,7 @@
                         {% set has_tax = categorias is not empty %}
                         <li class="nav-item{% if has_tax %} has-mega{% endif %}">
                             <a href="/pagina-que-hacer" class="nav-link"{% if has_tax %} aria-expanded="false"{% endif %}>
-                                Qué hacer
+                                {{"ui.what_to_do"|t}}
                                 {% if has_tax %}
                                 <svg class="nav-link__arrow" width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 {% endif %}
