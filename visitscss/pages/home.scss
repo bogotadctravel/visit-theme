@@ -52,12 +52,10 @@
     /* Posicionamiento del CTA */
     .banner-main-cta {
         position: absolute;
-        bottom: 40px;
-        /* Ajusta según la altura de tus subtítulos */
-        left: 40px;
-        /* Lo mantiene a la izquierda para balancear con el widget derecho */
+        bottom: 110px;
+        left: 50%;
         z-index: 10;
-        /* Asegura que esté por encima del video */
+        transform: translateX(-50%);
     }
 
     /* Estilo visual del Botón */
@@ -89,7 +87,9 @@
 
     /* --- iOS parallax fix --- */
     @media (max-width: 1024px) {
-        .banner { background-attachment: scroll; }
+        .banner {
+            background-attachment: scroll;
+        }
     }
 
     /* --- RESPONSIVE: TABLETS Y MÓVILES GRANDES --- */
