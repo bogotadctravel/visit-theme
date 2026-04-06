@@ -235,17 +235,15 @@ header {
     }
 
     .mega-menu-grid {
-      column-count: 4;
-      column-gap: 40px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 28px 32px;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 28px 36px;
+      align-items: start;
     }
 
     .mega-column {
       min-width: 0;
-      break-inside: avoid;
-      margin-bottom: 24px;
+      margin-bottom: 10px;
     }
 
     .mega-title {
@@ -255,7 +253,7 @@ header {
       text-transform: uppercase;
       letter-spacing: 0.1em;
       display: block;
-      margin-bottom: 14px;
+      margin-bottom: 8px;
       text-decoration: none;
       cursor: default;
 
