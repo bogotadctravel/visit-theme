@@ -121,6 +121,7 @@ header {
     nav.main-nav {
       display: flex;
       align-items: center;
+      height: 100%;
 
       .nav-toggle {
         display: none;
@@ -163,6 +164,7 @@ header {
         list-style: none;
         display: flex;
         align-items: center;
+        height: 100%;
         gap: 28px;
         margin: 0;
         padding: 0;
@@ -170,6 +172,7 @@ header {
 
       .nav-item {
         position: relative;
+        height: 100%;
 
         &.has-mega {
           position: static;
