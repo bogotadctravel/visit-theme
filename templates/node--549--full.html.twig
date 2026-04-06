@@ -42,42 +42,42 @@
   {% endfor %}
         </ul>
         </div>
-      <div class="eventos" data-aos="fade-right">
-  <h4>{{"ui.we_recommend_events"|trans}}</h4>
+        {# <div class="eventos" data-aos="fade-right">
+        <h4>{{"ui.we_recommend_events"|trans}}</h4>
 
-  <section class="splide" aria-label="Eventos recomendados">
-    <div class="splide__track">
+        <section class="splide" aria-label="Eventos recomendados">
+        <div class="splide__track">
 
-      <ul class="splide__list grid-events">
-        {% for node in eventosVisit %}
-          <li class="splide__slide">
-            <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
-               style="background-image: url(
-                   {{ node.image }}
-               );">
+        <ul class="splide__list grid-events">
+          {% for node in eventosVisit %}
+            <li class="splide__slide">
+              <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
+                  style="background-image: url(
+                      {{ node.image }}
+                  );">
 
-              <div class="tag">
-                {{ node.categoria.name }}
-              </div>
-
-              <span class="title">
-                {{ node.title }}
-              </span>
-
-              {% if node.field_fecha.value %}
-                <div class="date">
-                  {{ node.field_fecha.value|date("M d") }}
+                <div class="tag">
+                  {{ node.categoria.name }}
                 </div>
-              {% endif %}
 
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
+                <span class="title">
+                  {{ node.title }}
+                </span>
 
-    </div>
-  </section>
-</div>
+                {% if node.field_fecha.value %}
+                  <div class="date">
+                    {{ node.field_fecha.value|date("M d") }}
+                  </div>
+                {% endif %}
+
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+
+        </div>
+        </section>
+        </div> #}
 {% if rutas  is not empty %}
       <div class="rutas">
   <div class="container">
@@ -116,51 +116,148 @@
 {# Al final de tu <main> o antes del footer #}
 <section class="itinerario-footer container mt-5 mb-5">
     <div class="row align-items-center bg-light p-4 rounded shadow-sm">
-        
-        <div class="col-md-6 text-center border-md-end mb-4 mb-md-0">
+
+        <div class="col-md-12 text-center">
             <h4 class="mb-3">{{ "Guarda una copia offline"|trans }}</h4>
-            <button onclick="window.print();" class="btn btn-outline-primary btn-lg w-75 rounded-pill btn-descargar-pdf">
-                <i class="fas fa-file-pdf me-2"></i> {{ "Descargar PDF"|trans }}
+
+            <button 
+                data-fancybox
+                data-src="#modal-itinerario"
+                class="btn btn-outline-primary btn-lg rounded-pill">
+
+                <i class="fas fa-file-pdf me-2"></i>
+                {{ "Descargar itinerario"|trans }}
             </button>
+
         </div>
-        
-        <div class="col-md-6 ps-md-5 form-itinerario-custom">
-            <h4 class="mb-4">{{ "Recibir este itinerario por correo"|trans }}</h4>
+
+    </div>
+</section>
+<div id="modal-itinerario" style="display:none; max-width:700px">
+
+    <div class="p-4">
+
+        <h3 class="mb-3">{{ "Descargar itinerario"|trans }}</h3>
+
+        <p>{{ "Completa el formulario para recibir o descargar tu itinerario"|trans }}</p>
+
+        <div class="form-itinerario-custom">
+
             {% if contact_form %}
                 {{ contact_form }}
             {% else %}
                 <p>Cargando formulario...</p>
             {% endif %}
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <button id="generarPdf"
+                class="btn btn-primary btn-lg rounded-pill">
+
+                <i class="fas fa-file-pdf me-2"></i>
+                {{ "Descargar PDF"|trans }}
+
+            </button>
+
         </div>
 
     </div>
-</section>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
-    
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            let lista = [];
-            
-            // Recolectar Atractivos
-            document.querySelectorAll('.grid-atractivos .title').forEach(item => {
-                lista.push("- " + item.innerText.trim());
-            });
-            
-            // Recolectar Eventos (si los hay en la vista actual)
-            document.querySelectorAll('.eventos .title').forEach(item => {
-                lista.push("- " + item.innerText.trim());
-            });
 
-            // Buscar el textarea nativo de "Mensaje" de Drupal
-            let campoMensaje = form.querySelector('textarea[name^="message"]');
-            
-            if (campoMensaje) {
-                // Formateamos el texto que llegará al correo
-                campoMensaje.value = "Hola, aquí está el itinerario planificado:\n\n" + lista.join('\n');
-            }
+    const { jsPDF } = window.jspdf;
+
+    document.getElementById('generarPdf').addEventListener('click', async function(){
+
+        let lista = [];
+
+        document.querySelectorAll('.grid-atractivos .title').forEach(item => {
+            lista.push(item.innerText.trim());
         });
-    }
+
+        document.querySelectorAll('.eventos .title').forEach(item => {
+            lista.push(item.innerText.trim());
+        });
+
+        const fechaSalida = document.querySelector('#fecha_salida')?.value || "";
+        const fechaRetorno = document.querySelector('#fecha_retorno')?.value || "";
+
+        const pdf = new jsPDF();
+
+        let y = 20;
+
+        pdf.setFontSize(22);
+        pdf.text("Itinerario Bogotá", 20, y);
+
+        y += 10;
+
+        pdf.setFontSize(12);
+        pdf.text("Fecha salida: " + fechaSalida, 20, y);
+
+        y += 8;
+
+        pdf.text("Fecha retorno: " + fechaRetorno, 20, y);
+
+        y += 15;
+
+        pdf.setFontSize(16);
+        pdf.text("Lugares seleccionados:", 20, y);
+
+        y += 10;
+
+        pdf.setFontSize(12);
+
+        lista.forEach(function(item){
+
+            pdf.text("- " + item, 20, y);
+            y += 8;
+
+            if(y > 270){
+                pdf.addPage();
+                y = 20;
+            }
+
+        });
+
+        pdf.save("itinerario-bogota.pdf");
+
+    });
+
+});document.addEventListener('DOMContentLoaded', function(){
+
+    const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
+
+    if(!form) return;
+
+    form.addEventListener('submit', function(){
+
+        let lista = [];
+
+        document.querySelectorAll('.grid-atractivos .title').forEach(item=>{
+            lista.push("- " + item.innerText.trim());
+        });
+
+        document.querySelectorAll('.eventos .title').forEach(item=>{
+            lista.push("- " + item.innerText.trim());
+        });
+
+        let campoMensaje = form.querySelector('textarea[name^="message"]');
+
+        if(campoMensaje){
+
+            campoMensaje.value =
+            "Hola, aquí está el itinerario planificado:\n\n" +
+            lista.join('\n');
+
+        }
+
+    });
+
 });
 </script>

@@ -59,18 +59,57 @@
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const today = new Date();
-    
-    // Create "Two days from now" date
-    const twoDaysLater = new Date();
-    twoDaysLater.setDate(today.getDate() + 2);
+document.addEventListener('DOMContentLoaded', function () {
 
-    // Helper function to format date to YYYY-MM-DD
-    const formatDate = (date) => date.toISOString().split('T')[0];
+    const params = new URLSearchParams(window.location.search);
 
-    // Assign values to inputs
-    document.getElementById('fecha_salida').value = formatDate(today);
-    document.getElementById('fecha_retorno').value = formatDate(twoDaysLater);
+    // ---- INTERESES (checkbox array) ----
+    const intereses = params.getAll('intereses[]');
+
+    if (intereses.length) {
+        intereses.forEach(function(valor){
+            const checkbox = document.querySelector('input[name="intereses[]"][value="'+valor+'"]');
+            if(checkbox){
+                checkbox.checked = true;
+            }
+        });
+    }
+
+    // ---- RECOMENDACIONES (select) ----
+    const recomendaciones = params.get('recomendaciones');
+    if(recomendaciones){
+        const select = document.getElementById('recomendaciones');
+        select.value = recomendaciones;
+    }
+
+    // ---- FECHAS ----
+    const fechaSalida = params.get('fecha_salida');
+    const fechaRetorno = params.get('fecha_retorno');
+
+    if(fechaSalida){
+        document.getElementById('fecha_salida').value = fechaSalida;
+    }
+
+    if(fechaRetorno){
+        document.getElementById('fecha_retorno').value = fechaRetorno;
+    }
+
+    // ---- SI NO HAY FECHAS EN LA URL, PONER DEFAULT ----
+    if(!fechaSalida || !fechaRetorno){
+        const today = new Date();
+        const twoDaysLater = new Date();
+        twoDaysLater.setDate(today.getDate() + 2);
+
+        const formatDate = (date) => date.toISOString().split('T')[0];
+
+        if(!fechaSalida){
+            document.getElementById('fecha_salida').value = formatDate(today);
+        }
+
+        if(!fechaRetorno){
+            document.getElementById('fecha_retorno').value = formatDate(twoDaysLater);
+        }
+    }
+
 });
 </script>
