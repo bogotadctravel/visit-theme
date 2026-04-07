@@ -7,239 +7,317 @@
                     <h2>{{"ui.plan_your_trip"|trans}}</h2>
                     <h1>{{"ui.itinerary_ready"|trans}}</h1>
                     <div class="data">
-                    {# Mostrar intereses #}
-                    {% for term in intereses_terms %}
+                        {# Mostrar intereses #}
+                        {% for term in intereses_terms %}
                         <div class="item">{{ term.label }}</div>
-                    {% endfor %}
-                    {# Mostrar fechas #}
-                    <div class="item">
-                        <p>Desde el {{ fecha_salida|date()|date('U')|format_date('custom', 'd F')|capitalize }}</p>
-                        <p>Hasta el {{ fecha_retorno|date()|date('U')|format_date('custom', 'd F')|capitalize }}</p>
-                        
-                    </div>
+                        {% endfor %}
+                        {# Mostrar fechas #}
+                        <div class="item">
+                            <p>Desde el {{ fecha_salida|date()|date('U')|format_date('custom', 'd F')|capitalize }}</p>
+                            <p>Hasta el {{ fecha_retorno|date()|date('U')|format_date('custom', 'd F')|capitalize }}</p>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="atractivos">
-  <h2>Atractivos que debes visitar en tu viaje</h2>
-        <ul class="grid-atractivos container">
-            {% for node in atractivos %}
-            <li class="card" data-aos="zoom-in" data-aos-delay="300">
-              <a href="{{ path('entity.node.canonical', {'node': node.id}) }}">
-                <div class="image">
-                    <img src="{{ node.image }}"
-                        alt="{{ node.title }}">
-                </div>
+            <h2>Atractivos que debes visitar en tu viaje</h2>
+            <ul class="grid-atractivos container">
+                {% for node in atractivos_rec %}
+                <li class="card" data-aos="zoom-in" data-aos-delay="300" data-direccion="{{ node.field_direccion }}"
+                    data-telefono="{{ node.field_telefono }}">
+                    <a href="{{ path('entity.node.canonical', {'node': node.id}) }}">
+                        <div class="image">
+                            <img src="{{ node.image }}" alt="{{ node.title }}">
+                        </div>
 
-                <div class="title">
-                  {{ node.title }}
-                </div>
+                        <div class="title">
+                            {{ node.title }}
+                        </div>
 
-              </a>
-            </li>
+                    </a>
+                </li>
 
-  {% endfor %}
-        </ul>
+                {% endfor %}
+            </ul>
         </div>
         {# <div class="eventos" data-aos="fade-right">
-        <h4>{{"ui.we_recommend_events"|trans}}</h4>
+            <h4>{{"ui.we_recommend_events"|trans}}</h4>
 
-        <section class="splide" aria-label="Eventos recomendados">
-        <div class="splide__track">
+            <section class="splide" aria-label="Eventos recomendados">
+                <div class="splide__track">
 
-        <ul class="splide__list grid-events">
-          {% for node in eventosVisit %}
-            <li class="splide__slide">
-              <a href="{{ path('entity.node.canonical', {'node': node.id}) }}"
-                  style="background-image: url(
+                    <ul class="splide__list grid-events">
+                        {% for node in eventosVisit %}
+                        <li class="splide__slide">
+                            <a href="{{ path('entity.node.canonical', {'node': node.id}) }}" style="background-image: url(
                       {{ node.image }}
                   );">
 
-                <div class="tag">
-                  {{ node.categoria.name }}
+                                <div class="tag">
+                                    {{ node.categoria.name }}
+                                </div>
+
+                                <span class="title">
+                                    {{ node.title }}
+                                </span>
+
+                                {% if node.field_fecha.value %}
+                                <div class="date">
+                                    {{ node.field_fecha.value|date("M d") }}
+                                </div>
+                                {% endif %}
+
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
                 </div>
+            </section>
+        </div> #}
+        {% if experiencias_rec is not empty %}
 
-                <span class="title">
-                  {{ node.title }}
-                </span>
+        <div class="atractivos" data-aos="fade-left">
+            <h2>Experiencias que debes visitar en tu viaje</h2>
 
-                {% if node.field_fecha.value %}
-                  <div class="date">
-                    {{ node.field_fecha.value|date("M d") }}
-                  </div>
-                {% endif %}
+            <ul class="grid-atractivos container">
+                {% for item in experiencias_rec|shuffle|slice(0, 4) %}
+                <li class="card" data-direccion="{{ item.field_direccion }}" data-telefono="{{ item.field_telefono }}">
+                    <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
+                        <div class="image">
 
-              </a>
-            </li>
-          {% endfor %}
-        </ul>
+                            <img src="{{item.image}}" alt="blog title">
+                        </div>
+                        <div class="title">
+                            {{item.title}}
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
 
         </div>
-        </section>
-        </div> #}
-{% if rutas  is not empty %}
-      <div class="rutas">
-  <div class="container">
-    <h3>{{"ui.tourist_routes"|trans}}</h3>
-    <ul>
-      {% for node in rutas|shuffle|slice(0, 4) %}
-        <li class="card">
-          <a href="{{ path('entity.node.canonical', {'node': node.id}) }}">
+        {% endif %}
+        {% if rutas_rec is not empty %}
+        <div class="atractivos" data-aos="fade-right">
+            <h2>{{"ui.tourist_routes"|trans}}</h2>
 
-            <div class="image">
-              {% if node.field_mainimg.entity %}
-                <img src="{{ file_url(node.field_mainimg.entity.fileuri) }}"
-                     alt="{{ node.label }}">
-              {% endif %}
-            </div>
 
-            <div class="title">
-              {{ node.label }}
-            </div>
+            <ul class="grid-atractivos container">
+                {% for node in rutas_rec|shuffle %}
+                <li class="card" data-direccion="{{ node.field_direccion }}" data-telefono="{{ node.field_telefono }}">
+                    <a href="{{ path('entity.node.canonical', {'node': node.id}) }}">
 
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
+                        <div class="image">
+                            {% if node.image %}
+                            <img src="{{ node.image }}" alt="{{ node.title }}">
+                            {% endif %}
+                        </div>
 
-  </div>
-</div>
- {% endif %}
+                        <div class="title">
+                            {{ node.title }}
+                        </div>
+
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+
+
+        </div>
+        {% endif %}
 
 
     </main>
 </div>
-  <div class="planifica-container" data-aos="fade-right">
-           {% include "@visit_theme/includes/planifica.html.twig" %}
-        </div>
 {# Al final de tu <main> o antes del footer #}
-<section class="itinerario-footer container mt-5 mb-5">
-    <div class="row align-items-center bg-light p-4 rounded shadow-sm">
+    <section class="itinerario-footer container" style="margin-bottom: 100px;">
+        <div class="row align-items-center bg-light p-4 rounded shadow-sm">
 
-        <div class="col-md-12 text-center">
-            <h4 class="mb-3">{{ "Guarda una copia offline"|trans }}</h4>
+            <div class="col-md-12 text-center">
+                <h4 class="mb-3">{{ "Guarda una copia de tu itinerario en Bogotá"|trans }}</h4>
 
-            <button 
-                data-fancybox
-                data-src="#modal-itinerario"
-                class="btn btn-outline-primary btn-lg rounded-pill">
+                <button data-fancybox data-src="#modal-itinerario" class="btn btn-outline-primary btn-lg rounded-pill">
 
-                <i class="fas fa-file-pdf me-2"></i>
-                {{ "Descargar itinerario"|trans }}
-            </button>
+                    <i class="fas fa-file-pdf me-2"></i>
+                    {{ "Descargar itinerario"|trans }}
+                </button>
+
+            </div>
 
         </div>
+    </section>
+    <div id="modal-itinerario" style="display:none; max-width:700px">
 
-    </div>
-</section>
-<div id="modal-itinerario" style="display:none; max-width:700px">
+        <div class="p-4">
 
-    <div class="p-4">
+            <h3 class="mb-3">{{ "Descargar itinerario"|trans }}</h3>
 
-        <h3 class="mb-3">{{ "Descargar itinerario"|trans }}</h3>
+            <p>{{ "Completa el formulario para recibir o descargar tu itinerario"|trans }}</p>
 
-        <p>{{ "Completa el formulario para recibir o descargar tu itinerario"|trans }}</p>
+            <div class="form-itinerario-custom">
 
-        <div class="form-itinerario-custom">
-
-            {% if contact_form %}
+                {% if contact_form %}
                 {{ contact_form }}
-            {% else %}
+                {% else %}
                 <p>Cargando formulario...</p>
-            {% endif %}
+                {% endif %}
 
-        </div>
+            </div>
 
-        <div class="text-center mt-4">
+            <div class="text-center mt-4">
 
-            <button id="generarPdf"
-                class="btn btn-primary btn-lg rounded-pill">
+                <button id="generarPdf" class="btn btn-primary btn-lg rounded-pill">
 
-                <i class="fas fa-file-pdf me-2"></i>
-                {{ "Descargar PDF"|trans }}
+                    <i class="fas fa-file-pdf me-2"></i>
+                    {{ "Descargar PDF"|trans }}
 
-            </button>
+                </button>
+
+            </div>
 
         </div>
 
     </div>
+    <div class="planifica-container" data-aos="fade-right">
+        {% include "@visit_theme/includes/planifica.html.twig" %}
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
 
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function(){
+            const { jsPDF } = window.jspdf;
 
-    const { jsPDF } = window.jspdf;
+            const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
 
-    const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
+            if (!form) return;
 
-    if(!form) return;
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); // IMPORTANTE
+                let lista = [];
 
-    form.addEventListener('submit', function(){
+                document.querySelectorAll('.grid-atractivos .card').forEach(card => {
 
-        let lista = [];
+                    const titulo = card.querySelector('.title')?.innerText.trim() || "";
+                    const direccion = card.dataset.direccion || "No disponible";
+                    const telefono = card.dataset.telefono || "No disponible";
+                    const imagen = card.querySelector('img')?.src || "";
 
-        document.querySelectorAll('.grid-atractivos .title').forEach(item=>{
-            lista.push(item.innerText.trim());
+                    lista.push({
+                        titulo,
+                        direccion,
+                        telefono,
+                        imagen
+                    });
+
+                });
+                function getBase64ImageFromUrl(url) {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.crossOrigin = "anonymous";
+
+                        img.onload = () => {
+                            const canvas = document.createElement("canvas");
+                            const ctx = canvas.getContext("2d");
+
+                            canvas.width = 400;
+                            canvas.height = 300;
+
+                            ctx.drawImage(img, 0, 0, 400, 300);
+
+                            const dataURL = canvas.toDataURL("image/jpeg");
+                            resolve(dataURL);
+                        };
+
+                        img.onerror = error => reject(error);
+                        img.src = url;
+                    });
+                }
+
+                document.querySelectorAll('.eventos .title').forEach(item => {
+                    lista.push({
+                        titulo: item.innerText.trim(),
+                        direccion: "Evento en Bogotá",
+                        telefono: "",
+                        imagen: ""
+                    });
+                });
+
+                const fechaSalida = document.querySelector('#fecha_salida')?.value || "";
+                const fechaRetorno = document.querySelector('#fecha_retorno')?.value || "";
+
+                let campoMensaje = form.querySelector('textarea[name^="message"]');
+
+                if (campoMensaje) {
+                    campoMensaje.value =
+                        "Hola, aquí está el itinerario planificado:\n\n" +
+                        lista.map(l => `${l.titulo} - ${l.direccion} - ${l.telefono}`).join('\n');
+                }
+
+                // GENERAR PDF
+                const pdf = new jsPDF();
+
+                let y = 20;
+
+                pdf.setFontSize(22);
+                pdf.text("Itinerario Bogotá", 20, y);
+
+                y += 12;
+
+                pdf.setFontSize(12);
+                pdf.text("Fecha salida: " + fechaSalida, 20, y);
+
+                y += 8;
+                pdf.text("Fecha retorno: " + fechaRetorno, 20, y);
+
+                y += 15;
+
+                pdf.setFontSize(16);
+                pdf.text("Lugares seleccionados:", 20, y);
+
+                y += 10;
+
+                pdf.setFontSize(12);
+
+                (async () => {
+
+                    for (const lugar of lista) {
+
+                        if (y > 240) {
+                            pdf.addPage();
+                            y = 20;
+                        }
+
+                        // IMAGEN
+                        if (lugar.imagen) {
+
+                            try {
+                                const imgData = await getBase64ImageFromUrl(lugar.imagen);
+                                pdf.addImage(imgData, 'JPEG', 20, y, 40, 30);
+                            } catch (e) { }
+
+                        }
+
+                        // TEXTO
+                        pdf.setFontSize(13);
+                        pdf.text(lugar.titulo, 70, y + 5);
+
+                        pdf.setFontSize(10);
+                        pdf.text("Dirección: " + lugar.direccion, 70, y + 12);
+                        pdf.text("Teléfono: " + lugar.telefono, 70, y + 18);
+
+                        y += 40;
+
+                    }
+
+                    pdf.save("itinerario-bogota.pdf");
+
+                })();
+
+            });
+
         });
-
-        document.querySelectorAll('.eventos .title').forEach(item=>{
-            lista.push(item.innerText.trim());
-        });
-
-        const fechaSalida = document.querySelector('#fecha_salida')?.value || "";
-        const fechaRetorno = document.querySelector('#fecha_retorno')?.value || "";
-
-        let campoMensaje = form.querySelector('textarea[name^="message"]');
-
-        if(campoMensaje){
-            campoMensaje.value =
-            "Hola, aquí está el itinerario planificado:\n\n" +
-            lista.join('\n');
-        }
-
-        // GENERAR PDF
-        const pdf = new jsPDF();
-
-        let y = 20;
-
-        pdf.setFontSize(22);
-        pdf.text("Itinerario Bogotá", 20, y);
-
-        y += 12;
-
-        pdf.setFontSize(12);
-        pdf.text("Fecha salida: " + fechaSalida, 20, y);
-
-        y += 8;
-        pdf.text("Fecha retorno: " + fechaRetorno, 20, y);
-
-        y += 15;
-
-        pdf.setFontSize(16);
-        pdf.text("Lugares seleccionados:", 20, y);
-
-        y += 10;
-
-        pdf.setFontSize(12);
-
-        lista.forEach(function(item){
-
-            pdf.text("- " + item, 20, y);
-            y += 8;
-
-            if(y > 270){
-                pdf.addPage();
-                y = 20;
-            }
-
-        });
-
-        pdf.save("itinerario-bogota.pdf");
-
-    });
-
-});
-</script>
+    </script>

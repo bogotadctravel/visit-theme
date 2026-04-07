@@ -26,6 +26,9 @@
     </li>
     {% endfor %}
 </ul>
+<p id="error-intereses" style="color:red; display:none;">
+Debes seleccionar al menos una categoría.
+</p>
         <span>
 
             <label for="">{{"ui.who_are_you_traveling_with"|trans}}</label>
@@ -56,7 +59,38 @@
         </button>
     </form>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
+    const form = document.querySelector('.planifica form');
+
+    form.addEventListener('submit', function(e){
+
+        const checkboxes = document.querySelectorAll('input[name="intereses[]"]');
+        let seleccionado = false;
+
+        checkboxes.forEach(function(chk){
+            if(chk.checked){
+                seleccionado = true;
+            }
+        });
+
+        if(!seleccionado){
+            e.preventDefault();
+            const error = document.getElementById('error-intereses');
+
+if(!seleccionado){
+    e.preventDefault();
+    error.style.display = 'block';
+}else{
+    error.style.display = 'none';
+}
+        }
+
+    });
+
+});
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
