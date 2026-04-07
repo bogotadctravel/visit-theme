@@ -176,6 +176,10 @@ header {
         display: flex;
         align-items: center;
 
+        @media only screen and (max-width: 1023px) {
+          display: block;
+        }
+
         &.has-mega {
           position: static;
           /* mega-menu positions relative to .bottom-bar */
