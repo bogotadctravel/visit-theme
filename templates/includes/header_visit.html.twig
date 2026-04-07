@@ -95,7 +95,7 @@
 {% set cats_without_children = [] %}
 
 {# Clasificar categorías #}
-{% for cat in categorias %}
+{% for cat in categorias|shuffle %}
     {% set has_children = false %}
 
     {% for subcat in subcategorias %}

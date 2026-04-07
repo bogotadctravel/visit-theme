@@ -32,9 +32,10 @@
             <li class="pill-item">
                 <a href="{{ subcat.url }}" class="pill-link">
                     <div class="pill-img">
+                   
                         {# NOTA: Cambia 'field_imagen' por el nombre máquina real del campo de imagen en tu taxonomía de subcategorías #}
-                        {% if subcat.field_imagen %}
-                            <img src="{{ file_url(subcat.field_imagen.entity.fileuri) }}" alt="{{ subcat.name }}">
+                        {% if subcat.image %}
+                            <img src="{{ subcat.image }}" alt="{{ subcat.name }}">
                         {% else %}
                             <div class="img-placeholder"></div>
                         {% endif %}

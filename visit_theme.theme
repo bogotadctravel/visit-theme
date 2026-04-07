@@ -199,9 +199,12 @@ function visit_theme_preprocess_node(array &$variables) {
 
   // 4. Lógica de Parámetros URL y Recomendaciones
   // IMPORTANTE: Esto define qué contextos de caché usar.
-  $variables['#cache']['contexts'][] = 'url.query_args';
+  $variables['#cache']['contexts'][] = 'url.query_args:intereses';
+  $variables['#cache']['contexts'][] = 'url.query_args:recomendaciones';
+  $variables['#cache']['contexts'][] = 'url.query_args:fecha_salida';
+  $variables['#cache']['contexts'][] = 'url.query_args:fecha_retorno';
   
-  $request = \Drupal::request();
+    $request = \Drupal::request();
   $intereses_ids = $request->query->all('intereses');
   $recomendacion_id = $request->query->get('recomendaciones');
   $fecha_salida = $request->query->get('fecha_salida');
@@ -219,7 +222,7 @@ function visit_theme_preprocess_node(array &$variables) {
       }
     }
 
-    $limite_items = $dias * 5; // 5 recomendaciones por día
+    $limite_items = $dias * 2; // 5 recomendaciones por día
 
     // Cargar intereses y banner
     $intereses_terms = [];
@@ -244,52 +247,24 @@ function visit_theme_preprocess_node(array &$variables) {
       \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($recomendacion_id) : NULL;
 
     // Buscar nodos relacionados (Optimizando a una sola entidad Storage en memoria)
-    $contenido = [];
-    $tipos_a_buscar = ['atractivos', 'eventos', 'rutas'];
-    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
-
-    foreach ($tipos_a_buscar as $tipo) {
-      $query = $node_storage->getQuery()
-        ->accessCheck(TRUE)
-        ->condition('status', 1)
-        ->condition('type', $tipo)
-        ->range(0, $limite_items);
-
-      if (!empty($recomendacion_id) || !empty($intereses_ids)) {
-        $or_group = $query->orConditionGroup();
-        if (!empty($recomendacion_id)) {
-          $or_group->condition('field_turpara.target_id', $recomendacion_id);
-        }
-        if (!empty($intereses_ids)) {
-          $or_group->condition('field_turcat.target_id', $intereses_ids, 'IN');
-        }
-        $query->condition($or_group);
-      }
-
-      $nids = $query->execute();
-      if (!empty($nids)) {
-        $contenido = array_merge($contenido, $node_storage->loadMultiple($nids));
-        // Etiqueta de caché para que se limpie si se crean nuevos nodos de este tipo
-        $variables['#cache']['tags'][] = 'node_list:' . $tipo; 
-      }
-    }
+  
 
     // Separar por tipo y asignar a Twig
     $variables['intereses_terms'] = $intereses_terms;
     $variables['banner_interes_url'] = $banner_url;
     $variables['recomendacion_term'] = $recomendacion_term;
-    $variables['contenido_recomendado'] = $contenido;
     
-    $variables['atractivos_rec'] = [];
-    $variables['eventos_rec'] = [];
-    $variables['rutas_rec'] = [];
+   $contenido = $content_loader->getContenidoPorIntereses(
+  $intereses_ids,
+  $recomendacion_id,
+  $limite_items
+);
 
-    foreach ($contenido as $nodo_rec) {
-      $b = $nodo_rec->bundle();
-      if ($b === 'atractivos') $variables['atractivos_rec'][] = $nodo_rec;
-      elseif ($b === 'eventos') $variables['eventos_rec'][] = $nodo_rec;
-      elseif ($b === 'rutas') $variables['rutas_rec'][] = $nodo_rec;
-    }
+$variables['atractivos_rec'] = $contenido['atractivos'];
+$variables['eventos_rec'] = $contenido['eventos'];
+$variables['rutas_rec'] = $contenido['rutas'];
+$variables['experiencias_rec'] = $contenido['experiencias'];
+    
 
     $variables['fecha_salida'] = $fecha_salida;
     $variables['fecha_retorno'] = $fecha_retorno;

@@ -13,7 +13,7 @@
   {% set terminos_filtrados = taxonomy('categorias_turisticas', ids_relacionados) %}
 {% endif %}
 <div class="product">
-    <div class="banner" style="background-image: url({{terminos_filtrados[0].image}});">
+    <div class="banner" style="background-image: url({{file_url(term.field_imagen_principal.entity.fileuri)}});">
         <div class="container">
 
             <div class="text">
@@ -23,8 +23,8 @@
             </div>
         </div>
     </div>
-    <div class="atractivos">
     {% if atractivos is not empty %}
+    <div class="atractivos">
      <h2>{{ term.name.value }}: Atractivos en Bogotá</h2>
     <ul class="grid-atractivos container">
         {% for item in atractivos|shuffle %}
@@ -38,8 +38,8 @@
             </a></li>
         {% endfor %}
     </ul>
-    {% endif %}
     </div>
+    {% endif %}
 
 
     {% if eventos is not empty %}
