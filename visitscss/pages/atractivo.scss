@@ -136,44 +136,25 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 8px; // Opcional: para que se vea más moderno
         }
 
         .parent {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(6, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-auto-rows: 150px;
+            grid-auto-flow: dense; // Esta es la clave: rellena huecos vacíos
             gap: 8px;
-        }
 
-        .div2 {
-            grid-row: span 3 / span 3;
-            grid-column-start: 1;
-            grid-row-start: 4;
-        }
+            div {
+                grid-column: span 1;
+                grid-row: span 1;
 
-        .div3 {
-            grid-row: span 3 / span 3;
-            grid-column-start: 1;
-            grid-row-start: 1;
-        }
-
-        .div4 {
-            grid-row: span 2 / span 2;
-            grid-column-start: 2;
-            grid-row-start: 1;
-        }
-
-        .div5 {
-            grid-row: span 2 / span 2;
-            grid-column-start: 3;
-            grid-row-start: 1;
-        }
-
-        .div6 {
-            grid-column: span 2 / span 2;
-            grid-row: span 4 / span 4;
-            grid-column-start: 2;
-            grid-row-start: 3;
+                // Hace que algunas imágenes sean más grandes de forma aleatoria/alterna
+                &:nth-child(odd) {
+                    grid-row: span 2;
+                }
+            }
         }
 
     }
