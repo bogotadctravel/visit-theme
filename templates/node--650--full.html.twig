@@ -13,7 +13,7 @@
                     <select id="categoria-select" style="padding: 8px;">
                         <option value="all">Todas</option>
                         {# Asumiendo que tienes acceso a las categorías del blog #}
-                        {% for cat in taxonomy('categorias_blog') %}
+                        {% for cat in taxonomy('categorias_turisticas') %}
                             <option value="{{ cat.tid }}">{{ cat.name }}</option>
                         {% endfor %}
                     </select>
