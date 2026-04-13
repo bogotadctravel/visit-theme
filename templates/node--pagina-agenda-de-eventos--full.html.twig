@@ -23,55 +23,95 @@ item.fields.field_fecha_de_finalizacion.0.value|date("Y-m-d") %} {% if fin < hoy
                     </div>
                 </div>
             </div>
-            <form action="">
-                <span>
-                    <label for="categoria"> Categoria</label>
-                    <select name="categoria" id="categoria">
-                    {% for cat in taxonomy('categorias_turisticas') %}
-                        <option value="{{ cat.tid }}">{{ cat.name }}</option>
-                    {% endfor %}
-                    </select>
-                </span>
-                <span>
-                    <label for="TipoDeEvento"> Tipo de evento</label>
-                    <select name="TipoDeEvento" id="TipoDeEvento">
-                    {% for cat in taxonomy('tipos_de_evento') %}
-                        <option value="{{ cat.tid }}">{{ cat.name }}</option>
-                    {% endfor %}
-                    </select>
-                </span>
-                <span>
-                    <label for="">Desde</label>
-                    <input type="date" name="" id="">
+           <form id="events-filter-form" class="filters-form">
+    <span>
+        <label for="categoria">Categoria</label>
+        <select name="categoria" id="categoria">
+            <option value="all">Todas</option>
+            {% for cat in taxonomy('categorias_turisticas') %}
+                <option value="{{ cat.tid }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+    </span>
+    <span>
+        <label for="tipo">Tipo de evento</label>
+        <select name="tipo" id="tipo">
+            <option value="all">Todos</option>
+            {% for cat in taxonomy('tipos_de_evento') %}
+                <option value="{{ cat.tid }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+    </span>
+    <span>
+        <label for="fecha_desde">Desde</label>
+        <input type="date" id="fecha_desde">
+    </span>
+    <span>
+        <label for="fecha_hasta">Hasta</label>
+        <input type="date" id="fecha_hasta">
+    </span>
+</form>
+            <ul class="grid-atractivos container" id="events-grid">
+           {# 1. Detectar idioma (asumiendo variable global de Drupal o path) #}
+{% set lang = drupal_contextual_links_locations is defined ? 'es' : 'en' %} {# Ajusta según tu entorno #}
 
-                </span>
-                <span>
-                    <label for="">Hasta</label>
-                    <input type="date" name="" id="">
+{% for item in eventosVisit|reverse %}
+       {# Pre-calculamos fechas para evitar repetición #}
+                        {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
+                        {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}
 
-                </span>
-                <button type="submit">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M21 21L16.66 16.66M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
-                            stroke="#FEF9F9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
+                        {# Formateo de meses traducidos para la visualización #}
+                        {% set mes_ini = item.field_fecha_de_inicio|date("M") %}
+                        {% set mes_fin = item.field_fecha_de_finalizacion|date("M") %}
 
-                    {{"ui.explore"|t}}
-                </button>
-            </form>
-            <ul class="grid-atractivos container">
-                {% for item in eventosVisit|reverse %}
-                <li class="card" data-type="{{ item.categoria.tid }}" data-aos="zoom-in" data-aos-delay="300"><a
-                        href="{{ item.url }}">
-                        <div class="image">
-                            <img src="{{item.image}}" alt="{{ item.title }}">
-                        </div>
-                        <div class="title">
-                            {{ item.title }}
-                        </div>
-                    </a></li>
-                {% endfor %}
+                        {# Solo traducimos si el sitio está en español #}
+                        {% set display_inicio = (meses[mes_ini] is defined) ? meses[mes_ini] ~
+                        item.field_fecha_de_inicio|date(" d") : item.field_fecha_de_inicio|date("M d") %}
+                        
+                        {% set display_fin = (meses[mes_fin] is defined) ? meses[mes_fin] ~
+                        item.field_fecha_de_finalizacion|date(" d") : item.field_fecha_de_finalizacion|date("M d") %}
+
+    <li class="card" 
+        data-categoria="{{ item.categoria.tid }}" 
+        data-tipo="{{ item.field_categoria_de_evento.tid }}" 
+        data-fecha="{{ fecha_inicio_raw }}"
+        data-fecha-fin="{{ fecha_fin_raw }}" {# NUEVO: Atributo para el JS #}
+        data-aos="zoom-in" 
+        data-aos-delay="300">
+        
+        <a href="{{ item.url }}">
+            <div class="image">
+                <img src="{{item.image}}" alt="{{ item.title }}">
+            </div>
+            <div class="event-info" style="padding:15px">
+                <span class="title">{{item.title}}</span>
+                <div class="date" style="color:#000;">
+                   <svg width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5.33333 1.33325V3.99992M10.6667 1.33325V3.99992M14 9.33325V3.99992C14 3.6463 13.8595 3.30716 13.6095 3.05711C13.3594 2.80706 13.0203 2.66659 12.6667 2.66659H3.33333C2.97971 2.66659 2.64057 2.80706 2.39052 3.05711C2.14048 3.30716 2 3.6463 2 3.99992V13.3333C2 13.6869 2.14048 14.026 2.39052 14.2761C2.64057 14.5261 2.97971 14.6666 3.33333 14.6666H8.66667M2 6.66658H14M10.6667 13.3333L12 14.6666L14.6667 11.9999"
+                                        stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+              {{ display_inicio }}{% if fecha_inicio_raw != fecha_fin_raw %} - {{ display_fin
+                                        }}{% endif %}
+                </div>
+          
+ <div class="place" style="color:#000;"><svg width="13" height="16" viewBox="0 0 13 16"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z"
+                                        stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M6.33333 8.33333C7.4379 8.33333 8.33333 7.4379 8.33333 6.33333C8.33333 5.22876 7.4379 4.33333 6.33333 4.33333C5.22876 4.33333 4.33333 5.22876 4.33333 6.33333C4.33333 7.4379 5.22876 8.33333 6.33333 8.33333Z"
+                                        stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                                {{item['field_lugar_del_evento']}}
+                            </div>
+            </div>
+        </a>
+    </li>
+{% endfor %}
 
             </ul>
         </main>

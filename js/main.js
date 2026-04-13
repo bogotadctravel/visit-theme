@@ -65,7 +65,7 @@
               const signal = controller.signal;
 
               const response = await fetch(
-                `/${lang}/api/search?query=${encodeURIComponent(query)}`,
+                `/${lang}/api/search?query=${encodeURIComponent(query)}&langcode=${lang}`,
                 { signal }
               );
 
@@ -1057,6 +1057,61 @@
             if (isOpen) closeAll();
           });
         }
+      });
+
+      /* ------------------------------
+   * AGENDA FILTER (Mejorado con Fecha Fin)
+   * ------------------------------ */
+      once("idt-agenda-filter", "#events-filter-form", context).forEach((form) => {
+        const grid = document.getElementById("events-grid");
+        const cards = Array.from(grid.querySelectorAll(".card"));
+
+        const selectCat = form.querySelector("#categoria");
+        const selectTipo = form.querySelector("#tipo");
+        const inputDesde = form.querySelector("#fecha_desde");
+        const inputHasta = form.querySelector("#fecha_hasta");
+
+        const applyFilters = () => {
+          const valCat = selectCat.value;
+          const valTipo = selectTipo.value;
+          const valDesde = inputDesde.value; // YYYY-MM-DD
+          const valHasta = inputHasta.value;
+
+          cards.forEach((card) => {
+            const { categoria, tipo, fecha, fechaFin } = card.dataset;
+
+            // 1. Filtros de Taxonomía
+            const matchCat = (valCat === "all" || valCat === categoria);
+            const matchTipo = (valTipo === "all" || valTipo === tipo);
+
+            // 2. Lógica de Rango de Fechas (Intersección)
+            let matchFecha = true;
+
+            // Si el usuario pone "Desde", el evento debe terminar después o ese día
+            if (valDesde && fechaFin < valDesde) {
+              matchFecha = false;
+            }
+
+            // Si el usuario pone "Hasta", el evento debe empezar antes o ese día
+            if (valHasta && fecha > valHasta) {
+              matchFecha = false;
+            }
+
+            if (matchCat && matchTipo && matchFecha) {
+              card.style.display = "";
+              card.classList.remove("aos-animate");
+              setTimeout(() => card.classList.add("aos-animate"), 10);
+            } else {
+              card.style.display = "none";
+            }
+          });
+
+          // Función que ya tenías para ocultar opciones sin resultados
+          updateAvailableOptions();
+        };
+
+        form.addEventListener("change", applyFilters);
+        applyFilters();
       });
 
     }, // end attach

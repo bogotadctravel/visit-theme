@@ -1,7 +1,22 @@
+  {% set meses = { 'Jan': 'Ene', 'Feb': 'Feb',
+'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Aug':
+'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %}
+
 <div class="home">
     <main>
         <div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
-            <video id="videoBase" src="/{{ directory }}/video/video.mp4" loop muted autoplay></video>
+            <video id="videoBase" 
+                preload="auto" 
+                autoplay 
+                loop 
+                muted 
+                playsinline 
+                webkit-playsinline 
+                poster="/{{ directory }}/images/visitbogota/banner.png"
+            src="{{file_url(node.field_video_principal.entity.fileuri)}}" >
+            <source src="{{file_url(node.field_video_principal.entity.fileuri)}}" type="video/mp4">
+            Tu navegador no soporta la etiqueta de video.
+            </video>
             {% if node.fields.field_video_campana.0.value is not empty %}
             <video id="videoCampaign" src="{{node.fields.field_video_campana.0.value}}" muted></video>
             {% endif %}
@@ -56,6 +71,20 @@
                 <div class="splide__track">
                     <ul class="splide__list grid-events ">
                         {% for item in eventosVisit |shuffle %}
+                          {# Pre-calculamos fechas para evitar repetición #}
+                        {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
+                        {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}
+
+                        {# Formateo de meses traducidos para la visualización #}
+                        {% set mes_ini = item.field_fecha_de_inicio|date("M") %}
+                        {% set mes_fin = item.field_fecha_de_finalizacion|date("M") %}
+
+                        {# Solo traducimos si el sitio está en español #}
+                        {% set display_inicio = (meses[mes_ini] is defined) ? meses[mes_ini] ~
+                        item.field_fecha_de_inicio|date(" d") : item.field_fecha_de_inicio|date("M d") %}
+                        
+                        {% set display_fin = (meses[mes_fin] is defined) ? meses[mes_fin] ~
+                        item.field_fecha_de_finalizacion|date(" d") : item.field_fecha_de_finalizacion|date("M d") %}
                         <li class="splide__slide">
                             <a href="{{item.url}}">
                             <img src="{{item.image}}" alt="{{item.title}}" class="event-image">
@@ -68,7 +97,8 @@
                                             stroke="#000" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                     {{ node.field_fecha.value|date("M d") }}
+                                    {{ display_inicio }}{% if fecha_inicio_raw != fecha_fin_raw %} - {{ display_fin
+                                        }}{% endif %}
                                 </div>
                                 <div class="place"><svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -119,7 +149,7 @@
     const campaignImage = document.getElementById("campaignImage");
 
     let active = false;
-
+if(btn){
     btn.addEventListener("click", () => {
 
         if (!active) {
@@ -159,5 +189,11 @@
             active = false;
         }
 
+    });
+
+}
+
+    videoBase.play().catch((error) => {
+        console.error("Error al reproducir el video base:", error);
     });
 </script>

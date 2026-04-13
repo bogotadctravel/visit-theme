@@ -40,9 +40,15 @@ fancybox:
   js:
     https://cdn.jsdelivr.net/npm/@fancyapps/ui@6.1/dist/fancybox/fancybox.umd.js:
       { type: external, minified: true }
-
+chatbot-widget:
+  version: 5.x
+  css:
+    theme:
+      assets/index-Cwatq9uM.css: {}
+  js:
+    assets/index-BFLZlGRW.js: { attributes: { type: module } }
 global-styling:
-  version: 49.x
+  version: 54.x
   css:
     theme:
       css/styles.css: {}

@@ -4,12 +4,19 @@
  * Theme override for the basic structure of a single Drupal page.
  */
 #}
+
 <!DOCTYPE html>
 <html{{ html_attributes }}>
   <head>
     <head-placeholder token="{{ placeholder_token }}">
     <title>{{ head_title|safe_join(' | ') }}</title>
-
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-M7XH5JV');</script>
+<!-- End Google Tag Manager -->
    <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -28,11 +35,43 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TPK6C2H7"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M7XH5JV"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
     {{ page_top }}
     {{ page }}
     {{ page_bottom }}
 
     <js-bottom-placeholder token="{{ placeholder_token }}">
+<script>
+  (function () {
+        let queryParamKey = "ref";
+        let url = new URL(window.location);
+        let queryParamValue = url.searchParams.get(queryParamKey);
+
+        // Si el parámetro existe en la URL, guardarlo en sessionStorage
+        if (queryParamValue) {
+            sessionStorage.setItem(queryParamKey, queryParamValue);
+        } else {
+            // Si no está en la URL pero existe en sessionStorage, usarlo
+            queryParamValue = sessionStorage.getItem(queryParamKey);
+        }
+
+        // Si tenemos el parámetro, asegurarnos de que siempre esté en la URL
+        if (queryParamValue) {
+                 // Agregar o modificar un parámetro de consulta
+                 function addOrUpdateQueryParam(key, value) {
+                // Actualizar el parámetro si ya existe o agregarlo si no
+                url.searchParams.set(key, value);
+
+                // Actualizar la URL sin recargar la página
+                window.history.pushState({}, '', url);
+            }
+            // Ejemplo de uso para agregar parámetros dinámicamente
+            addOrUpdateQueryParam('ref', queryParamValue); 
+        }
+    })();
+</script>
   </body>
 </html>

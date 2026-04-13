@@ -1,0 +1,82 @@
+<style>
+/* Contenedor Principal */
+.documento-legal {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 60px;
+    color: #333333;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* Títulos Principales (H2) */
+.documento-legal h1 {
+    color: #314059;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.documento-legal h2 {
+    color: #314059;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Párrafos */
+.documento-legal p {
+    margin-bottom: 1.2rem;
+}
+
+/* Eliminar espacios vacíos residuales del HTML original */
+.documento-legal h3, 
+.documento-legal br {
+    display: none;
+}
+
+/* Enlaces */
+.documento-legal a {
+    color: #0070f3;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.documento-legal a:hover {
+    border-bottom: 1px solid #0070f3;
+}
+
+/* Listas y viñetas */
+.documento-legal p:has(span), 
+.documento-legal p:contains("-") {
+    padding-left: 1rem;
+}
+
+/* Responsividad para móviles */
+@media (max-width: 600px) {
+    .documento-legal {
+        margin: 0;
+        padding: 25px;
+        box-shadow: none;
+        border: none;
+    }
+    
+    .documento-legal h2 {
+        font-size: 1.2rem;
+    }
+}
+</style>
+<div class="documento-legal">
+    <h1>{{node.title()}}</h1>
+{{node.fields.body.value|raw}}
+</div>

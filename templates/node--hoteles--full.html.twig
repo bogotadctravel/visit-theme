@@ -1,8 +1,6 @@
 <div class="atractivo">
-
     <main>
         {% set banner_image = null %}
-
         {% if node.field_cover.entity %}
         {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
         {% elseif node.field_mainimg.entity %}
@@ -14,18 +12,99 @@
 
             {% endif %}
             <div class="container">
-
                 <div class="text">
-
-                    <h2>Visit Bogotá</h2>
                     <h1>{{ node.getTitle() }}</h1>
                     <div class="comollegar">
                         <p>
 
                             {{node.field_direccion.0.value}}
                         </p>
-                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Como llegar al lugar"
+                        {% if node.field_mapslink.0.url is not empty %}
+                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Cómo llegar al lugar"
                             class="llegar">Cómo llegar</a>
+                        {% endif %}
+                        {% if node.node.field_linkreservas.0.url.0.url is not empty %}
+                        <a href="{{node.node.field_linkreservas.0.url.0.url}}" target="_blank"
+                            aria-label="Link para reservas" class="llegar">Reservas</a>
+                        {% endif %}
+                        {% if node.field_weblink.0.url is not empty %}
+                        <a href="{{node.field_weblink.0.url}}" target="_blank"
+                            aria-label="Más información sobre el lugar" class="llegar">Más información</a>
+                        {% endif %}
+                        {% if node.field_menulink.0.url is not empty %}
+                        <a href="{{node.field_menulink.0.url}}" target="_blank" aria-label="Link del menú"
+                            class="llegar">Menú</a>
+                        {% endif %}
+                        {% if node.node.field_weblink.0.url.0.url is not empty %}
+                        <a href="{{node.node.field_weblink.0.url.0.url}}" target="_blank"
+                            aria-label="Link del sitio web" class="llegar">Sitio web</a>
+                        {% endif %}
+                    </div>
+                    <div class="redes-sociales"
+                        style="margin-top: 20px;display: flex; gap: 10px; justify-content: flex-end; align-items: center;">
+                        {% for item in node.field_profilelink %}
+                        <a href="{{ item.url }}" target="_blank" aria-label="{{ item.title }}"
+                            style="border:0;padding:0;">
+
+                            {% if 'facebook' in item.uri %}
+                            <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0.193314" y="0.249695" width="49.125" height="49" rx="24.5" fill="#FFF" />
+                                <path
+                                    d="M26.9433 26.6247H30.0683L31.3183 21.6247H26.9433V19.1247C26.9433 17.8372 26.9433 16.6247 29.4433 16.6247H31.3183V12.4247C30.9108 12.3709 29.3721 12.2497 27.7471 12.2497C24.3533 12.2497 21.9433 14.3209 21.9433 18.1247V21.6247H18.1933V26.6247H21.9433V37.2497H26.9433V26.6247Z"
+                                    fill="#35498e" />
+                            </svg>
+
+                            {% elseif 'instagram' in item.uri %}
+                            <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0.318314" y="0.0055542" width="49.4883" height="49.4883" rx="24.7442"
+                                    fill="#FFF" />
+                                <path
+                                    d="M30.3856 12.0056H19.3174C15.7461 12.0056 12.8515 15.0213 12.8515 18.7415V30.2697C12.8515 33.9899 15.7466 37.0056 19.3179 37.0056H30.3851C33.9565 37.0056 36.8515 33.9899 36.8515 30.2697V18.7415C36.8515 15.0213 33.957 12.0056 30.3856 12.0056Z"
+                                    stroke="#35498e" stroke-width="2" stroke-miterlimit="10" />
+                                <path
+                                    d="M24.8515 31.0056C28.1652 31.0056 30.8515 28.3193 30.8515 25.0056C30.8515 21.6919 28.1652 19.0056 24.8515 19.0056C21.5378 19.0056 18.8515 21.6919 18.8515 25.0056C18.8515 28.3193 21.5378 31.0056 24.8515 31.0056Z"
+                                    stroke="#35498e" stroke-width="2" stroke-miterlimit="10" />
+                                <path
+                                    d="M32.3515 19.0056C33.1799 19.0056 33.8515 18.334 33.8515 17.5056C33.8515 16.6772 33.1799 16.0056 32.3515 16.0056C31.5231 16.0056 30.8515 16.6772 30.8515 17.5056C30.8515 18.334 31.5231 19.0056 32.3515 19.0056Z"
+                                    fill="#35498e" />
+                            </svg>
+
+                            {% elseif 'threads' in item.uri %}
+                            <svg width="51" height="50" viewBox="0 0 51 50" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0.806641" y="-0.000488281" width="50" height="50" rx="25" fill="white" />
+                                <path
+                                    d="M23.1366 19.66C26.2679 17.1425 30.7741 18.485 31.3066 22.625C31.8716 27.0175 30.7441 30.5 26.3691 30.5C22.3066 30.5 22.4316 27 22.4316 27C22.4316 23.25 28.8691 22.75 32.6191 24.625C39.4941 29 34.4941 37 26.9941 37C20.7816 37 15.7441 33.875 15.7441 24.5C15.7441 15.125 20.7816 12 26.9941 12C31.3791 12 35.3341 14.2588 36.7879 18.775"
+                                    stroke="#35498e" stroke-width="2.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+
+                            {% elseif 'twitter' in item.uri or 'x.com' in item.uri %}
+                            <svg width="51" height="50" viewBox="0 0 51 50" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0.806641" y="-0.000488281" width="50" height="50" rx="25" fill="white" />
+                                <path
+                                    d="M28.0712 23.1235L36.9315 12.7495H34.8315L27.1402 21.7568L20.9942 12.7495H13.9067L23.1992 26.3715L13.9067 37.2495H16.0067L24.1302 27.7365L30.621 37.2495H37.7085L28.0712 23.1235ZM25.196 26.4905L24.2545 25.1343L16.7627 14.342H19.988L26.0325 23.0518L26.974 24.408L34.8332 35.7305H31.608L25.196 26.4905Z"
+                                    fill="#35498e" />
+                            </svg>
+
+                            {% elseif 'youtube' in item.uri or 'youtu.be' in item.uri %}
+                            <svg width="50" height="50" viewBox="0 0 50 50" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <rect x="0.806656" y="-0.000305176" width="49" height="49.5" rx="24.5" fill="#FFF" />
+                                <path
+                                    d="M22.8067 28.4998L29.2942 24.7498L22.8067 20.9998V28.4998ZM37.2567 18.7123C37.4192 19.2998 37.5317 20.0873 37.6067 21.0873C37.6942 22.0873 37.7317 22.9498 37.7317 23.6998L37.8067 24.7498C37.8067 27.4873 37.6067 29.4998 37.2567 30.7873C36.9442 31.9123 36.2192 32.6373 35.0942 32.9498C34.5067 33.1123 33.4317 33.2248 31.7817 33.2998C30.1567 33.3873 28.6692 33.4248 27.2942 33.4248L25.3067 33.4998C20.0692 33.4998 16.8067 33.2998 15.5192 32.9498C14.3942 32.6373 13.6692 31.9123 13.3567 30.7873C13.1942 30.1998 13.0817 29.4123 13.0067 28.4123C12.9192 27.4123 12.8817 26.5498 12.8817 25.7998L12.8067 24.7498C12.8067 22.0123 13.0067 19.9998 13.3567 18.7123C13.6692 17.5873 14.3942 16.8623 15.5192 16.5498C16.1067 16.3873 17.1817 16.2748 18.8317 16.1998C20.4567 16.1123 21.9442 16.0748 23.3192 16.0748L25.3067 15.9998C30.5442 15.9998 33.8067 16.1998 35.0942 16.5498C36.2192 16.8623 36.9442 17.5873 37.2567 18.7123Z"
+                                    fill="#35498e" />
+                            </svg>
+
+                            {% else %}
+                            {{ item.url }}
+                            {% endif %}
+
+                        </a>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -51,10 +130,12 @@
             <div class="info">
                 <div class="desc">
                     <h2>{{ node.getTitle() }}</h2>
-                    {{ content.body }}
+                    {% if body_sin_estilos is not empty %}
+                    {{ body_sin_estilos }}
+                    {% endif %}
                 </div>
                 {% if file_url(node.field_audio.entity.fileuri) is not empty %}
-                <div class="audio">
+                <div class="audio" style="margin: 20px 0;">
                     <h3>Escuchar reseña en audio</h3>
                     <audio controls>
                         <source src="  {{ file_url(node.field_audio.entity.fileuri) }}" type="audio/mpeg">
@@ -70,51 +151,147 @@
                             src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
                         </iframe>
                     </div>
-                  <div class="list">
-    <ul>
-        <li>
-            <strong>Recomendado para:</strong>
-            <div class="tag-container">
-                {% if node.field_turpara|length > 0 %}
-                    {% for item in node.field_turpara %}
-                        <span class="tag-item">{{ item.entity.name.value }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </li>
+                    <div class="list">
+                        <ul>
+                       
+		
+		
+                                    {% if node.field_tipo_de_alojamiento|length > 0 %}
+                            <li>
+                                <strong>Tipo de alojamiento</strong>
+                                
+    <div class="tag-container">
+                                    {% for item in node.field_tipo_de_alojamiento %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                                    {% endif %}
+                                    {% if node.field_tipos_de_habitacion_dispon|length > 0 %}
+                            <li>
+                                <strong>Tipos de habitación disponibles</strong>
+                                
+    <div class="tag-container">
+                                    {% for item in node.field_tipos_de_habitacion_dispon %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                                    {% endif %}
+                                    {% if node.field_servicios_del_hotel|length > 0 %}
+                            <li>
+                                <strong>Servicios del hotel</strong>
+                                
+    <div class="tag-container">
+                                    {% for item in node.field_servicios_del_hotel %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                                    {% endif %}
+                                    {% if node.field_rango_de_precios_del_hotel|length > 0 %}
+                            <li>
+                                <strong> Rango de precios</strong>
+                                
+    <div class="tag-container">
+                                    {% for item in node.field_rango_de_precios_del_hotel %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                                    {% endif %}
+                            {% if node.field_como_llegar_enr.0.value is not empty %}
+                            <li>
+                                <strong>¿Cómo Llegar?</strong>
+                                <p>{{ node.field_como_llegar_enr.0.value | striptags }}</p>
+                            </li>
+                            {% endif %}
+                            {% if node.field_horarios.0.value is not empty %}
+                            <li>
+                                <strong>Horarios:</strong>
+                                <p>{{ node.field_horarios.0.value }}</p>
+                            </li>
+                            {% endif %}
+                            {% if node.field_valor_de_la_entrada.0.value is not empty %}
+                            <li>
+                                <strong>Duración de la visita:</strong>
+                                <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
+                            </li>
+                            {% endif %}
+                            {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
+                            <li>
+                                <strong>Valor de la entrada:</strong>
+                                <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
+                            </li>
+                            {% endif %}
+                            <li>
+                                <strong>Recomendado para:</strong>
+                                <div class="tag-container">
+                                    {% if node.field_turpara|length > 0 %}
+                                    {% for item in node.field_turpara %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </li>
 
-        <li>
-            <strong>Zona:</strong>
-            <div class="tag-container">
-                {% if node.field_turzone|length > 0 %}
-                    {% for item in node.field_turzone %}
-                        <span class="tag-item">{{ item.entity.name.value }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </li>
+                            <li>
+                                <strong>Zona:</strong>
+                                <div class="tag-container">
+                                    {% if node.field_turzone|length > 0 %}
+                                    {% for item in node.field_turzone %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </li>
 
-        <li>
-            <strong>Localidad:</strong>
-            <div class="tag-container">
-                {% if node.field_turdistr|length > 0 %}
-                    {% for item in node.field_turdistr %}
-                        <span class="tag-item">{{ item.entity.name.value }}</span>
-                    {% endfor %}
-                {% endif %}
-            </div>
-        </li>
+                            <li>
+                                <strong>Localidad:</strong>
+                                <div class="tag-container">
+                                    {% if node.field_turdistr|length > 0 %}
+                                    {% for item in node.field_turdistr %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </li>
+                            <li>
+                                <strong>Contenido recomendado:</strong>
+                                <div class="tag-container">
+                                    {% if node.field_contenidos_relacionados|length > 0 %}
+                                    {% for item in node.field_contenidos_relacionados %}
 
-        <li class="flexList contact-info">
-            <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
-            <a href="mailto:{{node.field_correo.0.value}}">{{node.field_correo.0.value}}</a>
-        </li>
-        <li class="flexList contact-info">
-            <img src="/{{ directory }}/images/visitbogota/tel.png" alt="tel">
-            <a href="tel:{{node.field_telefono.0.value}}">{{node.field_telefono.0.value}}</a>
-        </li>
-    </ul>
-</div>
+                                    {# Example 1: Getting the machine name #}
+                                    {% set type_machine_name = item.entity.bundle %}
+
+                                    {# Example 2: Getting the human-readable label #}
+                                    {% set type_label = item.entity.type.entity.label %}
+
+                                    <span class="tag-item">
+                                        {# Outputting the title and the human-readable content type #}
+                                        {{ item.entity.title.value }} - <small>{{ type_label }}</small>
+                                    </span>
+
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </li>
+
+                            {% if node.field_correo.0.value is not empty %}
+                            <li class="flexList contact-info">
+                                <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
+                                <a href="mailto:{{node.field_correo.0.value}}">{{node.field_correo.0.value}}</a>
+                            </li>
+                            {% endif %}
+                            {% if node.field_telefono.0.value is not empty %}
+                            <li class="flexList contact-info">
+                                <img src="/{{ directory }}/images/visitbogota/tel.png" alt="tel">
+                                <a href="tel:{{node.field_telefono.0.value}}">{{node.field_telefono.0.value}}</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,12 +336,12 @@
             <ul>
                 {% for item in nodos_cercanos|shuffle|slice(0, 4) %}
                 <li>
-                {# Verificamos si la variable existe para no imprimir "km" vacíos #}
+                    {# Verificamos si la variable existe para no imprimir "km" vacíos #}
 
                     <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
-                    <div class="image">
-                        <img src="{{item.image }}" alt="atra">
-</div>
+                        <div class="image">
+                            <img src="{{item.image }}" alt="atra">
+                        </div>
                         <div class="title">{{item.title}}</div>
                     </a>
                 </li>

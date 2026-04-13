@@ -146,4 +146,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+document.addEventListener('DOMContentLoaded', function () {
+
+    const today = new Date().toISOString().split('T')[0];
+
+    const fechaSalidaInput = document.getElementById('fecha_salida');
+    const fechaRetornoInput = document.getElementById('fecha_retorno');
+
+    // Bloquear fechas pasadas
+    fechaSalidaInput.setAttribute('min', today);
+    fechaRetornoInput.setAttribute('min', today);
+
+});
 </script>

@@ -76,10 +76,9 @@
 <div class="intern_event">
   <main>
     <div class="container">
-
       <div class="info">
         <div class="image">
-          <img src="{{file_url(node.field_picgallery.0.entity.uri.value)}}" alt="obra">
+          <img src="{{file_url(node.fields.field_mainimg.0.entity.uri.value)}}" alt="obra">
         </div>
         <div class="text">
           {% set meses = {
@@ -92,8 +91,11 @@
           {% set raw_inicio = node.field_fecha_de_inicio.0.value %}
           {% set raw_fin = node.field_fecha_de_finalizacion.0.value %}
 
-          {% set mes_en = raw_inicio|date('M') %}
-          {% set mes_es = meses[mes_en] %}
+          {% set mes_inicio = raw_inicio|date('M') %}
+          {% set mes_fin = raw_fin|date('M') %}
+          {% set mes_inicio = meses[mes_inicio] %}
+          {% set mes_fin = meses[mes_fin] %}
+
           {% set dia_inicio = raw_inicio|date('j') %}
           {% set dia_fin = raw_fin|date('j') %}
 
@@ -101,17 +103,61 @@
           <h1> {{ node.getTitle() }}</h1>
           <small>{{ node.field_lugar_del_evento.0.value }}</small>
           <div class="date">
-            <div class="init"><strong>{{ dia_inicio }}</strong><small>{{ mes_es }}</small></div>
+            <div class="init"><strong>{{ dia_inicio }}</strong><small>{{ mes_inicio }}</small></div>
+            {% if raw_inicio != raw_fin %}
             <span>-</span>
-            <div class="end"><strong>1{{ dia_fin }}</strong><small>{{ mes_es }}</small></div>
+            <div class="end"><strong>{{ dia_fin }}</strong><small>{{ mes_fin }}</small></div>
+            {% endif %}
           </div>
           {{ content.body }}
-          <ul>
-            <li><strong>Recomendado para: </strong>{% for term in node.field_turpara %}{{ term.entity.name.value }}{%
-              endfor %}</li>
-            <li><strong>Localidad: </strong>{{content.field_turdistr.0['#title']}}</li>
-            <li><strong>Zona:</strong>{{content.field_turzone.0['#title']}}</li>
-          </ul>
+           <div class="list">
+                        <ul>
+                            <li>
+                                <strong>Recomendado para:</strong>
+                                <div class="tag-container">
+                                    {% if node.field_turpara|length > 0 %}
+                                    {% for item in node.field_turpara %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </li>
+
+                            <li>
+                                <strong>Zona:</strong>
+                                <div class="tag-container">
+                                    {% if node.field_turzone|length > 0 %}
+                                    {% for item in node.field_turzone %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </li>
+
+                            <li>
+                                <strong>Localidad:</strong>
+                                <div class="tag-container">
+                                    {% if node.field_turdistr|length > 0 %}
+                                    {% for item in node.field_turdistr %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% if node.field_correo.0.value is not empty %}
+                            <li class="flexList contact-info">
+                                <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
+                                <a href="mailto:{{node.field_correo.0.value}}">{{node.field_correo.0.value}}</a>
+                            </li>
+                            {% endif %}
+                            {% if node.field_telefono.0.value is not empty %}
+                            <li class="flexList contact-info">
+                                <img src="/{{ directory }}/images/visitbogota/tel.png" alt="tel">
+                                <a href="tel:{{node.field_telefono.0.value}}">{{node.field_telefono.0.value}}</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
           <div class="contact">
           </div>
           <div class="buttons">
@@ -139,7 +185,7 @@
       {% endif %}
     {% endfor %}
    {% if has_items %}
-<div class="lugares">
+<div class="lugares" style="padding: 20px;">
   <h4>
     Otros eventos de {{ content.field_turcat.0['#title'] }} que te pueden interesar
   </h4>
@@ -151,9 +197,57 @@
       {% if item.id != node.nid.value and count < 4 %}
 
         <li>
-          <a href="{{ item.url }}">
+          <a href="{{ item.url }}" >
             <img src="{{ item.image }}" alt="{{ item.title }}">
-            <div class="title">{{ item.title }}</div>
+            <div class="info" style="    
+    background-color: #fff;
+flex-direction: column;
+    border-radius: 0 0 10px 10px;">
+            <div class="title" style="padding: 0;
+    background-color: transparent;
+    font-weight: 800;
+    font-size: 16px;
+    border-radius: 0 0">{{ item.title }}</div>
+            {# Pre-calculamos fechas para evitar repetición #}
+                        {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
+                        {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}
+
+                        {# Formateo de meses traducidos para la visualización #}
+                        {% set mes_ini = item.field_fecha_de_inicio|date("M") %}
+                        {% set mes_fin = item.field_fecha_de_finalizacion|date("M") %}
+
+                        {# Solo traducimos si el sitio está en español #}
+                        {% set display_inicio = (meses[mes_ini] is defined) ? meses[mes_ini] ~
+                        item.field_fecha_de_inicio|date(" d") : item.field_fecha_de_inicio|date("M d") %}
+                        
+                        {% set display_fin = (meses[mes_fin] is defined) ? meses[mes_fin] ~
+                        item.field_fecha_de_finalizacion|date(" d") : item.field_fecha_de_finalizacion|date("M d") %}
+ <div class="date" style="color:#000;display: flex;align-items: center;gap:10px;
+    ">
+                   <svg width="16" height="16" viewBox="0 0 16 16"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5.33333 1.33325V3.99992M10.6667 1.33325V3.99992M14 9.33325V3.99992C14 3.6463 13.8595 3.30716 13.6095 3.05711C13.3594 2.80706 13.0203 2.66659 12.6667 2.66659H3.33333C2.97971 2.66659 2.64057 2.80706 2.39052 3.05711C2.14048 3.30716 2 3.6463 2 3.99992V13.3333C2 13.6869 2.14048 14.026 2.39052 14.2761C2.64057 14.5261 2.97971 14.6666 3.33333 14.6666H8.66667M2 6.66658H14M10.6667 13.3333L12 14.6666L14.6667 11.9999"
+                                        stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+              {{ display_inicio }}{% if fecha_inicio_raw != fecha_fin_raw %} - {{ display_fin
+                                        }}{% endif %}
+                </div>
+          
+ <div class="place" style="color:#000;display: flex;align-items: center;gap:10px;
+    "><svg width="13" height="16" viewBox="0 0 13 16"
+                                    fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z"
+                                        stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M6.33333 8.33333C7.4379 8.33333 8.33333 7.4379 8.33333 6.33333C8.33333 5.22876 7.4379 4.33333 6.33333 4.33333C5.22876 4.33333 4.33333 5.22876 4.33333 6.33333C4.33333 7.4379 5.22876 8.33333 6.33333 8.33333Z"
+                                        stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+
+                                {{item['field_lugar_del_evento']}}
+                            </div>
+            </div>
           </a>
         </li>
 

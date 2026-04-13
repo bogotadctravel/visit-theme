@@ -1,3 +1,7 @@
+  {% set meses = { 'Jan': 'Ene', 'Feb': 'Feb',
+'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Aug':
+'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %}
+
 <div class="itinerario">
     <main>
         <div class="banner" style="background-image: url({{ banner_interes_url }});">
@@ -11,6 +15,7 @@
                         {% for term in intereses_terms %}
                         <div class="item">{{ term.label }}</div>
                         {% endfor %}
+           
                         {# Mostrar fechas #}
                         <div class="item">
                             <p>Desde el {{ fecha_salida|date()|date('U')|format_date('custom', 'd F')|capitalize }}</p>
@@ -42,41 +47,79 @@
                 {% endfor %}
             </ul>
         </div>
-        {# <div class="eventos" data-aos="fade-right">
+        <div class="eventos" data-aos="fade-right">
             <h4>{{"ui.we_recommend_events"|trans}}</h4>
 
-            <section class="splide" aria-label="Eventos recomendados">
-                <div class="splide__track">
+            <section>
+                <div>
+                    <ul class="grid-atractivos container" id="events-grid">
+                        {# 1. Detectar idioma (asumiendo variable global de Drupal o path) #}
+                        {% set lang = drupal_contextual_links_locations is defined ? 'es' : 'en' %} {# Ajusta según tu
+                        entorno #}
 
-                    <ul class="splide__list grid-events">
-                        {% for node in eventosVisit %}
-                        <li class="splide__slide">
-                            <a href="{{ path('entity.node.canonical', {'node': node.id}) }}" style="background-image: url(
-                      {{ node.image }}
-                  );">
+                        {% for item in eventos_rec|reverse %}
+                         {# Pre-calculamos fechas para evitar repetición #}
+                        {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
+                        {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}
 
-                                <div class="tag">
-                                    {{ node.categoria.name }}
+                        {# Formateo de meses traducidos para la visualización #}
+                        {% set mes_ini = item.field_fecha_de_inicio|date("M") %}
+                        {% set mes_fin = item.field_fecha_de_finalizacion|date("M") %}
+
+                        {# Solo traducimos si el sitio está en español #}
+                        {% set display_inicio = (meses[mes_ini] is defined) ? meses[mes_ini] ~
+                        item.field_fecha_de_inicio|date(" d") : item.field_fecha_de_inicio|date("M d") %}
+                        
+                        {% set display_fin = (meses[mes_fin] is defined) ? meses[mes_fin] ~
+                        item.field_fecha_de_finalizacion|date(" d") : item.field_fecha_de_finalizacion|date("M d") %}
+
+                        <li class="card" data-categoria="{{ item.categoria.tid }}"
+                            data-tipo="{{ item.field_categoria_de_evento.tid }}" data-fecha="{{ fecha_inicio_raw }}"
+                            data-fecha-fin="{{ fecha_fin_raw }}" {# NUEVO: Atributo para el JS #} data-aos="zoom-in"
+                            data-aos-delay="300">
+
+                            <a href="{{ item.url }}">
+                                <div class="image">
+                                    <img src="{{item.image}}" alt="{{ item.title }}">
                                 </div>
+                                <div class="event-info" style="padding:15px">
+                                    <span class="title" style="padding:0;">{{item.title}}</span>
+                                    <div class="date" style="color:#000;display:flex;align-items:center;gap:5px;">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M5.33333 1.33325V3.99992M10.6667 1.33325V3.99992M14 9.33325V3.99992C14 3.6463 13.8595 3.30716 13.6095 3.05711C13.3594 2.80706 13.0203 2.66659 12.6667 2.66659H3.33333C2.97971 2.66659 2.64057 2.80706 2.39052 3.05711C2.14048 3.30716 2 3.6463 2 3.99992V13.3333C2 13.6869 2.14048 14.026 2.39052 14.2761C2.64057 14.5261 2.97971 14.6666 3.33333 14.6666H8.66667M2 6.66658H14M10.6667 13.3333L12 14.6666L14.6667 11.9999"
+                                                stroke="#000" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        {{ display_inicio }}{% if fecha_inicio_raw != fecha_fin_raw %} - {{ display_fin
+                                        }}{% endif %}
+                                    </div>
 
-                                <span class="title">
-                                    {{ node.title }}
-                                </span>
+                                    <div class="place" style="color:#000;"><svg width="13" height="16"
+                                            viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z"
+                                                stroke="#000" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M6.33333 8.33333C7.4379 8.33333 8.33333 7.4379 8.33333 6.33333C8.33333 5.22876 7.4379 4.33333 6.33333 4.33333C5.22876 4.33333 4.33333 5.22876 4.33333 6.33333C4.33333 7.4379 5.22876 8.33333 6.33333 8.33333Z"
+                                                stroke="#000" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
 
-                                {% if node.field_fecha.value %}
-                                <div class="date">
-                                    {{ node.field_fecha.value|date("M d") }}
+                                        {{item['field_lugar_del_evento']}}
+                                    </div>
                                 </div>
-                                {% endif %}
-
                             </a>
                         </li>
                         {% endfor %}
+
                     </ul>
 
                 </div>
             </section>
-        </div> #}
+        </div>
         {% if experiencias_rec is not empty %}
 
         <div class="atractivos" data-aos="fade-left">
@@ -187,137 +230,309 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+       document.addEventListener('DOMContentLoaded', function () {
+                            //Itinerario en PDF
 
-            const { jsPDF } = window.jspdf;
+                            const { jsPDF } = window.jspdf;
+                            const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
+                            if (!form) return;
 
-            const form = document.querySelector('form[id^="contact-message-guardar-itinerario-form"]');
+                            // ── Paleta Visit Bogota ───────────────────────────────────────────
+                            const C = {
+                                azul: [53, 73, 142],
+                                azulOsc: [35, 50, 105],
+                                azulLt: [80, 104, 180],
+                                blanco: [255, 255, 255],
+                                gris: [90, 90, 90],
+                                grisLt: [245, 245, 248],
+                                grisLine: [210, 213, 230],
+                                negro: [30, 30, 30]
+                            };
 
-            if (!form) return;
+                            // ── Imagen -> base64 via canvas ───────────────────────────────────
+                            function imgToBase64(url) {
+                                return new Promise(resolve => {
+                                    const img = new Image();
+                                    img.crossOrigin = 'anonymous';
+                                    img.onload = () => {
+                                        const cv = document.createElement('canvas');
+                                        cv.width = 400; cv.height = 300;
+                                        cv.getContext('2d').drawImage(img, 0, 0, 400, 300);
+                                        resolve(cv.toDataURL('image/jpeg', 0.8));
+                                    };
+                                    img.onerror = () => resolve(null);
+                                    img.src = url;
+                                });
+                            }
 
-            form.addEventListener('submit', function (e) {
-                e.preventDefault(); // IMPORTANTE
-                let lista = [];
+                            // ── Utilidades PDF ────────────────────────────────────────────────
+                            function fillRect(pdf, x, y, w, h, color) {
+                                pdf.setFillColor(...color);
+                                pdf.rect(x, y, w, h, 'F');
+                            }
 
-                document.querySelectorAll('.grid-atractivos .card').forEach(card => {
+                            function txt(pdf, text, x, y, opts = {}) {
+                                const { size = 10, color = C.gris, bold = false, maxW = 170, align = 'left' } = opts;
+                                pdf.setFontSize(size);
+                                pdf.setTextColor(...color);
+                                pdf.setFont('helvetica', bold ? 'bold' : 'normal');
+                                const lines = pdf.splitTextToSize(String(text), maxW);
+                                pdf.text(lines, x, y, { align });
+                                return lines.length * (size * 0.38);
+                            }
 
-                    const titulo = card.querySelector('.title')?.innerText.trim() || "";
-                    const direccion = card.dataset.direccion || "No disponible";
-                    const telefono = card.dataset.telefono || "No disponible";
-                    const imagen = card.querySelector('img')?.src || "";
+                            function drawHeader(pdf) {
+                                fillRect(pdf, 0, 0, 210, 13, C.azul);
+                                pdf.setFontSize(8); pdf.setTextColor(...C.blanco); pdf.setFont('helvetica', 'bold');
+                                pdf.text('visitbogota.co', 8, 8.5);
+                                pdf.setFont('helvetica', 'normal'); pdf.setTextColor(190, 200, 240);
+                                pdf.text('Mi Itinerario en Bogota', 202, 8.5, { align: 'right' });
+                            }
 
-                    lista.push({
-                        titulo,
-                        direccion,
-                        telefono,
-                        imagen
-                    });
+                            function drawSectionHeader(pdf, titulo, y) {
+                                fillRect(pdf, 10, y, 190, 10, C.azul);
+                                pdf.setFontSize(9); pdf.setTextColor(...C.blanco); pdf.setFont('helvetica', 'bold');
+                                pdf.text(titulo.toUpperCase(), 14, y + 7);
+                                return y + 15;
+                            }
 
-                });
-                function getBase64ImageFromUrl(url) {
-                    return new Promise((resolve, reject) => {
-                        const img = new Image();
-                        img.crossOrigin = "anonymous";
+                            // ── Submit handler ────────────────────────────────────────────────
+                            form.addEventListener('submit', async function (e) {
+                                e.preventDefault();
 
-                        img.onload = () => {
-                            const canvas = document.createElement("canvas");
-                            const ctx = canvas.getContext("2d");
+                                const fechaSalida = document.querySelector('#fecha_salida')?.value || '';
+                                const fechaRetorno = document.querySelector('#fecha_retorno')?.value || '';
 
-                            canvas.width = 400;
-                            canvas.height = 300;
+                                const formatFecha = iso => {
+                                    if (!iso) return iso;
+                                    const [y, m, d] = iso.split('-');
+                                    const M = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+                                        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+                                    return parseInt(d) + ' de ' + M[parseInt(m) - 1] + ' de ' + y;
+                                };
 
-                            ctx.drawImage(img, 0, 0, 400, 300);
+                                // Intereses del banner (solo items sin <p>)
+                                const intereses = [];
+                                document.querySelectorAll('.banner .data .item').forEach(el => {
+                                    if (!el.querySelector('p')) intereses.push(el.innerText.trim());
+                                });
 
-                            const dataURL = canvas.toDataURL("image/jpeg");
-                            resolve(dataURL);
-                        };
+                                // Secciones dinamicas desde el DOM
+                                const secciones = [];
+                                document.querySelectorAll('.itinerario > main > .atractivos, .itinerario > main > .eventos')
+                                    .forEach(secEl => {
+                                        const secTitulo = secEl.querySelector('h2, h4')?.innerText.trim() || 'Seccion';
+                                        const items = [];
+                                        secEl.querySelectorAll('.card').forEach(card => {
+                                            const titulo = card.querySelector('.title')?.innerText.trim() || '';
+                                            const direccion = (card.dataset.direccion || '').trim();
+                                            const telefono = (card.dataset.telefono || '').trim();
+                                            const imagen = card.querySelector('img')?.src || '';
+                                            const fecha = card.querySelector('.date')?.innerText.trim() || '';
+                                            const lugar = card.querySelector('.place')?.innerText.trim() || '';
+                                            if (titulo) items.push({ titulo, direccion, telefono, imagen, fecha, lugar });
+                                        });
+                                        if (items.length) secciones.push({ titulo: secTitulo, items });
+                                    });
 
-                        img.onerror = error => reject(error);
-                        img.src = url;
-                    });
-                }
+                                // Rellenar textarea del formulario
+                                const campoMsg = form.querySelector('textarea[name^="message"]');
+                                if (campoMsg) {
+                                    campoMsg.value = secciones.map(s =>
+                                        '=== ' + s.titulo + ' ===\n' +
+                                        s.items.map(i => '- ' + i.titulo + (i.direccion ? ' | ' + i.direccion : '') + (i.telefono ? ' | ' + i.telefono : '')).join('\n')
+                                    ).join('\n\n');
+                                }
 
-                document.querySelectorAll('.eventos .title').forEach(item => {
-                    lista.push({
-                        titulo: item.innerText.trim(),
-                        direccion: "Evento en Bogotá",
-                        telefono: "",
-                        imagen: ""
-                    });
-                });
+                                // Pre-cargar imagenes
+                                const imgCache = {};
+                                const allItems = secciones.flatMap(s => s.items);
+                                await Promise.all(allItems.map(async item => {
+                                    if (item.imagen && !imgCache[item.imagen]) {
+                                        imgCache[item.imagen] = await imgToBase64(item.imagen);
+                                    }
+                                }));
 
-                const fechaSalida = document.querySelector('#fecha_salida')?.value || "";
-                const fechaRetorno = document.querySelector('#fecha_retorno')?.value || "";
+                                // ── CREAR PDF ─────────────────────────────────────────────────
+                                const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+                                const PW = 210;
 
-                let campoMensaje = form.querySelector('textarea[name^="message"]');
+                                // ══ CABECERA DE PRIMERA PAGINA ═══════════════════════════════
+                                // Bloque azul superior
+                                fillRect(pdf, 0, 0, PW, 48, C.azul);
 
-                if (campoMensaje) {
-                    campoMensaje.value =
-                        "Hola, aquí está el itinerario planificado:\n\n" +
-                        lista.map(l => `${l.titulo} - ${l.direccion} - ${l.telefono}`).join('\n');
-                }
+                                // Logo
+                                pdf.setFontSize(14); pdf.setFont('helvetica', 'bold');
+                                pdf.setTextColor(...C.blanco);
+                                pdf.text('visitbogota', 8, 10);
+                                pdf.setFont('helvetica', 'normal');
+                                pdf.setTextColor(190, 200, 240);
+                                pdf.setFontSize(8);
+                                pdf.text('.co', 8 + pdf.getStringUnitWidth('visitbogota') * 14 / pdf.internal.scaleFactor, 10);
 
-                // GENERAR PDF
-                const pdf = new jsPDF();
+                                // Titulo itinerario
+                                pdf.setFontSize(18); pdf.setFont('helvetica', 'bold'); pdf.setTextColor(...C.blanco);
+                                pdf.text('!Tu itinerario esta listo!', 8, 22);
 
-                let y = 20;
+                                // Fechas
+                                if (fechaSalida) {
+                                    pdf.setFontSize(9); pdf.setFont('helvetica', 'normal'); pdf.setTextColor(190, 200, 240);
+                                    pdf.text('Desde: ' + formatFecha(fechaSalida) + '   |   Hasta: ' + formatFecha(fechaRetorno), 8, 31);
+                                }
 
-                pdf.setFontSize(22);
-                pdf.text("Itinerario Bogotá", 20, y);
+                                // Badges de categorias (azul claro sobre azul oscuro, solo azul/blanco)
+                                let bx = 8;
+                                const BY = 38;
+                                intereses.forEach(tag => {
+                                    pdf.setFontSize(7.5); pdf.setFont('helvetica', 'bold');
+                                    const tw = pdf.getStringUnitWidth(tag.toUpperCase()) * 7.5 / pdf.internal.scaleFactor + 6;
+                                    fillRect(pdf, bx, BY - 4.5, tw, 7, C.azulLt);
+                                    pdf.setTextColor(...C.blanco);
+                                    pdf.text(tag.toUpperCase(), bx + 3, BY);
+                                    bx += tw + 3;
+                                });
 
-                y += 12;
+                                // Linea separadora inferior de la cabecera
+                                pdf.setDrawColor(...C.azulLt); pdf.setLineWidth(0.4);
+                                pdf.line(0, 48, PW, 48);
 
-                pdf.setFontSize(12);
-                pdf.text("Fecha salida: " + fechaSalida, 20, y);
+                                // ══ CONTENIDO ═════════════════════════════════════════════════
+                                const MARGIN_TOP = 52;
+                                const MARGIN_BOTTOM = 283;
+                                const IMG_W = 40, IMG_H = 30;
+                                let y = MARGIN_TOP;
+                                let curPage = 1;
 
-                y += 8;
-                pdf.text("Fecha retorno: " + fechaRetorno, 20, y);
+                                function checkPage(needed) {
+                                    if (y + needed > MARGIN_BOTTOM) {
+                                        pdf.addPage();
+                                        curPage++;
+                                        drawHeader(pdf);
+                                        y = 17;
+                                    }
+                                }
 
-                y += 15;
+                                // Columnas: cada columna ocupa la mitad del ancho util
+                                const COL_W = 92;   // ancho de cada tarjeta
+                                const COL_GAP = 6;    // separacion entre columnas
+                                const COL_X = [10, 10 + COL_W + COL_GAP]; // x inicial de col 0 y col 1
+                                const CARD_IMG_W = 20, CARD_IMG_H = 15;      // imagen dentro de la tarjeta
 
-                pdf.setFontSize(16);
-                pdf.text("Lugares seleccionados:", 20, y);
+                                // Dibuja un item en la columna indicada, en la fila y
+                                // Devuelve la altura real ocupada por la tarjeta
+                                function drawCard(item, cx, cy) {
+                                    const hasImg = !!(item.imagen && imgCache[item.imagen]);
+                                    const textX = cx + (hasImg ? CARD_IMG_W + 3 : 3);
+                                    const textW = COL_W - (hasImg ? CARD_IMG_W + 6 : 6);
 
-                y += 10;
+                                    // Calcular altura
+                                    pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9);
+                                    const tLines = pdf.splitTextToSize(item.titulo, textW);
+                                    let cardH = Math.max(hasImg ? CARD_IMG_H + 2 : 0, tLines.length * 4 + 10);
 
-                pdf.setFontSize(12);
+                                    pdf.setFont('helvetica', 'normal'); pdf.setFontSize(7.5);
+                                    if (item.direccion) cardH = Math.max(cardH, (hasImg ? CARD_IMG_H + 2 : 0) + tLines.length * 4 + 14);
 
-                (async () => {
+                                    // Fondo
+                                    fillRect(pdf, cx, cy, COL_W, cardH, C.grisLt);
 
-                    for (const lugar of lista) {
+                                    // Imagen
+                                    if (hasImg) {
+                                        try { pdf.addImage(imgCache[item.imagen], 'JPEG', cx + 1, cy + 1, CARD_IMG_W, CARD_IMG_H); } catch (e) { }
+                                    }
 
-                        if (y > 240) {
-                            pdf.addPage();
-                            y = 20;
-                        }
+                                    // Titulo
+                                    let iy = cy + 6;
+                                    pdf.setFontSize(9); pdf.setTextColor(...C.azul); pdf.setFont('helvetica', 'bold');
+                                    pdf.text(tLines, textX, iy);
+                                    iy += tLines.length * 4;
 
-                        // IMAGEN
-                        if (lugar.imagen) {
+                                    // Direccion
+                                    if (item.direccion) {
+                                        pdf.setFontSize(7); pdf.setTextColor(...C.gris); pdf.setFont('helvetica', 'normal');
+                                        const dL = pdf.splitTextToSize('Dir.: ' + item.direccion, textW);
+                                        pdf.text(dL, textX, iy);
+                                        iy += dL.length * 3.5;
+                                    }
+                                    // Telefono
+                                    if (item.telefono) {
+                                        pdf.setFontSize(7); pdf.setTextColor(...C.gris);
+                                        pdf.text('Tel.: ' + item.telefono, textX, iy);
+                                        iy += 3.5;
+                                    }
+                                    // Fecha evento
+                                    if (item.fecha) {
+                                        pdf.setFontSize(7); pdf.setTextColor(...C.azulLt); pdf.setFont('helvetica', 'bold');
+                                        pdf.text('Fecha: ' + item.fecha, textX, iy);
+                                        iy += 3.5;
+                                    }
+                                    // Lugar evento
+                                    if (item.lugar) {
+                                        pdf.setFontSize(7); pdf.setTextColor(...C.gris); pdf.setFont('helvetica', 'normal');
+                                        const lL = pdf.splitTextToSize('Lugar: ' + item.lugar, textW);
+                                        pdf.text(lL, textX, iy);
+                                        iy += lL.length * 3.5;
+                                    }
 
-                            try {
-                                const imgData = await getBase64ImageFromUrl(lugar.imagen);
-                                pdf.addImage(imgData, 'JPEG', 20, y, 40, 30);
-                            } catch (e) { }
+                                    return cardH;
+                                }
 
-                        }
+                                for (const seccion of secciones) {
+                                    checkPage(20);
+                                    y = drawSectionHeader(pdf, seccion.titulo, y);
 
-                        // TEXTO
-                        pdf.setFontSize(13);
-                        pdf.text(lugar.titulo, 70, y + 5);
+                                    const items = seccion.items;
+                                    for (let i = 0; i < items.length; i += 2) {
+                                        const itemA = items[i];
+                                        const itemB = items[i + 1] || null;
 
-                        pdf.setFontSize(10);
-                        pdf.text("Dirección: " + lugar.direccion, 70, y + 12);
-                        pdf.text("Teléfono: " + lugar.telefono, 70, y + 18);
+                                        // Calcular altura de la fila (el mayor de los dos)
+                                        const hA = (() => {
+                                            const hasImg = !!(itemA.imagen && imgCache[itemA.imagen]);
+                                            const textW = COL_W - (hasImg ? CARD_IMG_W + 6 : 6);
+                                            pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9);
+                                            const tL = pdf.splitTextToSize(itemA.titulo, textW);
+                                            return Math.max(hasImg ? CARD_IMG_H + 2 : 0, tL.length * 4 + 10);
+                                        })();
+                                        const hB = itemB ? (() => {
+                                            const hasImg = !!(itemB.imagen && imgCache[itemB.imagen]);
+                                            const textW = COL_W - (hasImg ? CARD_IMG_W + 6 : 6);
+                                            pdf.setFont('helvetica', 'bold'); pdf.setFontSize(9);
+                                            const tL = pdf.splitTextToSize(itemB.titulo, textW);
+                                            return Math.max(hasImg ? CARD_IMG_H + 2 : 0, tL.length * 4 + 10);
+                                        })() : 0;
+                                        const rowH = Math.max(hA, hB);
 
-                        y += 40;
+                                        checkPage(rowH + 4);
 
-                    }
+                                        drawCard(itemA, COL_X[0], y);
+                                        if (itemB) drawCard(itemB, COL_X[1], y);
 
-                    pdf.save("itinerario-bogota.pdf");
+                                        // Linea separadora entre filas
+                                        pdf.setDrawColor(...C.grisLine); pdf.setLineWidth(0.2);
+                                        pdf.line(10, y + rowH + 2, 200, y + rowH + 2);
+                                        y += rowH + 5;
+                                    }
+                                    y += 4;
+                                }
 
-                })();
 
-            });
+                                pdf.save('itinerario-bogota.pdf');
+                            });
 
-        });
+                            // ── Botón directo: simula el submit sin abrir el modal ────────────
+                            const btnDirecto = document.getElementById('btn-generar-pdf-directo');
+                            if (btnDirecto) {
+                                btnDirecto.addEventListener('click', function () {
+                                    btnDirecto.disabled = true;
+                                    btnDirecto.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Generando PDF...';
+                                    form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+                                    setTimeout(() => {
+                                        btnDirecto.disabled = false;
+                                        btnDirecto.innerHTML = '<i class="fas fa-file-pdf me-2"></i> Generar PDF ahora';
+                                    }, 3000);
+                                });
+                            }
+
+                        }); // DOMContentLoaded
     </script>

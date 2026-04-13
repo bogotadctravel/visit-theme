@@ -61,6 +61,22 @@ function visit_theme_get_terms(string $vocab): array {
 
 
 function visit_theme_preprocess_node(array &$variables) {
+  $node = $variables['node'];
+
+  // Verifica que sea el tipo de contenido correcto (atractivos)
+  if ($node->getType() == 'atractivos') {
+    
+    // Limpiar estilos del body
+    if ($node->hasField('body') && !$node->get('body')->isEmpty()) {
+      $body_raw = $node->get('body')->value;
+      // Quitamos el atributo style
+      $body_clean = preg_replace('/style="[^"]*"/i', '', $body_raw);
+      // Creamos una nueva variable para Twig
+      $variables['body_sin_estilos'] = [
+        '#markup' => $body_clean,
+      ];
+    }
+  }
   // 1. Validaciones tempranas
   if ($variables['view_mode'] !== 'full') {
     return;
@@ -257,7 +273,9 @@ function visit_theme_preprocess_node(array &$variables) {
    $contenido = $content_loader->getContenidoPorIntereses(
   $intereses_ids,
   $recomendacion_id,
-  $limite_items
+  $limite_items, 
+    $fecha_salida, 
+    $fecha_retorno
 );
 
 $variables['atractivos_rec'] = $contenido['atractivos'];

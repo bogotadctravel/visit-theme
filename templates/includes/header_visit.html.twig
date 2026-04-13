@@ -35,7 +35,7 @@
         </div>
         <div class="bottom-bar">
             <div  style="margin: 0 auto;padding: 0 24px;display: flex;     height: 80px;align-items: center;justify-content: space-between;">
-                <a href="/node/548" class="logo">
+                <a href="/" class="logo">
                     <svg width="224" height="112" viewBox="0 0 147 75" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="Group 3">
                             <g id="Group">
@@ -83,7 +83,7 @@
                         {% set subcategorias = taxonomy('subcategorias_turisticas') %}
                         {% set has_tax = categorias is not empty %}
                         <li class="nav-item{% if has_tax %} has-mega{% endif %}">
-                            <a href="/pagina-que-hacer" class="nav-link"{% if has_tax %} aria-expanded="false"{% endif %}>
+                            <a href="/que-hacer-en-bogota" class="nav-link"{% if has_tax %} aria-expanded="false"{% endif %}>
                                 {{"ui.what_to_do"|t}}
                                 {% if has_tax %}
                                 <svg class="nav-link__arrow" width="12" height="7" viewBox="0 0 12 7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
