@@ -24,6 +24,24 @@ item.fields.field_fecha_de_finalizacion.0.value|date("Y-m-d") %} {% if fin < hoy
                 </div>
             </div>
            <form id="events-filter-form" class="filters-form">
+           <span>
+    <label for="filtro_mes">Mes</label>
+    <select name="filtro_mes" id="filtro_mes">
+        <option value="all">Todos los meses</option>
+        <option value="01">Enero</option>
+        <option value="02">Febrero</option>
+        <option value="03">Marzo</option>
+        <option value="04">Abril</option>
+        <option value="05">Mayo</option>
+        <option value="06">Junio</option>
+        <option value="07">Julio</option>
+        <option value="08">Agosto</option>
+        <option value="09">Septiembre</option>
+        <option value="10">Octubre</option>
+        <option value="11">Noviembre</option>
+        <option value="12">Diciembre</option>
+    </select>
+</span>
     <span>
         <label for="categoria">Categoria</label>
         <select name="categoria" id="categoria">
@@ -76,6 +94,7 @@ item.fields.field_fecha_de_finalizacion.0.value|date("Y-m-d") %} {% if fin < hoy
         data-tipo="{{ item.field_categoria_de_evento.tid }}" 
         data-fecha="{{ fecha_inicio_raw }}"
         data-fecha-fin="{{ fecha_fin_raw }}" {# NUEVO: Atributo para el JS #}
+        data-mes="{{ item.field_fecha_de_inicio|date('m') }}"
         data-aos="zoom-in" 
         data-aos-delay="300">
         
@@ -85,7 +104,7 @@ item.fields.field_fecha_de_finalizacion.0.value|date("Y-m-d") %} {% if fin < hoy
             </div>
             <div class="event-info" style="padding:15px">
                 <span class="title">{{item.title}}</span>
-                <div class="date" style="color:#000;">
+                <div class="date" style="color:#000;display:flex;gap:10px">
                    <svg width="16" height="16" viewBox="0 0 16 16"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -96,7 +115,7 @@ item.fields.field_fecha_de_finalizacion.0.value|date("Y-m-d") %} {% if fin < hoy
                                         }}{% endif %}
                 </div>
           
- <div class="place" style="color:#000;"><svg width="13" height="16" viewBox="0 0 13 16"
+ <div class="place" style="color:#000;display:flex;gap:10px"><svg width="13" height="16" viewBox="0 0 13 16"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
                                         d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z"

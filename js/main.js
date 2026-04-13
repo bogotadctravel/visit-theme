@@ -1058,46 +1058,75 @@
           });
         }
       });
-
       /* ------------------------------
-   * AGENDA FILTER (Mejorado con Fecha Fin)
-   * ------------------------------ */
+* AGENDA FILTER (Completo: Mes + Opciones Dinámicas)
+* ------------------------------ */
       once("idt-agenda-filter", "#events-filter-form", context).forEach((form) => {
         const grid = document.getElementById("events-grid");
         const cards = Array.from(grid.querySelectorAll(".card"));
 
         const selectCat = form.querySelector("#categoria");
         const selectTipo = form.querySelector("#tipo");
+        const selectMes = form.querySelector("#filtro_mes");
         const inputDesde = form.querySelector("#fecha_desde");
         const inputHasta = form.querySelector("#fecha_hasta");
+
+        const updateAvailableOptions = () => {
+          // 1. Identificar qué cards están visibles actualmente
+          const visibleCards = cards.filter(card => card.style.display !== "none");
+
+          // 2. Extraer valores únicos de lo que hay disponible en pantalla
+          const availableCats = [...new Set(visibleCards.map(c => c.dataset.categoria))];
+          const availableTipos = [...new Set(visibleCards.map(c => c.dataset.tipo))];
+          const availableMeses = [...new Set(visibleCards.map(c => c.dataset.mes))];
+
+          // 3. Actualizar Select de CATEGORÍAS
+          selectCat.querySelectorAll("option").forEach(opt => {
+            if (opt.value === "all") return;
+            opt.disabled = !availableCats.includes(opt.value);
+            opt.hidden = opt.disabled ? true : false;
+            opt.style.opacity = opt.disabled ? "0.5" : "1";
+          });
+
+          // 4. Actualizar Select de TIPOS
+          selectTipo.querySelectorAll("option").forEach(opt => {
+            if (opt.value === "all") return;
+            opt.disabled = !availableTipos.includes(opt.value);
+            opt.hidden = opt.disabled ? true : false;
+            opt.style.opacity = opt.disabled ? "0.5" : "1";
+          });
+
+          // 5. Actualizar Select de MESES (Lo que faltaba)
+          if (selectMes) {
+            selectMes.querySelectorAll("option").forEach(opt => {
+              if (opt.value === "all") return;
+              // Si el mes de la opción no está en las cards visibles, se deshabilita
+              opt.disabled = !availableMeses.includes(opt.value);
+              opt.hidden = opt.disabled ? true : false;
+              opt.style.color = opt.disabled ? "#ccc" : "";
+            });
+          }
+        };
 
         const applyFilters = () => {
           const valCat = selectCat.value;
           const valTipo = selectTipo.value;
-          const valDesde = inputDesde.value; // YYYY-MM-DD
+          const valMes = selectMes ? selectMes.value : "all";
+          const valDesde = inputDesde.value;
           const valHasta = inputHasta.value;
 
           cards.forEach((card) => {
-            const { categoria, tipo, fecha, fechaFin } = card.dataset;
+            const { categoria, tipo, fecha, fechaFin, mes } = card.dataset;
 
-            // 1. Filtros de Taxonomía
             const matchCat = (valCat === "all" || valCat === categoria);
             const matchTipo = (valTipo === "all" || valTipo === tipo);
+            const matchMes = (valMes === "all" || valMes === mes);
 
-            // 2. Lógica de Rango de Fechas (Intersección)
             let matchFecha = true;
+            if (valDesde && fechaFin < valDesde) matchFecha = false;
+            if (valHasta && fecha > valHasta) matchFecha = false;
 
-            // Si el usuario pone "Desde", el evento debe terminar después o ese día
-            if (valDesde && fechaFin < valDesde) {
-              matchFecha = false;
-            }
-
-            // Si el usuario pone "Hasta", el evento debe empezar antes o ese día
-            if (valHasta && fecha > valHasta) {
-              matchFecha = false;
-            }
-
-            if (matchCat && matchTipo && matchFecha) {
+            if (matchCat && matchTipo && matchMes && matchFecha) {
               card.style.display = "";
               card.classList.remove("aos-animate");
               setTimeout(() => card.classList.add("aos-animate"), 10);
@@ -1106,12 +1135,54 @@
             }
           });
 
-          // Función que ya tenías para ocultar opciones sin resultados
+          // Ejecutamos la actualización de los selects después de filtrar las cards
           updateAvailableOptions();
         };
 
         form.addEventListener("change", applyFilters);
         applyFilters();
+      });
+      /* ------------------------------
+* BLOG FILTER (Buscador + Categoría)
+* ------------------------------ */
+      once("idt-blog-filter", "#blog-filter-form", context).forEach((form) => {
+        const grid = document.getElementById("blog-grid");
+        const cards = Array.from(grid.querySelectorAll(".blog-card"));
+
+        const searchInput = form.querySelector("#search-input");
+        const selectCat = form.querySelector("#categoria-select");
+
+        const applyBlogFilters = () => {
+          const searchText = searchInput.value.toLowerCase().trim();
+          const valCat = selectCat.value;
+
+          cards.forEach((card) => {
+            const cardSearchData = card.dataset.search; // Título + Tag en minúsculas
+            const cardCat = card.dataset.categoria;
+
+            // 1. Validar Palabra Clave
+            const matchSearch = (searchText === "" || cardSearchData.includes(searchText));
+
+            // 2. Validar Categoría
+            const matchCat = (valCat === "all" || valCat === cardCat);
+
+            // 3. Aplicar Visibilidad
+            if (matchSearch && matchCat) {
+              card.style.display = "";
+              // Opcional: Reiniciar animación AOS
+              card.classList.remove("aos-animate");
+              setTimeout(() => card.classList.add("aos-animate"), 10);
+            } else {
+              card.style.display = "none";
+            }
+          });
+        };
+
+        // Evento para el buscador (se activa al escribir)
+        searchInput.addEventListener("input", applyBlogFilters);
+
+        // Evento para el select (se activa al cambiar)
+        selectCat.addEventListener("change", applyBlogFilters);
       });
 
     }, // end attach

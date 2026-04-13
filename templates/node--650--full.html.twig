@@ -1,24 +1,50 @@
 <div class="blog">
     <main>
-     {% if article is not empty %}
+        {# 1. Formulario de Filtros #}
+        <div class="filters-container container" style="margin-bottom: 30px;">
+            <form id="blog-filter-form" style="display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap;">
+                <span style="display: flex; flex-direction: column;">
+                    <label for="search-input">Buscar</label>
+                    <input type="text" id="search-input" placeholder="Ej: Restaurantes, Tips..." style="padding: 8px;">
+                </span>
+                
+                <span style="display: flex; flex-direction: column;">
+                    <label for="categoria-select">Categoría</label>
+                    <select id="categoria-select" style="padding: 8px;">
+                        <option value="all">Todas</option>
+                        {# Asumiendo que tienes acceso a las categorías del blog #}
+                        {% for cat in taxonomy('categorias_blog') %}
+                            <option value="{{ cat.tid }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </span>
+            </form>
+        </div>
+
+        {% if article is not empty %}
         <div class="blog" data-aos="fade-down">
             <h5>Blog</h5>
-            <ul class="grid-blogs container">
+            <ul class="grid-blogs container" id="blog-grid">
                 {% for item in article %}
+                {# Preparamos el texto de búsqueda: título + categoría #}
+                {% set search_text = (item.title ~ ' ' ~ item.categoria.name)|lower %}
 
-
-                <li><a href="{{item.url}}">
+                <li class="blog-card" 
+                    data-categoria="{{ item.categoria.tid }}" 
+                    data-search="{{ search_text }}">
+                    <a href="{{item.url}}">
                         <div class="image">
-                            <img src="{{item.image}}" alt="blog title">
+                            <img src="{{item.image}}" alt="{{ item.title }}">
                         </div>
                         <div class="title">
                             {{item.title}}
                         </div>
                         <div class="tag">{{item.categoria.name}}</div>
-                    </a></li>
+                    </a>
+                </li>
                 {% endfor %}
             </ul>
         </div>
         {% endif %}
- </main>
+    </main>
 </div>
