@@ -149,11 +149,6 @@
             div {
                 grid-column: span 1;
                 grid-row: span 1;
-
-                // Hace que algunas imágenes sean más grandes de forma aleatoria/alterna
-                &:nth-child(odd) {
-                    grid-row: span 2;
-                }
             }
         }
 
