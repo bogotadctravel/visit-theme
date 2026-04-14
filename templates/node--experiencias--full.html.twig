@@ -132,28 +132,6 @@
                                     {% endif %}
                                 </div>
                             </li>
-                            <li>
-                                <strong>Contenido recomendado:</strong>
-                                <div class="tag-container">
-                                 {% if node.field_contenidos_relacionados|length > 0 %}
-  {% for item in node.field_contenidos_relacionados %}
-    
-    {# Example 1: Getting the machine name #}
-    {% set type_machine_name = item.entity.bundle %}
-    
-    {# Example 2: Getting the human-readable label #}
-    {% set type_label = item.entity.type.entity.label %}
-    
-    <span class="tag-item">
-      {# Outputting the title and the human-readable content type #}
-      {{ item.entity.title.value }} - <small>{{ type_label }}</small>
-    </span>
-    
-  {% endfor %}
-{% endif %}
-                                </div>
-                            </li>
-                         
                             {% if node.field_correo.0.value is not empty %}
                             <li class="flexList contact-info">
                                 <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
@@ -204,7 +182,7 @@
             </video>
         </div>
         {% endif %}
-
+{% if nodos_cercanos|length > 0 %}
         <div class="lugares">
             <h4>{{"ui.places_nearby"|t({
                 '@place': node.getTitle()
@@ -224,6 +202,26 @@
                 {% endfor %}
             </ul>
         </div>
+ {% endif %}
+           {% if contenidos_relacionados %}
+        <div class="recomendados lugares">
+            <h4>Contenido Recomendado</h4>
+            <ul>
+                {% for item in contenidos_relacionados %}
+                <li>
+                    {# Verificamos si la variable existe para no imprimir "km" vacíos #}
+
+                    <a href="{{item.url}}">
+                        <div class="image">
+                            <img src="{{item.image }}" alt="atra">
+                        </div>
+                        <div class="title">{{item.title}}</div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         {% include "@visit_theme/includes/planifica.html.twig" %}
     </main>
 </div>

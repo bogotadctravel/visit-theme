@@ -1143,8 +1143,8 @@
         applyFilters();
       });
       /* ------------------------------
-* BLOG FILTER (Buscador + Categoría)
-* ------------------------------ */
+      * BLOG FILTER (Buscador + Categoría + Opciones Dinámicas)
+      * ------------------------------ */
       once("idt-blog-filter", "#blog-filter-form", context).forEach((form) => {
         const grid = document.getElementById("blog-grid");
         const cards = Array.from(grid.querySelectorAll(".blog-card"));
@@ -1152,12 +1152,35 @@
         const searchInput = form.querySelector("#search-input");
         const selectCat = form.querySelector("#categoria-select");
 
+        const updateAvailableOptions = () => {
+          // 1. Filtrar las cards que están visibles actualmente
+          const visibleCards = cards.filter(card => card.style.display !== "none");
+
+          // 2. Obtener los IDs de categoría únicos de las cards visibles
+          const availableCats = [...new Set(visibleCards.map(c => c.dataset.categoria))];
+
+          // 3. Actualizar el select de categorías
+          if (selectCat) {
+            selectCat.querySelectorAll("option").forEach(opt => {
+              if (opt.value === "all") return;
+
+              // Deshabilitar categorías que no coinciden con la búsqueda actual
+              const isAvailable = availableCats.includes(opt.value);
+              opt.disabled = !isAvailable;
+              opt.hidden = opt.disabled ? true : false;
+
+              // Estilo visual para feedback
+              opt.style.color = isAvailable ? "" : "#ccc";
+            });
+          }
+        };
+
         const applyBlogFilters = () => {
           const searchText = searchInput.value.toLowerCase().trim();
           const valCat = selectCat.value;
 
           cards.forEach((card) => {
-            const cardSearchData = card.dataset.search; // Título + Tag en minúsculas
+            const cardSearchData = card.dataset.search;
             const cardCat = card.dataset.categoria;
 
             // 1. Validar Palabra Clave
@@ -1169,20 +1192,25 @@
             // 3. Aplicar Visibilidad
             if (matchSearch && matchCat) {
               card.style.display = "";
-              // Opcional: Reiniciar animación AOS
               card.classList.remove("aos-animate");
               setTimeout(() => card.classList.add("aos-animate"), 10);
             } else {
               card.style.display = "none";
             }
           });
+
+          // Ejecutar la actualización de opciones disponibles
+          updateAvailableOptions();
         };
 
-        // Evento para el buscador (se activa al escribir)
+        // Evento para el buscador (input para tiempo real)
         searchInput.addEventListener("input", applyBlogFilters);
 
-        // Evento para el select (se activa al cambiar)
+        // Evento para el select
         selectCat.addEventListener("change", applyBlogFilters);
+
+        // Inicializar estado de las opciones
+        applyBlogFilters();
       });
 
     }, // end attach

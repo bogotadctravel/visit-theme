@@ -25,9 +25,9 @@
                         </p>
                         <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Como llegar al lugar"
                             class="llegar">Cómo llegar</a>
-                                 <a href="{{node.field_weblink.0.url}}" target="_blank" aria-label="Más información sobre el lugar"
-                            class="llegar">Más información</a>
-                   
+                        <a href="{{node.field_weblink.0.url}}" target="_blank"
+                            aria-label="Más información sobre el lugar" class="llegar">Más información</a>
+
                     </div>
                 </div>
             </div>
@@ -53,9 +53,9 @@
             <div class="info">
                 <div class="desc">
                     <h2>{{ node.getTitle() }}</h2>
-         {% if body_sin_estilos is not empty %}
-    {{ body_sin_estilos }}
-{% endif %}
+                    {% if body_sin_estilos is not empty %}
+                    {{ body_sin_estilos }}
+                    {% endif %}
                 </div>
                 {% if file_url(node.field_audio.entity.fileuri) is not empty %}
                 <div class="audio" style="margin: 20px 0;">
@@ -76,30 +76,30 @@
                     </div>
                     <div class="list">
                         <ul>
-                                {% if node.field_como_llegar_enr.0.value is not empty %}
-                           <li>
+                            {% if node.field_como_llegar_enr.0.value is not empty %}
+                            <li>
                                 <strong>¿Cómo Llegar?</strong>
-                                    <p>{{ node.field_como_llegar_enr.0.value | striptags }}</p>
+                                <p>{{ node.field_como_llegar_enr.0.value | striptags }}</p>
                             </li>
-                                {% endif %}
-                                {% if node.field_horarios.0.value is not empty %}
-                           <li>
+                            {% endif %}
+                            {% if node.field_horarios.0.value is not empty %}
+                            <li>
                                 <strong>Horarios:</strong>
-                                    <p>{{ node.field_horarios.0.value }}</p>
+                                <p>{{ node.field_horarios.0.value }}</p>
                             </li>
-                                {% endif %}
-                                {% if node.field_valor_de_la_entrada.0.value is not empty %}
+                            {% endif %}
+                            {% if node.field_valor_de_la_entrada.0.value is not empty %}
                             <li>
                                 <strong>Duración de la visita:</strong>
-                                    <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
+                                <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
                             </li>
-                                {% endif %}
-                                {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
+                            {% endif %}
+                            {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
                             <li>
                                 <strong>Valor de la entrada:</strong>
-                                    <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
+                                <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
                             </li>
-                                {% endif %}
+                            {% endif %}
                             <li>
                                 <strong>Recomendado para:</strong>
                                 <div class="tag-container">
@@ -132,28 +132,7 @@
                                     {% endif %}
                                 </div>
                             </li>
-                            <li>
-                                <strong>Contenido recomendado:</strong>
-                                <div class="tag-container">
-                                 {% if node.field_contenidos_relacionados|length > 0 %}
-  {% for item in node.field_contenidos_relacionados %}
-    
-    {# Example 1: Getting the machine name #}
-    {% set type_machine_name = item.entity.bundle %}
-    
-    {# Example 2: Getting the human-readable label #}
-    {% set type_label = item.entity.type.entity.label %}
-    
-    <span class="tag-item">
-      {# Outputting the title and the human-readable content type #}
-      {{ item.entity.title.value }} - <small>{{ type_label }}</small>
-    </span>
-    
-  {% endfor %}
-{% endif %}
-                                </div>
-                            </li>
-                         
+
                             {% if node.field_correo.0.value is not empty %}
                             <li class="flexList contact-info">
                                 <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
@@ -224,6 +203,25 @@
                 {% endfor %}
             </ul>
         </div>
+        {% if contenidos_relacionados %}
+        <div class="recomendados lugares">
+            <h4>Contenido Recomendado</h4>
+            <ul>
+                {% for item in contenidos_relacionados %}
+                <li>
+                    {# Verificamos si la variable existe para no imprimir "km" vacíos #}
+
+                    <a href="{{item.url}}">
+                        <div class="image">
+                            <img src="{{item.image }}" alt="atra">
+                        </div>
+                        <div class="title">{{item.title}}</div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         {% include "@visit_theme/includes/planifica.html.twig" %}
     </main>
 </div>
