@@ -45,7 +45,7 @@
     {% if eventos is not empty %}
     <div class="eventos" data-aos="fade-right">
         <h4>{{"ui.events_in_bogota"|t}}{{ term.name.value }} en Bogotá</h4>
-        <section class="splide" aria-label="Splide Basic HTML Example">
+        <section class="splide splideEvents" aria-label="Splide Basic HTML Example">
             <div class="splide__track">
                 <ul class="splide__list grid-events ">
                     {% for item in eventos|shuffle %}

@@ -48,7 +48,7 @@ chatbot-widget:
   js:
     assets/index-BFLZlGRW.js: { attributes: { type: module } }
 global-styling:
-  version: 62.x
+  version: 69.x
   css:
     theme:
       css/styles.css: {}

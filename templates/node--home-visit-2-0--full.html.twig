@@ -4,35 +4,38 @@
 
 <div class="home">
     <main>
+    
         <div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
-            <video id="videoBase" 
-                preload="auto" 
-                autoplay 
-                loop 
-                muted 
-                playsinline 
-                webkit-playsinline 
-                poster="/{{ directory }}/images/visitbogota/banner.png"
-            src="{{file_url(node.field_video_principal.entity.fileuri)}}" >
-            <source src="{{file_url(node.field_video_principal.entity.fileuri)}}" type="video/mp4">
+        <div id="video-slider" class="splide banner">
+  <div class="splide__track">
+    <ul class="splide__list">
+      
+      {% for item in node.field_video_principal %}
+      <li class="splide__slide">
+        <div class="video-container">
+          <video 
+            class="slider-video"
+            preload="auto" 
+            muted 
+            playsinline 
+            loop
+            poster="/{{ directory }}/images/visitbogota/banner.png">
+            <source src="{{ file_url(item.entity.uri.value) }}" type="video/mp4">
             Tu navegador no soporta la etiqueta de video.
-            </video>
-            {% if node.fields.field_video_campana.0.value is not empty %}
-            <video id="videoCampaign" src="{{node.fields.field_video_campana.0.value}}" muted></video>
-            {% endif %}
-            <div class="banner-main-cta">
-                <a href="{{node.fields.field_link_cta_banner.0.value}}" class="btn-primary-cta">
-                   {{node.fields.field_texto_cta_banner.0.value}}
-                </a>
-            </div>
-            {% if node.fields.field_video_campana.0.value is not empty %}
-            <button type="button" id="playcampaign">
-                <div class="campaign" id="campaign">
-                    <img src="/{{ directory }}/images/visitbogota/playcampaign.png" alt="play" class="play">
-                    <img src="{{node.fields.field_imagen_campana.0.value}}" alt="campaign" id="campaignImage">
-                </div>
-            </button>
-            {% endif %}
+          </video>
+        </div>
+      </li>
+      {% endfor %}
+
+    </ul>
+  </div>
+
+  <div class="banner-main-cta">
+      <a href="{{ node.field_link_cta_banner.0.value }}" class="btn-primary-cta">
+          {{ node.field_texto_cta_banner.0.value }}
+      </a>
+  </div>
+</div>
         </div>
         {% include "@visit_theme/includes/planifica.html.twig" %}
         <div class="que-hacer">
@@ -67,7 +70,7 @@
             </h4>
 
 
-            <section class="splide" aria-label="Splide Basic HTML Example">
+            <section class="splide splideEvents" aria-label="Splide Basic HTML Example">
                 <div class="splide__track">
                     <ul class="splide__list grid-events ">
                         {% for item in eventosVisit |shuffle %}
@@ -140,60 +143,43 @@
     </main>
 </div>
 <script>
-    const btn = document.getElementById("playcampaign");
 
-    const banner = document.getElementById("banner");
-    const videoBase = document.getElementById("videoBase");
-    const videoCampaign = document.getElementById("videoCampaign");
+  
+    document.addEventListener('DOMContentLoaded', function () {
+  var elms = document.getElementsByClassName('splide');
 
-    const campaignImage = document.getElementById("campaignImage");
+  for (var i = 0; i < elms.length; i++) {
+    var splide = new Splide(elms[i], {
+      type   : 'fade',
+      rewind : true,
+      arrows : true,
+      pagination: true,
+    }).mount();
 
-    let active = false;
-if(btn){
-    btn.addEventListener("click", () => {
-
-        if (!active) {
-            // ===== ACTIVAR CAMPAÑA =====
-
-            // Cambiar background
-            banner.style.backgroundImage = "url(/{{ directory }}/images/visitbogota/banner.png)";
-
-            // Cambiar imagen (solo SRC)
-            campaignImage.src = "/{{ directory }}/images/visitbogota/banner.png";
-
-            // Cambiar videos
-            videoBase.pause();
-            videoBase.style.display = "none";
-
-            videoCampaign.style.display = "block";
-            videoCampaign.currentTime = 0;
-            videoCampaign.play();
-
-            active = true;
-
-        } else {
-            // ===== VOLVER A NORMAL =====
-
-            // Restaurar background
-            banner.style.backgroundImage = "url(/{{ directory }}/images/visitbogota/banner.png)";
-            // Restaurar imagen
-            campaignImage.src = "/{{ directory }}/images/visitbogota/campaign.png";
-
-            // Restaurar videos
-            videoCampaign.pause();
-            videoCampaign.style.display = "none";
-
-            videoBase.style.display = "block";
-            videoBase.play();
-
-            active = false;
-        }
-
+    // Evento: Al mover el slider
+    splide.on('move', function () {
+      // Pausar todos los videos antes de cambiar
+      var allVideos = document.querySelectorAll('.slider-video');
+      allVideos.forEach(function(video) {
+        video.pause();
+      });
     });
 
-}
-
-    videoBase.play().catch((error) => {
-        console.error("Error al reproducir el video base:", error);
+    // Evento: Cuando el nuevo slide está activo
+    splide.on('moved', function (newIndex) {
+      var activeSlide = splide.Components.Slides.getAt(newIndex).slide;
+      var activeVideo = activeSlide.querySelector('.slider-video');
+      
+      if (activeVideo) {
+        activeVideo.play();
+      }
     });
+
+    // Iniciar el primer video manualmente al cargar
+    var firstVideo = elms[i].querySelector('.splide__slide.is-active video');
+    if (firstVideo) {
+      firstVideo.play();
+    }
+  }
+});
 </script>

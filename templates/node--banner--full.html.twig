@@ -8,7 +8,7 @@
 {% if node.field_imagen_mobile.entity %}
   {% set img_mobile = file_url(node.field_imagen_mobile.entity.fileuri) %}
 {% endif %}
-
+<a href="{{node.field_weblink.0.url}}" target="_blank" rel="noopener noreferrer">
 {% if img_desktop or img_mobile %}
 <picture class="banner-picture">
   {% if img_mobile %}
@@ -22,3 +22,4 @@
   >
 </picture>
 {% endif %}
+</a>
