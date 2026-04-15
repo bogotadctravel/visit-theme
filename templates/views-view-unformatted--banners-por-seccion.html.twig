@@ -1,0 +1,19 @@
+{#
+  Template: views-view-unformatted--banners-por-seccion.html.twig
+  Vista: banners_por_seccion (todos los displays: Home, Internas, Listados)
+  Requiere: visit_theme/splide (ya cargado en global-styling)
+#}
+
+{% if rows %}
+<section class="splide banner-splide" aria-label="Banners">
+  <div class="splide__track">
+    <ul class="splide__list">
+      {% for row in rows %}
+      <li class="splide__slide">
+        {{ row.content }}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}

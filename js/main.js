@@ -229,7 +229,19 @@
           });
         }
       });
-      once('splide', context.querySelectorAll('.splide')).forEach(el => {
+      once('splide', context.querySelectorAll('.banner-splide')).forEach(el => {
+        new Splide(el, {
+          type: 'loop',
+          perPage: 1,
+          autoplay: true,
+          interval: 5000,
+          pauseOnHover: true,
+          arrows: false,
+          pagination: true,
+        }).mount();
+      });
+
+      once('splide', context.querySelectorAll('.splide:not(.banner-splide)')).forEach(el => {
         new Splide(el, {
           type: 'loop',
           perPage: 3,
