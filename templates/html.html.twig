@@ -28,19 +28,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <css-placeholder token="{{ placeholder_token }}">
     <js-placeholder token="{{ placeholder_token }}">
     <style>
-    div#block-visit-theme-breadcrumbs ol{
-        align-items: center;
-    }
-    #block-visit-theme-breadcrumbs li a {
-  background: #e9f2ff;
-  padding: 4px 10px;
-  border-radius: 20px;
+div#block-visit-theme-breadcrumbs ol {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+border-bottom: 1px solid #e7e5e5;
+& li::marker {
+    display: none;
+    content: "» ";
 }
-
-#block-visit-theme-breadcrumbs li:last-child {
-  background: #dfe6e9;
-  padding: 4px 10px;
-  border-radius: 20px;
+& li:first-child::marker{
+content:"";
+}
+& li:last-child{
+font-weight: bold;
+}
+& a:hover{
+text-decoration:underline;
+}
 }
     </style>
   </head>

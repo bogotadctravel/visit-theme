@@ -1,6 +1,6 @@
 {# 1. Definición de IDs específicos (puedes añadir más aquí separados por comas) #}
-{% set conecta_node_ids = ['639'] %}
-
+{% set visit_node_ids = ['639'] %}
+{% set is_specific_visit_id = node.id in visit_node_ids %}
 {# 2. Verificación de campos y pertenencia al array de IDs #}
 {% set is_mice = node.fields.field_evento_mice.value == '1' %}
 {% set is_miceArticle = node.fields.field_articulo_mice.value == '1' %}
@@ -24,9 +24,14 @@
 {# Usamos Conecta si: es MICE, está en la lista de IDs, o NO es un bundle de Visit #}
 {% set use_conecta = true %}
 
-{% if not is_mice and not is_miceArticle and not is_specific_id %}
-  {% if node is defined and node.bundle in visit_types %}
-    {% set use_conecta = false %}
+{# Si es un ID que debe usar Visit → forzamos Visit #}
+{% if is_specific_visit_id %}
+  {% set use_conecta = false %}
+{% else %}
+  {% if not is_mice and not is_miceArticle %}
+    {% if node is defined and node.bundle in visit_types %}
+      {% set use_conecta = false %}
+    {% endif %}
   {% endif %}
 {% endif %}
 
