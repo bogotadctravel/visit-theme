@@ -88,18 +88,18 @@
                                     <p>{{ node.field_horarios.0.value }}</p>
                             </li>
                                 {% endif %}
-                                {% if node.field_valor_de_la_entrada.0.value is not empty %}
-                            <li>
-                                <strong>Duración de la visita:</strong>
-                                    <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
-                            </li>
-                                {% endif %}
-                                {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
+                               {% if node.field_valor_de_la_entrada.0.value is not empty %}
                             <li>
                                 <strong>Valor de la entrada:</strong>
-                                    <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
+                                <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
                             </li>
-                                {% endif %}
+                            {% endif %}
+                            {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
+                            <li>
+                                <strong>Duración de la visita:</strong>
+                                <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
+                            </li>
+                            {% endif %}
                             <li>
                                 <strong>Recomendado para:</strong>
                                 <div class="tag-container">

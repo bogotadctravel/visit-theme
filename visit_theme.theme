@@ -226,6 +226,7 @@ function visit_theme_preprocess_node(array &$variables) {
       $variables['establecimientos'] = $content_loader->getNodesTeaser('establecimientos', 50);
       $variables['hoteles'] = $content_loader->getNodesTeaser('hoteles', 50);
       $variables['article'] = $content_loader->getNodesTeaser('article', 50);
+      $variables['rutas'] = $content_loader->getNodesTeaser('rutas', 100);
       break;
   }
 

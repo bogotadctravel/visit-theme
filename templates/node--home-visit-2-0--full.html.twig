@@ -121,7 +121,7 @@
         <div class="blog" data-aos="fade-down">
             <h5>{{"ui.recent_posts"|t}}</h5>
             <ul class="grid-blogs container">
-                {% for item in article|shuffle|slice(0, 6) %}
+                {% for item in article|slice(0, 6) %}
 
 
                 <li><a href="{{item.url}}">
