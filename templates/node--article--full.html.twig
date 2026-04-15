@@ -1,3 +1,26 @@
+  <style>
+    .article .banner {
+      width: 100%;
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 20px;
+    }
+    .article .content {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .image-wrapper {
+  margin-bottom: 20px;
+}
+figcaption,
+.image-caption {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin-top: 5px;
+}
+  </style>
   <div class="article">
   <div class="container">
         <h1>{{ node.getTitle() }}</h1>
@@ -9,3 +32,33 @@
       </div>
   </div>
   </div>
+
+  <script>
+document.querySelectorAll('.content img').forEach(img => {
+
+  // ❌ 1. Si ya está dentro de un <figure>, NO hacer nada
+  if (img.closest('figure')) return;
+
+  // ❌ 2. Si ya está dentro de un wrapper, NO hacer nada
+  if (img.closest('.image-wrapper')) return;
+
+  const title = img.getAttribute('title');
+  const alt = img.getAttribute('alt');
+
+  const text = title || alt;
+
+  // ❌ 3. Si no hay texto, no crear caption
+  if (!text) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('image-wrapper');
+
+  const caption = document.createElement('div');
+  caption.classList.add('image-caption');
+  caption.textContent = text;
+
+  img.parentNode.insertBefore(wrapper, img);
+  wrapper.appendChild(img);
+  wrapper.appendChild(caption);
+});
+  </script>
