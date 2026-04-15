@@ -1,0 +1,77 @@
+{#
+  Template: node--banner--full.html.twig
+  Tipo de contenido: Banner
+  View mode: Full
+  Campos usados:
+    - field_banner          (Image - Desktop)
+    - field_imagen_mobile   (Image - Mobile)
+    - field_turcat          (Entity ref - Categoría turística)
+    - field_tursubcat       (Entity ref - Subcategoría turística)
+    - field_tags            (Entity ref - Etiquetas)
+    - field_seccion_donde_aparece (Entity ref - Sección)
+#}
+
+{% set img_desktop = null %}
+{% set img_mobile = null %}
+
+{% if node.field_banner.entity %}
+  {% set img_desktop = file_url(node.field_banner.entity.fileuri) %}
+{% endif %}
+
+{% if node.field_imagen_mobile.entity %}
+  {% set img_mobile = file_url(node.field_imagen_mobile.entity.fileuri) %}
+{% endif %}
+
+<div class="banner">
+
+  {# ── Imagen responsiva ── #}
+  {% if img_desktop or img_mobile %}
+  <div class="banner__image">
+    <picture>
+      {% if img_mobile %}
+      <source
+        media="(max-width: 768px)"
+        srcset="{{ img_mobile }}"
+      >
+      {% endif %}
+      <img
+        src="{{ img_desktop ? img_desktop : img_mobile }}"
+        alt="{{ node.field_banner.0.alt ? node.field_banner.0.alt : node.getTitle() }}"
+        loading="lazy"
+      >
+    </picture>
+  </div>
+  {% endif %}
+
+  {# ── Metadatos: categoría, subcategoría, etiquetas ── #}
+  {% if node.field_turcat|length > 0 or node.field_tursubcat|length > 0 or node.field_tags|length > 0 %}
+  <div class="banner__meta">
+
+    {% if node.field_turcat|length > 0 %}
+    <div class="banner__categories">
+      {% for item in node.field_turcat %}
+      <span class="banner__category">{{ item.entity.name.value }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if node.field_tursubcat|length > 0 %}
+    <div class="banner__subcategories">
+      {% for item in node.field_tursubcat %}
+      <span class="banner__subcategory">{{ item.entity.name.value }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if node.field_tags|length > 0 %}
+    <div class="banner__tags">
+      {% for item in node.field_tags %}
+      <span class="banner__tag">{{ item.entity.name.value }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+</div>
