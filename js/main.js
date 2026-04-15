@@ -241,7 +241,7 @@
         }).mount();
       });
 
-      once('splide', context.querySelectorAll('.splide:not(.banner-splide)')).forEach(el => {
+      once('splide', context.querySelectorAll('.splideEvents')).forEach(el => {
         new Splide(el, {
           type: 'loop',
           perPage: 3,
