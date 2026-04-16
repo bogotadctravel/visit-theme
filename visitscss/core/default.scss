@@ -33,6 +33,20 @@
 
 .list li {
   margin-bottom: 20px;
+
+  ul {
+    list-style-type: disc;
+    padding-left: 25px;
+
+    li {
+      display: block;
+      margin-bottom: 10px;
+
+      strong {
+        display: initial;
+      }
+    }
+  }
 }
 
 .list strong {
