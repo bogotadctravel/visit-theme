@@ -26,8 +26,8 @@
                         <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Cómo llegar al lugar"
                             class="llegar">Cómo llegar</a>
                         {% endif %}
-                        {% if node.node.field_linkreservas.0.url.0.url is not empty %}
-                        <a href="{{node.node.field_linkreservas.0.url.0.url}}" target="_blank"
+                        {% if node.field_linkreservas.0.url is not empty %}
+                        <a href="{{node.field_linkreservas.0.url}}" target="_blank"
                             aria-label="Link para reservas" class="llegar">Reservas</a>
                         {% endif %}
                         {% if node.field_weblink.0.url is not empty %}
@@ -38,8 +38,8 @@
                         <a href="{{node.field_menulink.0.url}}" target="_blank" aria-label="Link del menú"
                             class="llegar">Menú</a>
                         {% endif %}
-                        {% if node.node.field_weblink.0.url.0.url is not empty %}
-                        <a href="{{node.node.field_weblink.0.url.0.url}}" target="_blank"
+                        {% if node.field_weblink.0.url is not empty %}
+                        <a href="{{node.field_weblink.0.url}}" target="_blank"
                             aria-label="Link del sitio web" class="llegar">Sitio web</a>
                         {% endif %}
                     </div>
@@ -149,7 +149,7 @@
                 {% endif %}
                 <div class="flexmap">
                     <div class="map" rel="noopener">
-                        <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen
+                        <iframe id="mapNode" width="600" height="450" style="border:0" loading="lazy" allowfullscreen
                             referrerpolicy="no-referrer-when-downgrade"
                             src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
                         </iframe>

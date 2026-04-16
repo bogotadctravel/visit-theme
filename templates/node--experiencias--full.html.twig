@@ -1,51 +1,100 @@
+<style>
+    .reservaLink {
+        background-color: #314059;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        width: 100%;
+        border-radius: 5px;
+        text-align: center;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .reservaLink:hover {
+        background-color: #1e2a3b;
+    }
+
+    /* Estilos nuevos sugeridos para los campos añadidos */
+    .introduccion {
+        font-size: 1.1em;
+        color: #555;
+        margin-bottom: 15px;
+    }
+    .badge-descuento {
+        background-color: #e63946;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+    .terminos {
+        margin-top: 20px;
+        font-size: 0.85em;
+        color: #777;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+    }
+</style>
+
 <div class="atractivo">
     <main>
         {% set banner_image = null %}
 
-        {% if node.field_cover.entity %}
-        {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
+        {# Se verifica si hay field_banner. Si no, usa cover o mainimg #}
+        {% if node.field_banner.entity %}
+            {% set banner_image = file_url(node.field_banner.entity.fileuri) %}
+        {% elseif node.field_cover.entity %}
+            {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
         {% elseif node.field_mainimg.entity %}
-        {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+            {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
         {% endif %}
 
         {% if banner_image %}
         <div class="banner" style="background-image: url('{{ banner_image }}');">
-
-            {% endif %}
+        {% endif %}
             <div class="container">
-
                 <div class="text">
-
                     <h2>Visit Bogotá</h2>
                     <h1>{{ node.getTitle() }}</h1>
                     <div class="comollegar">
-                        <p>
-
-                            {{node.field_direccion.0.value}}
-                        </p>
-                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Como llegar al lugar"
-                            class="llegar">Cómo llegar</a>
-                                 <a href="{{node.field_weblink.0.url}}" target="_blank" aria-label="Más información sobre el lugar"
-                            class="llegar">Más información</a>
-                   
+                        <p>{{node.field_direccion.0.value}}</p>
+                        
+                        {% if node.field_mapslink.0.url is not empty %}
+                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Cómo llegar al lugar" class="llegar">Cómo llegar</a>
+                        {% endif %}
+                        
+                        {% if node.field_linkreservas.0.url is not empty %}
+                        <a href="{{node.field_linkreservas.0.url}}" target="_blank" aria-label="Link para reservas" class="llegar reservaEvent">Reservas</a>
+                        {% endif %}
+                        
+                        {% if node.field_weblink.0.url is not empty %}
+                        <a href="{{node.field_weblink.0.url}}" target="_blank" aria-label="Más información sobre el lugar" class="llegar">Más información</a>
+                        {% endif %}
+                        
+                        {% if node.field_menulink.0.url is not empty %}
+                        <a href="{{node.field_menulink.0.url}}" target="_blank" aria-label="Link del menú" class="llegar">Menú</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
+        {% if banner_image %}
         </div>
+        {% endif %}
+
         <div class="flex">
             {% if node.field_picgallery|length > 0 %}
             <div class="galeria">
                 <div class="parent">
-
                     {% for item in node.field_picgallery|slice(0,5) %}
                     <div class="div{{ loop.index + 1 }}">
-                        <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery"
-                            data-caption="{{ item.title }}">
+                        <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery" data-caption="{{ item.title }}">
                             <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
                         </a>
                     </div>
                     {% endfor %}
-
                 </div>
             </div>
             {% endif %}
@@ -53,53 +102,117 @@
             <div class="info">
                 <div class="desc">
                     <h2>{{ node.getTitle() }}</h2>
-         {% if body_sin_estilos is not empty %}
-    {{ body_sin_estilos }}
-{% endif %}
+                    
+                    {# NUEVO: Descuento #}
+                    {% if node.field_porcentaje_de_descuento|length > 0 %}
+                        <div class="badge-descuento">¡{{ node.field_porcentaje_de_descuento.0.value }}% de Descuento!</div>
+                    {% endif %}
+
+                    {# NUEVO: Descripción Corta (Introducción) #}
+                    {% if node.field_introduccion|length > 0 %}
+                        <p class="introduccion">{{ node.field_introduccion.0.value }}</p>
+                    {% endif %}
+
+                    {% if body_sin_estilos is not empty %}
+                        {{ body_sin_estilos }}
+                    {% endif %}
                 </div>
+
                 {% if file_url(node.field_audio.entity.fileuri) is not empty %}
                 <div class="audio" style="margin: 20px 0;">
                     <h3>Escuchar reseña en audio</h3>
                     <audio controls>
-                        <source src="  {{ file_url(node.field_audio.entity.fileuri) }}" type="audio/mpeg">
+                        <source src="{{ file_url(node.field_audio.entity.fileuri) }}" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
-
                 </div>
                 {% endif %}
+
                 <div class="flexmap">
+                    {% if node.field_latlong.0.value is not empty %}
                     <div class="map" rel="noopener">
-                        <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen
-                            referrerpolicy="no-referrer-when-downgrade"
-                            src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
+                        <iframe id="mapNode" width="600" height="450" style="border:0" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
                         </iframe>
                     </div>
+                    {% endif %}
+
                     <div class="list">
                         <ul>
-                                {% if node.field_como_llegar_enr.0.value is not empty %}
-                           <li>
+                            {# NUEVO: Categoría del sitio #}
+                            {% if node.field_turcat|length > 0 %}
+                            <li>
+                                <strong>Categoría:</strong>
+                                <div class="tag-container">
+                                    {% for item in node.field_turcat %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                            {% endif %}
+
+                            {% if node.field_como_llegar_enr.0.value is not empty %}
+                            <li>
                                 <strong>¿Cómo Llegar?</strong>
-                                    <p>{{ node.field_como_llegar_enr.0.value | striptags }}</p>
+                                <p>{{ node.field_como_llegar_enr.0.value }}</p>
                             </li>
-                                {% endif %}
-                                {% if node.field_horarios.0.value is not empty %}
-                           <li>
+                            {% endif %}
+                            
+                            {% if node.field_horarios.0.value is not empty %}
+                            <li>
                                 <strong>Horarios:</strong>
-                                    <p>{{ node.field_horarios.0.value }}</p>
+                                <p>{{ node.field_horarios.0.value }}</p>
                             </li>
-                                {% endif %}
-                               {% if node.field_valor_de_la_entrada.0.value is not empty %}
+                            {% endif %}
+                            
+                            {% if node.field_valor_de_la_entrada.0.value is not empty %}
                             <li>
                                 <strong>Valor de la entrada:</strong>
                                 <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
                             </li>
                             {% endif %}
+                            
                             {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
                             <li>
                                 <strong>Duración de la visita:</strong>
                                 <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
                             </li>
                             {% endif %}
+
+                            {# NUEVO: Capacidad de reserva #}
+                            {% if node.field_minpeople|length > 0 or node.field_maxpeople|length > 0 %}
+                            <li>
+                                <strong>Capacidad de reserva:</strong>
+                                <p>
+                                    {% if node.field_minpeople|length > 0 %}Mínimo {{ node.field_minpeople.0.value }} personas. {% endif %}
+                                    {% if node.field_maxpeople|length > 0 %}Máximo {{ node.field_maxpeople.0.value }} personas.{% endif %}
+                                </p>
+                            </li>
+                            {% endif %}
+
+                            {# NUEVO: Accesibilidad (Solución al Error de target_id) #}
+                            {% if node.field_accesibilidad|length > 0 %}
+                            <li>
+                                <strong>Accesibilidad:</strong>
+                                <div class="tag-container">
+                                    {% for item in node.field_accesibilidad %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                            {% endif %}
+
+                            {# NUEVO: Idiomas #}
+                            {% if node.field_idioma_del_servicio|length > 0 %}
+                            <li>
+                                <strong>Idiomas del servicio:</strong>
+                                <div class="tag-container">
+                                    {% for item in node.field_idioma_del_servicio %}
+                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                            {% endif %}
+
                             <li>
                                 <strong>Recomendado para:</strong>
                                 <div class="tag-container">
@@ -132,12 +245,14 @@
                                     {% endif %}
                                 </div>
                             </li>
+                            
                             {% if node.field_correo.0.value is not empty %}
                             <li class="flexList contact-info">
                                 <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
                                 <a href="mailto:{{node.field_correo.0.value}}">{{node.field_correo.0.value}}</a>
                             </li>
                             {% endif %}
+                            
                             {% if node.field_telefono.0.value is not empty %}
                             <li class="flexList contact-info">
                                 <img src="/{{ directory }}/images/visitbogota/tel.png" alt="tel">
@@ -146,52 +261,54 @@
                             {% endif %}
                         </ul>
                     </div>
+                    
+                    {% if node.field_linkreservas.0.url is not empty %}
+                    <a href="{{node.field_linkreservas.0.url}}" target="_blank" aria-label="Link para reservas" class="reservaLink reservaEvent">Reserva aquí</a>
+                    {% endif %}
+
+                    {# NUEVO: Términos y condiciones #}
+                    {% if node.field_terminos_y_condiciones|length > 0 %}
+                        <div class="terminos">
+                            <strong>Términos y Condiciones:</strong> 
+                            {{ node.field_terminos_y_condiciones.0.value|raw }}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
+
         {% if node.field_video is not empty %}
         <div class="video" style="position: relative;">
-            <button class="video-play" aria-label="Reproducir video"
-                style=" position: absolute;margin: auto;background: none;border: none;cursor: pointer;z-index: 2;">
+            <button class="video-play" aria-label="Reproducir video" style="position: absolute;margin: auto;background: none;border: none;cursor: pointer;z-index: 2;">
                 <svg width="78" height="84" viewBox="0 0 78 84" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g filter="url(#filter0_d_2084_4326)">
-                        <path
-                            d="M69.1657 29.6386C75.3817 33.0581 75.3817 41.9901 69.1657 45.4097L17.338 73.921C11.3399 77.2206 4 72.8812 4 66.0354L4.00001 9.01283C4.00001 2.16705 11.3399 -2.17238 17.338 1.12727L69.1657 29.6386Z"
-                            fill="white" />
+                        <path d="M69.1657 29.6386C75.3817 33.0581 75.3817 41.9901 69.1657 45.4097L17.338 73.921C11.3399 77.2206 4 72.8812 4 66.0354L4.00001 9.01283C4.00001 2.16705 11.3399 -2.17238 17.338 1.12727L69.1657 29.6386Z" fill="white" />
                     </g>
                     <defs>
-                        <filter id="filter0_d_2084_4326" x="0" y="0" width="77.8276" height="83.0482"
-                            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <filter id="filter0_d_2084_4326" x="0" y="0" width="77.8276" height="83.0482" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
                             <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                            <feColorMatrix in="SourceAlpha" type="matrix"
-                                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                             <feOffset dy="4" />
                             <feGaussianBlur stdDeviation="2" />
                             <feComposite in2="hardAlpha" operator="out" />
                             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
                             <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2084_4326" />
-                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2084_4326"
-                                result="shape" />
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2084_4326" result="shape" />
                         </filter>
                     </defs>
                 </svg>
             </button>
 
-            <video class="video-element" src="{{ file_url(node.field_video.entity.fileuri) }}"
-                poster="{{ banner_image }}" preload="metadata">
-            </video>
+            <video class="video-element" src="{{ file_url(node.field_video.entity.fileuri) }}" poster="{{ banner_image }}" preload="metadata"></video>
         </div>
         {% endif %}
-{% if nodos_cercanos|length > 0 %}
+
+        {% if nodos_cercanos|length > 0 %}
         <div class="lugares">
-            <h4>{{"ui.places_nearby"|t({
-                '@place': node.getTitle()
-                })}}</h4>
+            <h4>{{"ui.places_nearby"|t({'@place': node.getTitle()})}}</h4>
             <ul>
                 {% for item in nodos_cercanos|shuffle|slice(0, 4) %}
                 <li>
-                    {# Verificamos si la variable existe para no imprimir "km" vacíos #}
-
                     <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
                         <div class="image">
                             <img src="{{item.image }}" alt="atra">
@@ -202,15 +319,14 @@
                 {% endfor %}
             </ul>
         </div>
- {% endif %}
-           {% if contenidos_relacionados %}
+        {% endif %}
+
+        {% if contenidos_relacionados %}
         <div class="recomendados lugares">
             <h4>Contenido Recomendado</h4>
             <ul>
                 {% for item in contenidos_relacionados %}
                 <li>
-                    {# Verificamos si la variable existe para no imprimir "km" vacíos #}
-
                     <a href="{{item.url}}">
                         <div class="image">
                             <img src="{{item.image }}" alt="atra">
@@ -222,9 +338,11 @@
             </ul>
         </div>
         {% endif %}
+
         {% include "@visit_theme/includes/planifica.html.twig" %}
     </main>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.video').forEach(wrapper => {
@@ -241,16 +359,13 @@
                 }
             });
 
-            // Si el usuario pausa el video, vuelve a mostrar el botón
             video.addEventListener('pause', () => {
                 button.style.display = 'block';
             });
 
-            // Al terminar el video
             video.addEventListener('ended', () => {
                 button.style.display = 'block';
             });
         });
     });
-
 </script>

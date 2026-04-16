@@ -1,0 +1,27 @@
+<div class="product">
+ <div class="banner" style="background-image: url({{file_url(node.field_mainimg.entity.fileuri)}});">
+        <div class="container">
+            <div class="text">
+                 <h1>Experiencias Turísticas</h1>
+        
+            </div>
+        </div>
+    </div>
+<main>
+    <div class="container">
+       
+       {% if experiencias is not empty %}
+    <ul class="grid-atractivos container">
+        {% for item in experiencias|shuffle %}
+        <li class="card" data-aos="zoom-in" data-aos-delay="300"><a href="{{item.url}}">
+                <div class="image">
+                    <img src="{{item.image}}" alt="blog title">
+                </div>
+                <div class="title">
+                    {{item.title}}
+                </div>
+            </a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>

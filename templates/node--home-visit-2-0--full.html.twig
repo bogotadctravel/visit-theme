@@ -6,7 +6,7 @@
     <main>
     
         <div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
-        <div id="video-slider" class="splide banner">
+        <div id="video-slider" class="splide banner splideVideos">
   <div class="splide__track">
     <ul class="splide__list">
       
@@ -146,7 +146,7 @@
 
   
     document.addEventListener('DOMContentLoaded', function () {
-  var elms = document.getElementsByClassName('splide');
+  var elms = document.getElementsByClassName('splideVideos');
 
   for (var i = 0; i < elms.length; i++) {
     var splide = new Splide(elms[i], {
