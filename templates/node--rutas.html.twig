@@ -77,7 +77,7 @@
                 <div class="flexmap">
                 {% if node.field_latlong.0.value is not empty %}
                     <div class="map" rel="noopener">
-                        <iframe width="600" height="450" style="border:0" loading="lazy" allowfullscreen
+                        <iframe id="mapNode" width="600" height="450" style="border:0" loading="lazy" allowfullscreen
                             referrerpolicy="no-referrer-when-downgrade"
                             src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
                         </iframe>

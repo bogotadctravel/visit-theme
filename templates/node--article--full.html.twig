@@ -1,10 +1,15 @@
   <style>
     .article .banner {
       width: 100%;
-      height: 400px;
+      height: 700px;
       background-size: cover;
       background-position: center;
       margin-bottom: 20px;
+    }
+    .article .banner img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .article .content {
       font-size: 18px;
@@ -43,9 +48,8 @@ document.querySelectorAll('.content img').forEach(img => {
   if (img.closest('.image-wrapper')) return;
 
   const title = img.getAttribute('title');
-  const alt = img.getAttribute('alt');
 
-  const text = title || alt;
+  const text = title;
 
   // ❌ 3. Si no hay texto, no crear caption
   if (!text) return;
