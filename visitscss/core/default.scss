@@ -42,6 +42,14 @@
   color: #333;
 }
 
+.list {
+  p {
+    strong {
+      display: initial;
+    }
+  }
+}
+
 /* Contenedor de los tags */
 .tag-container {
   display: flex;
