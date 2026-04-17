@@ -24,8 +24,8 @@
                             class="llegar">Cómo llegar</a>
                         {% endif %}
                         {% if node.field_linkreservas.0.url is not empty %}
-                        <a href="{{node.field_linkreservas.0.url}}" target="_blank"
-                            aria-label="Link para reservas" class="llegar">Reservas</a>
+                        <a href="{{node.field_linkreservas.0.url}}" target="_blank" aria-label="Link para reservas"
+                            class="llegar">Reservas</a>
                         {% endif %}
                         {% if node.field_weblink.0.url is not empty %}
                         <a href="{{node.field_weblink.0.url}}" target="_blank"
@@ -36,8 +36,8 @@
                             class="llegar">Menú</a>
                         {% endif %}
                         {% if node.field_weblink.0.url is not empty %}
-                        <a href="{{node.field_weblink.0.url}}" target="_blank"
-                            aria-label="Link del sitio web" class="llegar">Sitio web</a>
+                        <a href="{{node.field_weblink.0.url}}" target="_blank" aria-label="Link del sitio web"
+                            class="llegar">Sitio web</a>
                         {% endif %}
                     </div>
                     <div class="redes-sociales"
@@ -146,60 +146,67 @@
                 {% endif %}
                 <div class="flexmap">
                     <div class="map" rel="noopener">
-                        <iframe  id="mapNode" width="600" height="450" style="border:0" loading="lazy" allowfullscreen
+                        <iframe id="mapNode" width="600" height="450" style="border:0" loading="lazy" allowfullscreen
                             referrerpolicy="no-referrer-when-downgrade"
                             src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
                         </iframe>
                     </div>
                     <div class="list">
                         <ul>
-                       
-		
-		
-                                    {% if node.field_tipo_de_alojamiento|length > 0 %}
+
+
+
+                            {% if node.field_tipo_de_alojamiento|length > 0 %}
                             <li>
                                 <strong>Tipo de alojamiento</strong>
-                                
-    <div class="tag-container">
+
+                                <div class="tag-container">
                                     {% for item in node.field_tipo_de_alojamiento %}
                                     <span class="tag-item">{{ item.entity.name.value }}</span>
                                     {% endfor %}
                                 </div>
                             </li>
-                                    {% endif %}
-                                    {% if node.field_tipos_de_habitacion_dispon|length > 0 %}
+                            {% endif %}
+                            {% if node.field_tipos_de_habitacion_dispon|length > 0 %}
                             <li>
                                 <strong>Tipos de habitación disponibles</strong>
-                                
-    <div class="tag-container">
+
+                                <div class="tag-container">
                                     {% for item in node.field_tipos_de_habitacion_dispon %}
                                     <span class="tag-item">{{ item.entity.name.value }}</span>
                                     {% endfor %}
                                 </div>
                             </li>
-                                    {% endif %}
-                                    {% if node.field_servicios_del_hotel|length > 0 %}
+                            {% endif %}
+                            {% if node.field_servicios_del_hotel|length > 0 %}
                             <li>
                                 <strong>Servicios del hotel</strong>
-                                
-    <div class="tag-container">
+
+                                <div class="tag-container">
                                     {% for item in node.field_servicios_del_hotel %}
-                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+
+
+                                    <span class="tag-item"
+                                        style="display:flex;align-items:center;justify-content:center;flex-direction:column; width:30%; text-align:center; font-size:12px;">
+                                        <img src="{{file_url(item.entity.fields.field_icono.entity.fileuri) }}"
+                                            alt="{{ item.entity.name.value }}" />
+                                        {{ item.entity.name.value }}
+                                    </span>
                                     {% endfor %}
                                 </div>
                             </li>
-                                    {% endif %}
-                                    {% if node.field_rango_de_precios_del_hotel|length > 0 %}
+                            {% endif %}
+                            {% if node.field_rango_de_precios_del_hotel|length > 0 %}
                             <li>
                                 <strong> Rango de precios</strong>
-                                
-    <div class="tag-container">
+
+                                <div class="tag-container">
                                     {% for item in node.field_rango_de_precios_del_hotel %}
                                     <span class="tag-item">{{ item.entity.name.value }}</span>
                                     {% endfor %}
                                 </div>
                             </li>
-                                    {% endif %}
+                            {% endif %}
                             {% if node.field_como_llegar_enr.0.value is not empty %}
                             <li>
                                 <strong>¿Cómo Llegar?</strong>
@@ -269,7 +276,7 @@
                             </li>
                             {% endif %}
                         </ul>
-                        
+
                     </div>
                 </div>
             </div>
@@ -327,7 +334,7 @@
                 {% endfor %}
             </ul>
         </div>
-         {% if contenidos_relacionados %}
+        {% if contenidos_relacionados %}
         <div class="recomendados lugares">
             <h4>Contenido Recomendado</h4>
             <ul>

@@ -140,7 +140,7 @@
           window.addEventListener('load', runAOS);
         }
       });
-      document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+      // document.addEventListener("contextmenu", function (e) { e.preventDefault(); });
       /* ------------------------------
       * GASTRONOMY FILTER (checkboxes)
       * ------------------------------ */

@@ -139,6 +139,35 @@
 
           <h1> {{ node.getTitle() }}</h1>
           <small>{{ node.field_lugar_del_evento.0.value }}</small>
+         <div class="tag-container" style="margin-bottom:15px;">
+   {% for item in node.field_turcat %}
+    <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}" class="tag-item">
+      {{ item.entity.name.value }}
+    </a>
+  {% endfor %}
+    {% for item in node.field_tursubcat %}
+    <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}" class="tag-item">
+      {{ item.entity.name.value }}
+    </a>
+  {% endfor %}
+  {% for item in node.field_categoria_de_evento %}
+    <span class="tag-item">
+      {{ item.entity.name.value }}
+    </span>
+  {% endfor %}
+  {% for item in node.field_turzone %}
+    <span  class="tag-item">
+      {{ item.entity.name.value }}
+    </span>
+  {% endfor %}
+
+  {% for item in node.field_turdistr %}
+    <span  class="tag-item">
+      {{ item.entity.name.value }}
+    </span>
+  {% endfor %}
+
+</div>
 
 {# 1. Mapeo de traducciones #}
 {% set meses = {
@@ -205,39 +234,8 @@
           <div class="list">
             <ul style="list-style: none; padding: 0;flex-direction: column;gap:10px;">
               <li>
-                <strong>Categoría de evento </strong>
-                <div class="tag-container">
-                  {% for item in node.field_categoria_de_evento %}
-                  <span class="tag-item">{{ item.entity.name.value }}</span>
-                  {% endfor %}
-                </div>
-              </li>
-               {% if node.field_turcat|length > 0 %}
-              <li>
-                <strong>Categoría relacionada </strong>
-                <div class="tag-container">
-                  {% for item in node.field_turcat %}
-                  <span class="tag-item">{{ item.entity.name.value }}</span>
-                  {% endfor %}
-                </div>
-              </li>
-   {% endif %}
-              <li>
-                <strong>Evento Gratuito:</strong>
-                {{ node.field_evento_gratuito.value ? 'Sí' : 'No' }}
-              </li>
-              <li>
                 <strong>Hora de Inicio del evento </strong>
                 {{node.field_hora_de_inicio_del_evento.0.value}}
-              </li>
-
-              <li>
-                <strong>Subcategoría relacionada </strong>
-                <div class="tag-container">
-                  {% for item in node.field_tursubcat %}
-                  <span class="tag-item">{{ item.entity.name.value }}</span>
-                  {% endfor %}
-                </div>
               </li>
               {% if node.field_turpara|length > 0 %}
               <li>
@@ -250,27 +248,9 @@
               </li>
               {% endif %}
 
-              {% if node.field_turzone|length > 0 %}
-              <li>
-                <strong>Zona:</strong>
-                <div class="tag-container">
-                  {% for item in node.field_turzone %}
-                  <span class="tag-item">{{ item.entity.name.value }}</span>
-                  {% endfor %}
-                </div>
-              </li>
-              {% endif %}
+              
 
-              {% if node.field_turdistr|length > 0 %}
-              <li>
-                <strong>Localidad:</strong>
-                <div class="tag-container">
-                  {% for item in node.field_turdistr %}
-                  <span class="tag-item">{{ item.entity.name.value }}</span>
-                  {% endfor %}
-                </div>
-              </li>
-              {% endif %}
+              
               {% if node.field_correo.0.value is not empty %}
               <li class="flexList contact-info">
                 <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
