@@ -204,6 +204,37 @@
 
         }
 
+        .buttons {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 8px 16px;
+                border-radius: 999px;
+                border: 1px solid #000;
+                font-size: 13px;
+                cursor: pointer;
+                background: #fff;
+                transition: all 0.2s ease;
+                user-select: none;
+                font-weight: 800;
+                font-size: 16px;
+                line-height: 39px;
+                vertical-align: middle;
+                min-width: 250px;
+
+                &:hover {
+                    background-color: #000;
+                    color: #FFF;
+                }
+
+            }
+        }
+
     }
 
     .video {
