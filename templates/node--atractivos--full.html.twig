@@ -23,11 +23,13 @@
 
                             {{node.field_direccion.0.value}}
                         </p>
-                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Como llegar al lugar"
-                            class="llegar">Cómo llegar</a>
-                        <a href="{{node.field_weblink.0.url}}" target="_blank"
-                            aria-label="Más información sobre el lugar" class="llegar">Más información</a>
-
+                          {% if node.field_mapslink.0.url is not empty %}
+            <a href="{{node.field_mapslink.0.url}}" class="btn" target="_blank" aria-label="Más información">Cómo llegar</a>
+            {% endif %}
+            {% if node.field_weblink.0.url is not empty %}
+            <a href="{{node.field_weblink.0.url}}" class="btn" target="_blank"
+              aria-label="Boletería">Más información</a>
+            {% endif %}
                     </div>
                 </div>
             </div>
@@ -147,6 +149,15 @@
                         </ul>
                     </div>
                 </div>
+                           <div class="buttons">
+            {% if node.field_mapslink.0.url is not empty %}
+            <a href="{{node.field_mapslink.0.url}}" class="btn" target="_blank" aria-label="Más información">Cómo llegar</a>
+            {% endif %}
+            {% if node.field_weblink.0.url is not empty %}
+            <a href="{{node.field_weblink.0.url}}" class="btn" target="_blank"
+              aria-label="Boletería">Más información</a>
+            {% endif %}
+          </div>
             </div>
         </div>
         {% if node.field_video is not empty %}

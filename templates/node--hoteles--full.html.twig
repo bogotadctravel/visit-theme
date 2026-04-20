@@ -19,25 +19,25 @@
 
                             {{node.field_direccion.0.value}}
                         </p>
-                        {% if node.field_mapslink.0.url is not empty %}
+                          {% if node.field_mapslink.0.url is not empty %}
                         <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Cómo llegar al lugar"
-                            class="llegar">Cómo llegar</a>
+                            class="llegar btn">Cómo llegar</a>
                         {% endif %}
                         {% if node.field_linkreservas.0.url is not empty %}
                         <a href="{{node.field_linkreservas.0.url}}" target="_blank" aria-label="Link para reservas"
-                            class="llegar">Reservas</a>
+                            class="llegar btn">Reservas</a>
                         {% endif %}
                         {% if node.field_weblink.0.url is not empty %}
                         <a href="{{node.field_weblink.0.url}}" target="_blank"
-                            aria-label="Más información sobre el lugar" class="llegar">Más información</a>
+                            aria-label="Más información sobre el lugar" class="llegar btn">Más información</a>
                         {% endif %}
                         {% if node.field_menulink.0.url is not empty %}
                         <a href="{{node.field_menulink.0.url}}" target="_blank" aria-label="Link del menú"
-                            class="llegar">Menú</a>
+                            class="llegar btn">Menú</a>
                         {% endif %}
                         {% if node.field_weblink.0.url is not empty %}
                         <a href="{{node.field_weblink.0.url}}" target="_blank" aria-label="Link del sitio web"
-                            class="llegar">Sitio web</a>
+                            class="llegar btn">Sitio web</a>
                         {% endif %}
                     </div>
                     <div class="redes-sociales"
@@ -277,6 +277,28 @@
                         </ul>
 
                     </div>
+                </div>
+                <div class="buttons">
+                 {% if node.field_mapslink.0.url is not empty %}
+                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Cómo llegar al lugar"
+                            class="llegar btn">Cómo llegar</a>
+                        {% endif %}
+                        {% if node.field_linkreservas.0.url is not empty %}
+                        <a href="{{node.field_linkreservas.0.url}}" target="_blank" aria-label="Link para reservas"
+                            class="llegar btn">Reservas</a>
+                        {% endif %}
+                        {% if node.field_weblink.0.url is not empty %}
+                        <a href="{{node.field_weblink.0.url}}" target="_blank"
+                            aria-label="Más información sobre el lugar" class="llegar btn">Más información</a>
+                        {% endif %}
+                        {% if node.field_menulink.0.url is not empty %}
+                        <a href="{{node.field_menulink.0.url}}" target="_blank" aria-label="Link del menú"
+                            class="llegar btn">Menú</a>
+                        {% endif %}
+                        {% if node.field_weblink.0.url is not empty %}
+                        <a href="{{node.field_weblink.0.url}}" target="_blank" aria-label="Link del sitio web"
+                            class="llegar btn">Sitio web</a>
+                        {% endif %}
                 </div>
             </div>
         </div>
