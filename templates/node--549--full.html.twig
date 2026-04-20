@@ -1,3 +1,27 @@
+<style>
+#modal-itinerario .form-itinerario-custom .form-item-message-0-value{
+    display:none;
+}
+.btn.btn-outline-primary.btn-lg.rounded-pill{
+display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #2f80ed;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 24px;
+    margin:0 auto;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s ease;
+}
+.btn.btn-outline-primary.btn-lg.rounded-pill:hover{
+    opacity:.8;
+}
+</style>
   {% set meses = { 'Jan': 'Ene', 'Feb': 'Feb',
 'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Aug':
 'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %}
@@ -212,12 +236,12 @@
 
             <div class="text-center mt-4">
 
-                <button id="generarPdf" class="btn btn-primary btn-lg rounded-pill">
+                {# <button id="generarPdf" class="btn btn-primary btn-lg rounded-pill">
 
                     <i class="fas fa-file-pdf me-2"></i>
                     {{ "Descargar PDF"|trans }}
 
-                </button>
+                </button> #}
 
             </div>
 
@@ -535,4 +559,7 @@
                             }
 
                         }); // DOMContentLoaded
+
+                        document.querySelector('#edit-submit').value = "Descargar Itinerario"
+                        document.querySelector('#modal-itinerario .form-itinerario-custom textarea').value = 'Send'
     </script>

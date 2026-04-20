@@ -101,8 +101,6 @@
 
             <div class="info">
                 <div class="desc">
-                    <h2>{{ node.getTitle() }}</h2>
-                    
                     {# NUEVO: Descuento #}
                     {% if node.field_porcentaje_de_descuento|length > 0 %}
                         <div class="badge-descuento">¡{{ node.field_porcentaje_de_descuento.0.value }}% de Descuento!</div>

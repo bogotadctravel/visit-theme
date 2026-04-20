@@ -12,7 +12,7 @@
       
       {% for item in node.field_video_principal %}
       <li class="splide__slide">
-        <div class="video-container">
+        <div class="video-container" style="height:100%;">
           <video 
             class="slider-video"
             preload="auto" 
@@ -73,7 +73,7 @@
             <section class="splide splideEvents" aria-label="Splide Basic HTML Example">
                 <div class="splide__track">
                     <ul class="splide__list grid-events ">
-                        {% for item in eventosVisit |shuffle %}
+                        {% for item in eventosVisit |shuffle |slice(0, 9)  %}
                           {# Pre-calculamos fechas para evitar repetición #}
                         {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
                         {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}

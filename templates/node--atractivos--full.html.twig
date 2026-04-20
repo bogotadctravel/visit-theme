@@ -51,12 +51,11 @@
             {% endif %}
 
             <div class="info">
-                <div class="desc">
-                    <h2>{{ node.getTitle() }}</h2>
                     {% if body_sin_estilos is not empty %}
+                <div class="desc">
                     {{ body_sin_estilos }}
-                    {% endif %}
                 </div>
+                    {% endif %}
                 {% if file_url(node.field_audio.entity.fileuri) is not empty %}
                 <div class="audio" style="margin: 20px 0;">
                     <h3>Escuchar reseña en audio</h3>

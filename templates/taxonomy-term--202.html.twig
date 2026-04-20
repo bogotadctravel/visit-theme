@@ -1,67 +1,129 @@
+<style>
+header .donde main .container{
+    margin: 0 auto;
+    max-width: 1390px;
+    width: 100%;
+    padding: 0 20px;
+    position: relative;
+    display:block;
+}
+</style>
 <div class="donde">
+
     <main>
+
         <div class="donde-list">
+
             <div class="container">
-                <h1>¿Dónde dormir en Bogotá?</h1>
+
+                <h1>Restaurantes</h1>
+
                 <div class="flex">
+
                     <div class="left">
+
                         <div class="filters">
+
                             <h3>Rango de precios</h3>
-                            {% for cat in taxonomy('rango_de_precios_hoteles') %}
+
+                            {% for cat in taxonomy('rangos_de_precios') %}
+
                             <label for="{{ cat.tid }}">
+
                                 <input type="checkbox" name="{{ cat.name }}" id="{{ cat.tid }}" value="{{ cat.tid }}">
+
                                 {{ cat.name }}
+
                             </label>
+
                             {% endfor %}
-                            <h3>Servicios del hotel</h3>
-                            {% for cat in taxonomy('servicios_hoteles') %}
+
+                            <h3>Categorias gastronomicas</h3>
+
+                            {% for cat in taxonomy('categorias_gastronomicas') %}
+
                             <label for="{{ cat.tid }}">
+
                                 <input type="checkbox" name="{{ cat.name }}" id="{{ cat.tid }}" value="{{ cat.tid }}">
+
                                 {{ cat.name }}
+
                             </label>
+
                             {% endfor %}
-                            <h3>Tipo de alojamiento</h3>
-                            {% for cat in taxonomy('tipos_de_alojamiento') %}
-                            <label for="{{ cat.tid }}">
-                                <input type="checkbox" name="{{ cat.name }}" id="{{ cat.tid }}" value="{{ cat.tid }}">
-                                {{ cat.name }}
-                            </label>
-                            {% endfor %}
+
                             <h3>Zonas</h3>
-                            {% for cat in taxonomy('zonas_de_la_ciudad') %}
+
+                            {% for cat in taxonomy('zonas_gastronomicas') %}
+
                             <label for="{{ cat.tid }}">
+
                                 <input type="checkbox" name="{{ cat.name }}" id="{{ cat.tid }}" value="{{ cat.tid }}">
+
                                 {{ cat.name }}
+
                             </label>
+
                             {% endfor %}
+
                         </div>
+
                     </div>
+
                     <div class="right">
+
                         <ul class="grid-categories" id="cardsList">
-                            {% if hoteles  is not empty %}
-                            {% for item in hoteles |shuffle %}
-                            {% set precios = item.field_rango_de_precios_del_hotel|map(t => t.tid)|join(',') %}
-                            {% set servicios = item.field_servicios_del_hotel|map(t => t.tid)|join(',') %}
-                            {% set tipo = item.field_tipo_de_alojamiento|map(t => t.tid)|join(',') %}
-                            {% set zonas = item.field_turzone|map(t => t.tid)|join(',') %}
-                            <li  class="card"   data-precios="{{ precios }}" data-servicios="{{ servicios }}" data-tipo="{{ tipo }}" data-zona="{{ zonas }}">
-                                <a href="{{ item.url }}" class="card-link">
+
+                            {% if establecimientos  is not empty %}
+
+                            {% for item in establecimientos |shuffle %}
+
+                            {% set categorias = (item.categoria_gastronomica|default([]))|map(t => t.tid)|join(',') %}
+
+                            {% set zonas      = (item.zonagast|default([]))|map(t => t.tid)|join(',') %}
+
+                            {% set precios    = (item.field_rango_de_precios|default([]))|map(t => t.tid)|join(',') %}
+
+                            {% set tipo       = (item.field_tipo_de_alojamiento|default([]))|map(t => t.tid)|join(',') %}
+
+                            <li  class="card"   data-categoria="{{ categorias }}" data-zona="{{ zonas }}" data-precios="{{ precios }}" data-servicios="{{ servicios }}" data-tipo="{{ tipo }}">
+
+                                <a href="{{ item.url }}">
+
                                     <div class="image">
+
                                         <img src="{{ item.image }}" alt="{{ item.title }}">
+
                                     </div>
+
                                     <span class="title">{{ item.title }}</span>
 
+
+
                                 </a>
+
                             </li>
+
                             {% endfor %}
+
                             {% endif %}
+
                         </ul>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
         <div class="planifica-container" data-aos="fade-right">
-           {% include "@visit_theme/includes/planifica.html.twig" %}
+
+          {% include "@visit_theme/includes/planifica.html.twig" %}
+
         </div>
+
     </main>
+
 </div>

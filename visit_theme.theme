@@ -33,6 +33,7 @@ function visit_theme_preprocess_taxonomy_term(array &$variables) {
   $content_loader = \Drupal::service('idt_theme_support.content_loader');
 
   // Tipos normales teaser
+   $variables['establecimientos'] = $content_loader->getNodesTeaserByCategory('establecimientos', $tid);
   $variables['atractivos']   = $content_loader->getNodesTeaserByCategory('atractivos', $tid);
   $variables['rutas']        = $content_loader->getNodesTeaserByCategory('rutas', $tid);
   $variables['experiencias'] = $content_loader->getNodesTeaserByCategory('experiencias', $tid);
@@ -79,10 +80,7 @@ function visit_theme_preprocess_node(array &$variables) {
     $variables['contenidos_relacionados'] = $content_loader->getTeasersFromEntities($referenced_entities);
   }
 
-  // Verifica que sea el tipo de contenido correcto (atractivos)
-  if ($node->getType() == 'atractivos') {
-    
-    // Limpiar estilos del body
+  // Limpiar estilos del body
     if ($node->hasField('body') && !$node->get('body')->isEmpty()) {
       $body_raw = $node->get('body')->value;
       // Quitamos el atributo style
@@ -92,7 +90,6 @@ function visit_theme_preprocess_node(array &$variables) {
         '#markup' => $body_clean,
       ];
     }
-  }
   // 1. Validaciones tempranas
   if ($variables['view_mode'] !== 'full') {
     return;
