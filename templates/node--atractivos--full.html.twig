@@ -1,13 +1,11 @@
 <div class="atractivo">
     <main>
         {% set banner_image = null %}
-
         {% if node.field_cover.entity %}
         {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
         {% elseif node.field_mainimg.entity %}
         {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
         {% endif %}
-
         {% if banner_image %}
         <div class="banner" style="background-image: url('{{ banner_image }}');">
 
@@ -15,8 +13,8 @@
             <div class="container">
 
                 <div class="text">
-
-                    <h2>Visit Bogotá</h2>
+                
+                         
                     <h1>{{ node.getTitle() }}</h1>
                     <div class="comollegar">
                         <p>
@@ -30,6 +28,10 @@
             <a href="{{node.field_weblink.0.url}}" class="btn" target="_blank"
               aria-label="Boletería">Más información</a>
             {% endif %}
+             {# {% if node.fields.field_tursubcat.0.value.target_id == '118' %}
+              <a href="{{node.field_weblink.0.url}}" class="btn" target="_blank"
+              aria-label="Restaurantes de la zona">Ver restaurantes de esta zona</a>
+                    {% endif %} #}
                     </div>
                 </div>
             </div>
@@ -156,7 +158,12 @@
             {% if node.field_weblink.0.url is not empty %}
             <a href="{{node.field_weblink.0.url}}" class="btn" target="_blank"
               aria-label="Boletería">Más información</a>
+              
             {% endif %}
+              {# {% if node.fields.field_tursubcat.0.value.target_id == '118' %}
+              <a href="{{node.field_weblink.0.url}}" class="btn" target="_blank"
+              aria-label="Restaurantes de la zona">Ver restaurantes de esta zona</a>
+                    {% endif %} #}
           </div>
             </div>
         </div>
