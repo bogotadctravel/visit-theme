@@ -1,0 +1,43 @@
+ {% set meses = { 'Jan': 'Ene', 'Feb': 'Feb',
+'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Aug':
+'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %} 
+<div class="blog" style="padding:0;">
+    <main style="padding:0;">
+
+        {% if articulo_mice is not empty %}
+        <div class="blog" data-aos="fade-down" style="padding:0;">
+            <h5>Noticias</h5>
+            <ul class="grid-blogs container" id="blog-grid">
+                {% for item in articulo_mice %}
+                {# Preparamos el texto de búsqueda: título + categoría #}
+                {% set search_text = (item.title ~ ' ' ~ item.categoria.name)|lower %}
+                <li class="blog-card" 
+                    data-categoria="{{ item.categoria.tid }}" 
+                    data-search="{{ search_text }}">
+                    <a href="{{item.url}}">
+                        <div class="image">
+                            <img src="{{item.image}}" alt="{{ item.title }}">
+                        </div>
+                        <div class="title">
+                            {{item.title}}
+                           
+                        </div>
+                           {% set fecha_inicio_raw = item.creationdate|date("Y-m-d") %}
+                        {# Formateo de meses traducidos para la visualización #}
+                        {% set mes_ini = item.creationdate|date("M") %}
+                        {# Solo traducimos si el sitio está en español #}
+                        {% set display_inicio = (meses[mes_ini] is defined) ? meses[mes_ini] ~
+                        item.creationdate|date(" d") : item.creationdate|date("M d") %}
+
+                        <div class="date">
+                        {{ item.creationdate|date("d") }} {{ meses[mes_ini] }} {{ item.creationdate|date("Y") }}
+                        </div>
+                        <div class="tag">{{item.categoria.name}}</div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </main>
+</div>

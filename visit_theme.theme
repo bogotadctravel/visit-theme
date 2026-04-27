@@ -38,10 +38,11 @@ function visit_theme_preprocess_taxonomy_term(array &$variables) {
   $variables['rutas']        = $content_loader->getNodesTeaserByCategory('rutas', $tid);
   $variables['experiencias'] = $content_loader->getNodesTeaserByCategory('experiencias', $tid);
   $variables['article']      = $content_loader->getNodesTeaserByCategory('article', $tid);
+  $variables['articulo_mice']      = $content_loader->getNodesTeaserByCategory('articulo_mice', $tid);
 
   // Eventos separados
   $variables['eventosVisit'] = $content_loader->getEventosTeaserByCategoryAndMice($tid, 0, 50);
-  $variables['eventosMICE']  = $content_loader->getEventosTeaserByCategoryAndMice($tid, 1, 50);
+  $variables['eventosMICE']  = $content_loader->getNodesTeaserByCategory('eventos_mice', $tid);
 }
 function visit_theme_get_terms(string $vocab): array {
 
@@ -110,11 +111,12 @@ function visit_theme_preprocess_node(array &$variables) {
   $variables['zonas_de_la_ciudad']  = visit_theme_get_terms('zonas_de_la_ciudad');
 
   $variables['eventosVisit']        = $content_loader->getEventosTeaserByMiceFlag(0, 50);
-  $variables['eventosMICE']         = $content_loader->getEventosTeaserByMiceFlag(1, 50);
+  $variables['eventosMICE']         = $content_loader->getNodesTeaser('eventos_mice');
   $variables['atractivos']          = $content_loader->getNodesTeaser('atractivos');
   $variables['casos_de_exito']      = $content_loader->getNodesTeaser('casos_de_exito', 30);
   $variables['proveedores_conecta'] = $content_loader->getNodesTeaser('proveedores_conecta', 60);
   $variables['article'] = $content_loader->getNodesTeaser('article', 50);
+  $variables['articulo_mice'] = $content_loader->getNodesTeaser('articulo_mice', 50);
 
   // 3. Lógica específica por Tipo de Contenido (Bundle)
   switch ($bundle) {
@@ -160,7 +162,7 @@ function visit_theme_preprocess_node(array &$variables) {
     case 'pagina_de_inicio':
       $variables['aliados'] = $content_loader->getNodesTeaser('aliados');
       $variables['por_que_bogota'] = $content_loader->getNodesTeaser('por_que_bogota', 20);
-        $variables['article'] = $content_loader->getNodesTeaser('article', 50);
+        $variables['articulo_mice'] = $content_loader->getNodesTeaser('articulo_mice', 50);
       break;
 
     case 'pagina_venues':
@@ -223,6 +225,7 @@ function visit_theme_preprocess_node(array &$variables) {
       $variables['establecimientos'] = $content_loader->getNodesTeaser('establecimientos', 50);
       $variables['hoteles'] = $content_loader->getNodesTeaser('hoteles', 50);
       $variables['article'] = $content_loader->getNodesTeaser('article', 50);
+      $variables['articulo_mice'] = $content_loader->getNodesTeaser('articulo_mice', 50);
       $variables['rutas'] = $content_loader->getNodesTeaser('rutas', 100);
       $variables['experiencias'] = $content_loader->getNodesTeaser('experiencias', 100);
       break;

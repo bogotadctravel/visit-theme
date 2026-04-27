@@ -34,7 +34,7 @@
   </div>
 
 {# Filtramos el array para que solo contenga los que tienen field_articulo_mice == true #}
-{% set mice_articles = article|shuffle|filter(v => v.field_articulo_mice == true) %}
+{% set mice_articles = articulo_mice|shuffle %}
 {# Obtenemos el último de esa lista filtrada #}
 {% set last_mice_article = mice_articles|last %}
 

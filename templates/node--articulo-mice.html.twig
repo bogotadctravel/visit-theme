@@ -1,0 +1,69 @@
+  <style>
+    .article .banner {
+      width: 100%;
+      height: 700px;
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 20px;
+    }
+    .article .banner img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .article .content {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .image-wrapper {
+  margin-bottom: 20px;
+}
+figcaption,
+.image-caption {
+  font-size: 12px;
+  color: #666;
+  text-align: justify;
+  padding:5px;
+  margin-top: 5px;
+}
+  </style>
+  <div class="article">
+  <div class="container">
+        <h1>{{ node.getTitle() }}</h1>
+    <div class="banner">
+    <img src="{{ file_url(node.field_mainimg.entity.fileuri) }}" alt="{{ node.label }}">
+    </div>
+      <div class="content">
+          {{ content.body }}
+      </div>
+  </div>
+  </div>
+
+  <script>
+document.querySelectorAll('.content img').forEach(img => {
+
+  // ❌ 1. Si ya está dentro de un <figure>, NO hacer nada
+  if (img.closest('figure')) return;
+
+  // ❌ 2. Si ya está dentro de un wrapper, NO hacer nada
+  if (img.closest('.image-wrapper')) return;
+
+  const title = img.getAttribute('title');
+
+  const text = title;
+
+  // ❌ 3. Si no hay texto, no crear caption
+  if (!text) return;
+
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('image-wrapper');
+
+  const caption = document.createElement('div');
+  caption.classList.add('image-caption');
+  caption.textContent = text;
+
+  img.parentNode.insertBefore(wrapper, img);
+  wrapper.appendChild(img);
+  wrapper.appendChild(caption);
+});
+  </script>
