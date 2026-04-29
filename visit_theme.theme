@@ -80,6 +80,21 @@ function visit_theme_preprocess_node(array &$variables) {
     // que reciba objetos Node, por ejemplo:
     $variables['contenidos_relacionados'] = $content_loader->getTeasersFromEntities($referenced_entities);
   }
+  if ($node->hasField('field_company') && !$node->get('field_company')->isEmpty()) {
+    
+    // 1. Obtenemos los nodos referenciados
+    $referenced_entities = $node->get('field_company')->referencedEntities();
+    
+    // 2. Llamamos a tu servicio 'ContentLoader'
+    // Asumiendo que tu servicio está registrado en idt_theme_support.services.yml
+    $content_loader = \Drupal::service('idt_theme_support.content_loader');
+    
+    // 3. Usamos el método privado buildTeaserOutput a través de un puente 
+    // o simplemente procesamos los nodos. 
+    // NOTA: Como buildTeaserOutput es PROTECTED, podrías necesitar un método público 
+    // que reciba objetos Node, por ejemplo:
+    $variables['field_company'] = $content_loader->getTeasersFromEntities($referenced_entities);
+  }
 
   // Limpiar estilos del body
     if ($node->hasField('body') && !$node->get('body')->isEmpty()) {

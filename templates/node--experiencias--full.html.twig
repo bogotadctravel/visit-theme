@@ -61,6 +61,9 @@
                     <h1>{{ node.getTitle() }}</h1>
                     <div class="comollegar">
                         <p>{{node.field_direccion.0.value}}</p>
+                         {% if field_company is not empty %}
+                        <a href="{{field_company.0.field_profilelink}}" target="_blank">{{field_company.0.title}}</a>
+{% endif %}
                         
                         {% if node.field_mapslink.0.url is not empty %}
                         <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Cómo llegar al lugar" class="llegar">Cómo llegar</a>
@@ -77,6 +80,7 @@
                         {% if node.field_menulink.0.url is not empty %}
                         <a href="{{node.field_menulink.0.url}}" target="_blank" aria-label="Link del menú" class="llegar">Menú</a>
                         {% endif %}
+
                     </div>
                 </div>
             </div>
