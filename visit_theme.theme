@@ -63,22 +63,27 @@ function visit_theme_get_terms(string $vocab): array {
 
 
 function visit_theme_preprocess_node(array &$variables) {
-  $node = $variables['node'];
-  // Verificamos si el nodo tiene el campo y no está vacío
+ $node = $variables['node'];
+  $content_loader = \Drupal::service('idt_theme_support.content_loader');
+
+  // --- 1. RELACIÓN DIRECTA (Lo que ya tienes) ---
   if ($node->hasField('field_contenidos_relacionados') && !$node->get('field_contenidos_relacionados')->isEmpty()) {
-    
-    // 1. Obtenemos los nodos referenciados
     $referenced_entities = $node->get('field_contenidos_relacionados')->referencedEntities();
-    
-    // 2. Llamamos a tu servicio 'ContentLoader'
-    // Asumiendo que tu servicio está registrado en idt_theme_support.services.yml
-    $content_loader = \Drupal::service('idt_theme_support.content_loader');
-    
-    // 3. Usamos el método privado buildTeaserOutput a través de un puente 
-    // o simplemente procesamos los nodos. 
-    // NOTA: Como buildTeaserOutput es PROTECTED, podrías necesitar un método público 
-    // que reciba objetos Node, por ejemplo:
     $variables['contenidos_relacionados'] = $content_loader->getTeasersFromEntities($referenced_entities);
+  }
+
+  // --- 2. RELACIÓN INVERSA (Lo nuevo) ---
+  // Buscamos nodos que apunten a ESTE nodo a través del campo 'field_contenidos_relacionados'
+  $query = \Drupal::entityQuery('node')
+    ->condition('status', 1) // Solo publicados
+    ->condition('field_contenidos_relacionados', $node->id()) // Que apunten a mi ID
+    ->accessCheck(TRUE); // Verificación de permisos obligatoria en Drupal 10+
+
+  $target_nids = $query->execute();
+  if (!empty($target_nids)) {
+    $referencing_nodes = \Drupal\node\Entity\Node::loadMultiple($target_nids);
+    // Guardamos en una variable distinta para que el Twig decida cómo mostrarlo
+    $variables['referenciado_por'] = $content_loader->getTeasersFromEntities($referencing_nodes);
   }
   if ($node->hasField('field_company') && !$node->get('field_company')->isEmpty()) {
     
@@ -117,7 +122,6 @@ function visit_theme_preprocess_node(array &$variables) {
   }
 
   $bundle = $node->bundle();
-  $content_loader = \Drupal::service('idt_theme_support.content_loader');
 
   // 2. Variables Globales (Si de verdad se necesitan en TODOS los nodos 'full')
   // Considera mover esto dentro de los cases específicos si no se usan en todos lados.

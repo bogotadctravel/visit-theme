@@ -1,4 +1,15 @@
 <style>
+    .price-box {
+        font-size: 14px;
+        color: #64748b;
+    }
+
+    .price-box strong {
+        display: block;
+        font-size: 28px;
+        color: #0f172a;
+    }
+
     .reservaLink {
         background-color: #314059;
         color: white;
@@ -39,6 +50,90 @@
         border-top: 1px solid #eee;
         padding-top: 10px;
     }
+
+    @media (max-width: 600px) {
+        .reservaLink {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 0;
+            z-index: 999;
+        }
+    }
+
+    /* HERO */
+    .hero-hook {
+        color: #fff;
+        font-size: 18px;
+        margin: 10px 0 20px;
+        max-width: 500px;
+    }
+
+    .hero-cta {
+        background: #2563eb;
+        color: #fff;
+        padding: 12px 28px;
+        border-radius: 25px;
+        font-weight: bold;
+    }
+
+    .secondary-cta {
+        border: 1px solid #fff;
+        padding: 12px 28px;
+        border-radius: 25px;
+        color: #fff;
+    }
+
+    /* BOOKING CARD */
+    .price-box {
+        margin-bottom: 15px;
+    }
+
+    .price-box span {
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .price-box strong {
+        display: block;
+        font-size: 32px;
+        font-weight: 800;
+        color: #0f172a;
+    }
+
+    .social-proof {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #f59e0b;
+    }
+
+    .cta-sub {
+        font-size: 13px;
+        color: #64748b;
+        text-align: center;
+        margin-top: -15px;
+    }
+
+    .urgencia {
+        font-size: 13px;
+        color: #dc2626;
+        text-align: center;
+        margin-top: 10px;
+        font-weight: 600;
+    }
+
+    /* MOBILE STICKY CTA */
+    @media (max-width: 600px) {
+        .reservaLink {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            border-radius: 0;
+            z-index: 999;
+        }
+    }
 </style>
 
 <div class="atractivo experiencia">
@@ -56,41 +151,29 @@
 
         {% if banner_image %}
         <div class="banner" style="background-image: url('{{ banner_image }}');">
-            {% endif %}
             <div class="container">
                 <div class="text">
                     <h2>Visit Bogotá</h2>
                     <h1>{{ node.getTitle() }}</h1>
                     <div class="comollegar">
-                        <p>{{node.field_direccion.0.value}}</p>
-                        {% if field_company is not empty %}
-                        <a href="{{field_company.0.field_profilelink}}" target="_blank">{{field_company.0.title}}</a>
-                        {% endif %}
-
-                        {% if node.field_mapslink.0.url is not empty %}
-                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Cómo llegar al lugar"
-                            class="llegar">Cómo llegar</a>
+                        {% if node.field_direccion.0.value %}
+                        <p>{{ node.field_direccion.0.value }}</p>
                         {% endif %}
 
                         {% if node.field_linkreservas.0.url is not empty %}
-                        <a href="{{node.field_linkreservas.0.url}}" target="_blank" aria-label="Link para reservas"
-                            class="llegar reservaEvent">Reservas</a>
+                        <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="hero-cta">
+                            Reservar ahora
+                        </a>
                         {% endif %}
 
-                        {% if node.field_weblink.0.url is not empty %}
-                        <a href="{{node.field_weblink.0.url}}" target="_blank"
-                            aria-label="Más información sobre el lugar" class="llegar">Más información</a>
+                        {% if node.field_mapslink.0.url is not empty %}
+                        <a href="{{node.field_mapslink.0.url}}" target="_blank" class="secondary-cta">
+                            Cómo llegar
+                        </a>
                         {% endif %}
-
-                        {% if node.field_menulink.0.url is not empty %}
-                        <a href="{{node.field_menulink.0.url}}" target="_blank" aria-label="Link del menú"
-                            class="llegar">Menú</a>
-                        {% endif %}
-
                     </div>
                 </div>
             </div>
-            {% if banner_image %}
         </div>
         {% endif %}
 
@@ -250,10 +333,24 @@
 
             <div class="sidebar-reserva">
                 <div class="booking-card">
-                    <h3>Detalles de la experiencia</h3>
+
+                    <!-- {# ⭐ Prueba social #}
+                    <div class="social-proof">
+                        ⭐ 4.8 (120 opiniones)
+                    </div> -->
+
+                    {# 💰 Precio visible #}
+                    {% if node.field_valor_de_la_entrada.0.value is not empty %}
+                    <div class="price-box">
+                        <span>Desde</span>
+                        <strong>{{ node.field_valor_de_la_entrada.0.value }}</strong>
+                    </div>
+                    {% endif %}
+
+                    <h3>Reserva tu experiencia</h3>
 
                     <ul class="quick-facts">
-                        {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
+                        {% if node.field_duracion_de_la_visita_new.0.value %}
                         <li>
                             <span class="icon">⏱️</span>
                             <div>
@@ -268,15 +365,29 @@
                             <span class="icon">🗣️</span>
                             <div>
                                 <strong>Idiomas</strong>
-                                <p>{% for item in node.field_idioma_del_servicio %}{{ item.entity.name.value }}{% if not
-                                    loop.last %}, {% endif %}{% endfor %}</p>
+                                <p>
+                                    {% for item in node.field_idioma_del_servicio %}
+                                    {{ item.entity.name.value }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </p>
                             </div>
                         </li>
                         {% endif %}
                     </ul>
+
+                    {# 🔥 CTA principal mejorado #}
                     {% if node.field_linkreservas.0.url is not empty %}
-                    <a href="{{node.field_linkreservas.0.url}}" target="_blank" aria-label="Link para reservas"
-                        class="reservaLink">Reserva aquí</a>
+                    <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="reservaLink">
+                        Reservar ahora
+                    </a>
+
+                    <p class="cta-sub">
+                        Confirmación inmediata
+                    </p>
+
+                    <p class="urgencia">
+                        🔥 Alta demanda esta semana
+                    </p>
                     {% endif %}
 
                     {% if node.field_terminos_y_condiciones|length > 0 %}
@@ -284,6 +395,7 @@
                         {{ node.field_terminos_y_condiciones.0.value|raw }}
                     </div>
                     {% endif %}
+
                 </div>
             </div>
         </div>
@@ -353,6 +465,16 @@
                     </a>
                 </li>
                 {% endfor %}
+                {% for item in referenciado_por %}
+                <li>
+                    <a href="{{item.url}}">
+                        <div class="image">
+                            <img src="{{item.image }}" alt="atra">
+                        </div>
+                        <div class="title">{{item.title}}</div>
+                    </a>
+                </li>
+                {% endfor %}
             </ul>
         </div>
         {% endif %}
@@ -360,7 +482,6 @@
         {% include "@visit_theme/includes/planifica.html.twig" %}
     </main>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.video').forEach(wrapper => {
