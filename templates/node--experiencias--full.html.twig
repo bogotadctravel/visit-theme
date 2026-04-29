@@ -194,18 +194,6 @@
                             </li>
                             {% endif %}
 
-                            {# NUEVO: Idiomas #}
-                            {% if node.field_idioma_del_servicio|length > 0 %}
-                            <li>
-                                <strong>Idiomas del servicio:</strong>
-                                <div class="tag-container">
-                                    {% for item in node.field_idioma_del_servicio %}
-                                    <span class="tag-item">{{ item.entity.name.value }}</span>
-                                    {% endfor %}
-                                </div>
-                            </li>
-                            {% endif %}
-
                             <li>
                                 <strong>Recomendado para:</strong>
                                 <div class="tag-container">
