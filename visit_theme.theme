@@ -15,7 +15,10 @@ use Drupal\contact\Entity\Message;
 
 
 function visit_theme_preprocess_taxonomy_term(array &$variables) {
-
+// Esta línea registra el paginador global de la última consulta ejecutada
+  $variables['pager'] = [
+    '#type' => 'pager',
+  ];
   $term = $variables['term'] ?? NULL;
   if (!$term instanceof TermInterface) {
     return;
@@ -63,6 +66,10 @@ function visit_theme_get_terms(string $vocab): array {
 
 
 function visit_theme_preprocess_node(array &$variables) {
+  // Esta línea registra el paginador global de la última consulta ejecutada
+  $variables['pager'] = [
+    '#type' => 'pager',
+  ];
  $node = $variables['node'];
   $content_loader = \Drupal::service('idt_theme_support.content_loader');
 
