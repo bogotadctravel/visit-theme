@@ -1156,3 +1156,94 @@
         }
     }
 }
+
+.tabs-container {
+    margin-top: 20px;
+
+    .tabs-nav {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-bottom: 2px solid #f1f5f9;
+        gap: 30px;
+
+        .tab-link {
+            padding: 15px 5px;
+            cursor: pointer;
+            font-weight: 700;
+            color: #64748b;
+            position: relative;
+            transition: all 0.3s ease;
+
+            &.active {
+                color: #2563eb;
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    bottom: -2px;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background-color: #2563eb;
+                }
+            }
+
+            &:hover {
+                color: #2563eb;
+            }
+        }
+    }
+
+    .tabs-content {
+        padding: 30px 0;
+
+        .tab-item {
+            display: none;
+            animation: fadeIn 0.4s ease;
+
+            &.active {
+                display: block;
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos internos de las pestañas */
+.audio-player-box {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 30px;
+
+    h4 {
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    audio {
+        width: 100%;
+    }
+}
+
+.logistica-box {
+    margin-top: 25px;
+
+    h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+}
