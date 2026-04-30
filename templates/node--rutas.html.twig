@@ -1,192 +1,157 @@
-<div class="atractivo">
+<div class="atractivo ruta-turistica">
     <main>
         {% set banner_image = null %}
-
-        {% if node.field_cover.entity %}
-        {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
-        {% elseif node.field_mainimg.entity %}
-        {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+        {% if node.field_mainimg.entity %}
+            {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
         {% endif %}
 
         {% if banner_image %}
         <div class="banner" style="background-image: url('{{ banner_image }}');">
-
-            {% endif %}
+        {% endif %}
             <div class="container">
-
                 <div class="text">
                     <h1>{{ node.getTitle() }}</h1>
+                    {% if node.field_subtitulo.0.value is not empty %}
                     <p class="intro" style="margin-bottom: 20px;">
                         <strong>{{ node.field_subtitulo.0.value }}</strong>
                     </p>
-
-                    <div class="comollegar">
-                        <p>
-
-                            {{node.field_direccion.0.value}}
-                        </p>
-                        {% if node.field_mapslink.0.url is not empty %}
-                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Como llegar al lugar"
-                            class="llegar">Cómo llegar</a>
-                        {% endif %}
-                        {% if node.field_linkreservas.0.url is not empty %}
-                        <a href="{{node.field_linkreservas.0.url}}" target="_blank"
-                            aria-label="Más información sobre el lugar" class="llegar">Reservar</a>
-                        {% endif %}
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="flex">
-            {% if node.field_picgallery|length > 0 %}
-            <div class="galeria">
-                <div class="parent">
-
-                    {% for item in node.field_picgallery|slice(0,5) %}
-                    <div class="div{{ loop.index + 1 }}">
-                        <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery"
-                            data-caption="{{ item.title }}">
-                            <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
-                        </a>
-                    </div>
-                    {% endfor %}
-
-                </div>
-            </div>
-            {% endif %}
-
-            <div class="info">
-                <div class="desc">
-
-                    <p style="margin-bottom:30px;"><strong>{{ node.field_introduccion.0.value }}</strong></p>
-
-                    <p>
-                        {{ node.body.value | raw}}
-                    </p>
-
-                </div>
-                {% if file_url(node.field_audio.entity.fileuri) is not empty %}
-                <div class="audio" style="margin: 20px 0;">
-                    <h3>Escuchar reseña en audio</h3>
-                    <audio controls>
-                        <source src="  {{ file_url(node.field_audio.entity.fileuri) }}" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-
-                </div>
-                {% endif %}
-                <div class="flexmap">
-                    {% if node.field_latlong.0.value is not empty %}
-                    <div class="map" rel="noopener">
-                        <iframe id="mapNode" width="600" height="450" style="border:0" loading="lazy" allowfullscreen
-                            referrerpolicy="no-referrer-when-downgrade"
-                            src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed">
-                        </iframe>
-                    </div>
                     {% endif %}
-                    <div class="list">
-                        <ul>
-                            {% if node.field_quieres_ir.0.value is not empty %}
+                </div>
+            </div>
+        {% if banner_image %}
+        </div>
+        {% endif %}
+
+        <div class="flex">
+            <div class="main-content">
+                
+                {% if node.field_introduccion.0.value is not empty %}
+                    <p class="introduccion">{{ node.field_introduccion.0.value }}</p>
+                {% endif %}
+
+                {% if node.field_picgallery|length > 0 %}
+                    <div class="galeria-grid">
+                        {% for item in node.field_picgallery|slice(0,5) %}
+                            <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery" data-caption="{{ item.title }}">
+                                <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="desc itineario-seccion">
+                    {% if node.field_conocer.0.value is not empty %}
+                        <div class="highlight-box">
+                            <h3>🗺️ <strong>¿Qué vas a conocer en esta ruta?</strong></h3>
+                            <div>{{ node.field_conocer.0.value | raw }}</div>
+                        </div>
+                    {% endif %}
+
+                    {% if node.field_quieres_ir.0.value is not empty %}
+                        <div class="seccion-texto">
+                            <h3><strong>¿Quieres ir?</strong></h3>
+                            <p>{{ node.field_quieres_ir.0.value | raw | striptags }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if node.field_imagen_del_mapa.entity %}
+                    <div class="mapa-ruta-visual" style="margin: 40px 0;">
+                        <h3><strong>Mapa de la Ruta</strong></h3>
+                        <a href="{{ file_url(node.field_imagen_del_mapa.entity.fileuri) }}" data-fancybox="mapa-ruta">
+                            <img src="{{ file_url(node.field_imagen_del_mapa.entity.fileuri) }}" alt="Mapa del recorrido" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        </a>
+                        <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 10px;">Clic para ampliar el mapa</p>
+                    </div>
+                {% endif %}
+
+                {% if node.field_recorrido_360.0.value is not empty %}
+                    <div class="recorrido-360" style="margin: 40px 0;">
+                        <h3><strong>Explora en 360°</strong></h3>
+                        <div class="iframe-container" style="border-radius: 12px; overflow: hidden; height: 400px;">
+                            {{ node.field_recorrido_360.0.value | raw }}
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if file_url(node.field_audio.entity.fileuri) is not empty %}
+                    <div class="audio" style="margin: 30px 0; background: #f8fafc; padding: 20px; border-radius: 12px;">
+                        <h3 style="margin-bottom: 15px;">🎧 Escuchar audioguía de la ruta</h3>
+                        <audio controls style="width: 100%;">
+                            <source src="{{ file_url(node.field_audio.entity.fileuri) }}" type="audio/mpeg">
+                        </audio>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="sidebar-reserva">
+                <div class="booking-card">
+                    <h3>Detalles de la ruta</h3>
+                    
+                    <ul class="quick-facts">
+                        {% if node.field_precio.0.value is not empty %}
                             <li>
-                                <h2><strong>¿Quieres ir?</strong></h2>
-                                {{ node.field_quieres_ir.0.value | raw | striptags }}
+                                <span class="icon">🏷️</span> 
+                                <div>
+                                    <strong>Costo</strong>
+                                    <p>{{ node.field_precio.0.value | raw | striptags }}</p>
+                                </div>
                             </li>
-                            {% endif %}
-                            {% if node.field_conocer.0.value is not empty %}
+                        {% endif %}
+                        
+                        {% if node.field_turcat|length > 0 %}
                             <li>
-                                <h2><strong>¿Qué vas a conocer?</strong></h2>
-                                <p>{{ node.field_conocer.0.value | raw }}</p>
+                                <span class="icon">📌</span> 
+                                <div>
+                                    <strong>Categoría</strong>
+                                    <p>{{ node.field_turcat.0.entity.name.value }}</p>
+                                </div>
                             </li>
-                            {% endif %}
-                            {% if node.field_precio.0.value is not empty %}
-                            <li>
-                                <h2><strong>Precio</strong></h2>
-                                <p>{{ node.field_precio.0.value | raw }}</p>
-                            </li>
-                            {% endif %}
-                            {% if node.field_como_llegar_enr.0.value is not empty %}
-                            <li>
-                                <h2><strong>¿Cómo Llegar?</strong></h2>
-                                <p>{{ node.field_como_llegar_enr.0.value | raw }}</p>
-                            </li>
-                            {% endif %}
-                            {% if node.field_horarios.0.value is not empty %}
-                            <li>
-                                <h2><strong>Horarios:</strong></h2>
-                                <p>{{ node.field_horarios.0.value }}</p>
-                            </li>
-                            {% endif %}
-                            {% if node.field_valor_de_la_entrada.0.value is not empty %}
-                            <li>
-                                <h2><strong>Valor de la entrada:</strong></h2>
-                                <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
-                            </li>
-                            {% endif %}
-                            {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
-                            <li>
-                                <h2><strong>Duración de la visita:</strong></h2>
-                                <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
-                            </li>
-                            {% endif %}
-                            <li>
-                                <h2><strong>Recomendado para:</strong></h2>
+                        {% endif %}
+                    </ul>
+
+                    <div class="tags-group">
+                        {% if node.field_turpara|length > 0 %}
+                            <div class="tag-block">
+                                <strong>Ideal para:</strong>
                                 <div class="tag-container">
-                                    {% if node.field_turpara|length > 0 %}
                                     {% for item in node.field_turpara %}
-                                    <span class="tag-item">{{ item.entity.name.value }}</span>
+                                        <span class="tag-item">{{ item.entity.name.value }}</span>
                                     {% endfor %}
-                                    {% endif %}
                                 </div>
-                            </li>
-
-                            <li>
-                                <h2>
-                                    <strong>Zona:</strong>
-                                </h2>
-                                <div class="tag-container">
-                                    {% if node.field_turzone|length > 0 %}
-                                    {% for item in node.field_turzone %}
-                                    <span class="tag-item">{{ item.entity.name.value }}</span>
-                                    {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </li>
-
-                            <li>
-                                <strong>Localidad:</strong>
-                                <div class="tag-container">
-                                    {% if node.field_turdistr|length > 0 %}
-                                    {% for item in node.field_turdistr %}
-                                    <span class="tag-item">{{ item.entity.name.value }}</span>
-                                    {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </li>
-                            {% if node.field_correo.0.value is not empty %}
-                            <li class="flexList contact-info">
-                                <img src="/{{ directory }}/images/visitbogota/email.png" alt="email">
-                                <a href="mailto:{{node.field_correo.0.value}}">{{node.field_correo.0.value}}</a>
-                            </li>
-                            {% endif %}
-                            {% if node.field_telefono.0.value is not empty %}
-                            <li class="flexList contact-info">
-                                <img src="/{{ directory }}/images/visitbogota/tel.png" alt="tel">
-                                <a href="tel:{{node.field_telefono.0.value}}">{{node.field_telefono.0.value}}</a>
-                            </li>
-                            {% endif %}
-                        </ul>
-                    </div>
-                    <div class="buttons">
-                        {% if node.field_mapslink.0.url is not empty %}
-                        <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Como llegar al lugar"
-                            class="llegar btn">Cómo llegar</a>
+                            </div>
                         {% endif %}
-                        {% if node.field_linkreservas.0.url is not empty %}
-                        <a href="{{node.field_linkreservas.0.url}}" target="_blank"
-                            aria-label="Más información sobre el lugar" class="llegar btn">Reservar</a>
+
+                        {% if node.field_turzone|length > 0 or node.field_turdistr|length > 0 %}
+                            <div class="tag-block">
+                                <strong>Ubicación:</strong>
+                                <div class="tag-container">
+                                    {% for item in node.field_turzone %}<span class="tag-item geo">{{ item.entity.name.value }}</span>{% endfor %}
+                                    {% for item in node.field_turdistr %}<span class="tag-item geo">{{ item.entity.name.value }}</span>{% endfor %}
+                                </div>
+                            </div>
                         {% endif %}
                     </div>
+
+                    {% if node.field_latlong.0.value is not empty %}
+                        <div class="starting-point" style="margin-top: 25px;">
+                            <strong>📍 Punto de partida:</strong>
+                            <iframe width="100%" height="180" style="border:0; border-radius: 8px; margin-top: 10px;" loading="lazy" src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed"></iframe>
+                        </div>
+                    {% endif %}
+
+                    {% if node.field_como_llegar.0.value is not empty %}
+                        <div class="como-llegar-txt" style="margin-top: 15px; font-size: 13px; color: #475569;">
+                            <strong>Cómo llegar al inicio:</strong>
+                            {{ node.field_como_llegar.0.value | raw | striptags }}
+                        </div>
+                    {% endif %}
+
+                    {% if node.field_linkreservas.0.url is not empty %}
+                        <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="reservaLink">Reservar Recorrido</a>
+                    {% elseif node.field_mapslink.0.url is not empty %}
+                        <a href="{{node.field_mapslink.0.url}}" target="_blank" class="reservaLink maps-btn">Abrir en Google Maps</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -196,23 +161,18 @@
                 style=" position: absolute;margin: auto;background: none;border: none;cursor: pointer;z-index: 2;">
                 <svg width="78" height="84" viewBox="0 0 78 84" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g filter="url(#filter0_d_2084_4326)">
-                        <path
-                            d="M69.1657 29.6386C75.3817 33.0581 75.3817 41.9901 69.1657 45.4097L17.338 73.921C11.3399 77.2206 4 72.8812 4 66.0354L4.00001 9.01283C4.00001 2.16705 11.3399 -2.17238 17.338 1.12727L69.1657 29.6386Z"
-                            fill="white" />
+                        <path d="M69.1657 29.6386C75.3817 33.0581 75.3817 41.9901 69.1657 45.4097L17.338 73.921C11.3399 77.2206 4 72.8812 4 66.0354L4.00001 9.01283C4.00001 2.16705 11.3399 -2.17238 17.338 1.12727L69.1657 29.6386Z" fill="white" />
                     </g>
                     <defs>
-                        <filter id="filter0_d_2084_4326" x="0" y="0" width="77.8276" height="83.0482"
-                            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <filter id="filter0_d_2084_4326" x="0" y="0" width="77.8276" height="83.0482" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
                             <feFlood flood-opacity="0" result="BackgroundImageFix" />
-                            <feColorMatrix in="SourceAlpha" type="matrix"
-                                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                             <feOffset dy="4" />
                             <feGaussianBlur stdDeviation="2" />
                             <feComposite in2="hardAlpha" operator="out" />
                             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
                             <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2084_4326" />
-                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2084_4326"
-                                result="shape" />
+                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2084_4326" result="shape" />
                         </filter>
                     </defs>
                 </svg>
@@ -223,16 +183,13 @@
             </video>
         </div>
         {% endif %}
+
         {% if nodos_cercanos|length > 0 %}
         <div class="lugares">
-            <h4>{{"ui.places_nearby"|t({
-                '@place': node.getTitle()
-                })}}</h4>
+            <h4>{{"ui.places_nearby"|t({'@place': node.getTitle()})}}</h4>
             <ul>
                 {% for item in nodos_cercanos|shuffle|slice(0, 4) %}
                 <li>
-                    {# Verificamos si la variable existe para no imprimir "km" vacíos #}
-
                     <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
                         <div class="image">
                             <img src="{{item.image }}" alt="atra">
@@ -241,18 +198,16 @@
                     </a>
                 </li>
                 {% endfor %}
-
             </ul>
         </div>
         {% endif %}
+
         {% if contenidos_relacionados %}
         <div class="recomendados lugares">
             <h4>Contenido Recomendado</h4>
             <ul>
                 {% for item in contenidos_relacionados %}
                 <li>
-                    {# Verificamos si la variable existe para no imprimir "km" vacíos #}
-
                     <a href="{{item.url}}">
                         <div class="image">
                             <img src="{{item.image }}" alt="atra">
@@ -264,9 +219,11 @@
             </ul>
         </div>
         {% endif %}
+
         {% include "@visit_theme/includes/planifica.html.twig" %}
     </main>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.video').forEach(wrapper => {
@@ -283,16 +240,13 @@
                 }
             });
 
-            // Si el usuario pausa el video, vuelve a mostrar el botón
             video.addEventListener('pause', () => {
                 button.style.display = 'block';
             });
 
-            // Al terminar el video
             video.addEventListener('ended', () => {
                 button.style.display = 'block';
             });
         });
     });
-
 </script>
