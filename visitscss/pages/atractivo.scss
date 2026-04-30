@@ -920,6 +920,155 @@ $border-radius-sm: 8px;
             }
         }
     }
+
+    /* ── 4. HOTEL PROFILE ── */
+    &.hotel-profile {
+        @include flex-layout(62%, 38%);
+
+        .badge-alojamiento {
+            @include tag-base(#ffffff, $color-primario);
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Cuadrícula de Servicios (Amenities) */
+        .hotel-amenities {
+            .amenities-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+
+                li {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                    font-size: 16px;
+                    color: $color-texto-main;
+                    font-weight: 500;
+
+                    img {
+                        width: 28px;
+                        height: 28px;
+                        object-fit: contain;
+                        filter: opacity(0.8);
+                        /* Suaviza iconos muy fuertes */
+                    }
+
+                    .default-icon {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+
+        .booking-card {
+            @include card-base;
+
+            /* Precio destacado arriba */
+            .price-range {
+                background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+                padding: 20px;
+                border-radius: 12px;
+                margin-bottom: 25px;
+                text-align: center;
+                border: 1px solid $color-borde;
+
+                .label {
+                    display: block;
+                    font-size: 13px;
+                    color: $color-texto-sec;
+                    text-transform: uppercase;
+                    margin-bottom: 5px;
+                }
+
+                .value {
+                    display: block;
+                    font-size: 24px;
+                    font-weight: 800;
+                    color: #0f172a;
+                }
+            }
+
+            .tags-group {
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid $color-fondo-light;
+            }
+
+            .tag-block {
+                margin-bottom: 15px;
+
+                strong {
+                    display: block;
+                    font-size: 13px;
+                    color: $color-texto-sec;
+                    text-transform: uppercase;
+                    margin-bottom: 8px;
+                }
+            }
+
+            .tag-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .tag-item {
+                @include tag-base;
+
+                &.geo {
+                    background-color: #eff6ff;
+                    color: $color-primario;
+                }
+            }
+
+            .contact-link {
+                color: #475569;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 500;
+                display: inline-block;
+                margin-bottom: 5px;
+                transition: color 0.2s;
+
+                &:hover {
+                    color: $color-primario;
+                }
+            }
+
+            .reservaLink {
+                background-color: $color-primario;
+                color: white;
+                font-weight: bold;
+                display: block;
+                text-align: center;
+                padding: 14px;
+                border-radius: 10px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background-color: $color-primario-hover;
+                }
+
+                &.secondary-btn {
+                    background-color: transparent;
+                    color: $color-primario;
+                    border: 2px solid $color-primario;
+
+                    &:hover {
+                        background-color: $color-fondo-light;
+                    }
+                }
+            }
+        }
+    }
 }
 
 /* ==========================================================================
