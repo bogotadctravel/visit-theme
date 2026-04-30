@@ -475,88 +475,86 @@ $border-radius-sm: 8px;
         }
 
         .terminos {
-            .terminos {
-                @extend .desc;
+            @extend .desc;
 
-                margin-top: 2rem;
-                font-size: 0.875rem;
-                line-height: 1.6;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            line-height: 1.6;
 
-                color: #64748b;
-                background: #f8fafc;
-                border: 1px solid #e2e8f0;
-                border-radius: 12px;
-                padding: 1.25rem;
+            color: #64748b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.25rem;
 
-                // Título principal (primer strong)
-                >strong:first-child {
-                    display: block;
-                    margin-bottom: 0.75rem;
-                    font-size: 0.9rem;
-                    font-weight: 600;
-                    color: #1e293b;
+            // Título principal (primer strong)
+            >strong:first-child {
+                display: block;
+                margin-bottom: 0.75rem;
+                font-size: 0.9rem;
+                font-weight: 600;
+                color: #1e293b;
+            }
+
+            // Headings dentro del contenido
+            h1,
+            h2,
+            h3 {
+                font-size: 1rem;
+                margin-top: 1.25rem;
+                margin-bottom: 0.5rem;
+                color: #1e293b;
+            }
+
+            // Párrafos más compactos
+            p {
+                margin: 0;
+            }
+
+            // Espaciado consistente
+            >*+* {
+                margin-top: 0.75rem;
+            }
+
+            // Listas más densas
+            ul,
+            ol {
+                padding-left: 1.25rem;
+
+                li {
+                    margin-bottom: 0.3rem;
                 }
+            }
 
-                // Headings dentro del contenido
-                h1,
-                h2,
-                h3 {
-                    font-size: 1rem;
-                    margin-top: 1.25rem;
-                    margin-bottom: 0.5rem;
-                    color: #1e293b;
+            // Evitar basura HTML común
+            p:empty {
+                display: none;
+            }
+
+            br:last-child {
+                display: none;
+            }
+
+            // Links
+            a {
+                color: #2563eb;
+                text-decoration: underline;
+
+                &:hover {
+                    color: #1d4ed8;
                 }
+            }
 
-                // Párrafos más compactos
-                p {
-                    margin: 0;
-                }
+            // Divider interno si aparece
+            hr {
+                margin: 1.5rem 0;
+                border-top: 1px solid #e2e8f0;
+            }
 
-                // Espaciado consistente
-                >*+* {
-                    margin-top: 0.75rem;
-                }
-
-                // Listas más densas
-                ul,
-                ol {
-                    padding-left: 1.25rem;
-
-                    li {
-                        margin-bottom: 0.3rem;
-                    }
-                }
-
-                // Evitar basura HTML común
-                p:empty {
-                    display: none;
-                }
-
-                br:last-child {
-                    display: none;
-                }
-
-                // Links
-                a {
-                    color: #2563eb;
-                    text-decoration: underline;
-
-                    &:hover {
-                        color: #1d4ed8;
-                    }
-                }
-
-                // Divider interno si aparece
-                hr {
-                    margin: 1.5rem 0;
-                    border-top: 1px solid #e2e8f0;
-                }
-
-                // Responsive
-                @media (max-width: 640px) {
-                    padding: 1rem;
-                    font-size: 0.8rem;
-                }
+            // Responsive
+            @media (max-width: 640px) {
+                padding: 1rem;
+                font-size: 0.8rem;
             }
         }
 
