@@ -37,7 +37,7 @@ function visit_theme_preprocess_taxonomy_term(array &$variables) {
 
   // Tipos normales teaser
    $variables['establecimientos'] = $content_loader->getNodesTeaserByCategory('establecimientos', $tid);
-  $variables['atractivos']   = $content_loader->getNodesTeaserByCategory('atractivos', $tid);
+  $variables['atractivos']   = $content_loader->getNodesTeaserByCategory('atractivos', $tid, 50);
   $variables['rutas']        = $content_loader->getNodesTeaserByCategory('rutas', $tid);
   $variables['experiencias'] = $content_loader->getNodesTeaserByCategory('experiencias', $tid);
   $variables['article']      = $content_loader->getNodesTeaserByCategory('article', $tid);
@@ -135,8 +135,6 @@ function visit_theme_preprocess_node(array &$variables) {
     $variables['categorias_eventos']  = visit_theme_get_terms('categoria_eventos');
     $variables['tipo_de_venue']       = visit_theme_get_terms('tipo_de_venue');
     $variables['zonas_de_la_ciudad']  = visit_theme_get_terms('zonas_de_la_ciudad');
-
-    $variables['eventosVisit']        = $content_loader->getEventosTeaserByMiceFlag(0, 50);
     $variables['eventosMICE']         = $content_loader->getNodesTeaser('eventos_mice');
     $variables['atractivos']          = $content_loader->getNodesTeaser('atractivos');
     $variables['casos_de_exito']      = $content_loader->getNodesTeaser('casos_de_exito', 30);
@@ -275,6 +273,47 @@ function visit_theme_preprocess_node(array &$variables) {
         $variables['#cache']['contexts'][] = 'url.query_args:filter_name';
         $variables['#cache']['contexts'][] = 'url.query_args:filter_cat';
         break;
+        // (Asegúrate de que el nombre máquina de tu tipo de contenido sea este)
+    case 'pagina_agenda_de_eventos': 
+      $request = \Drupal::request();
+      $variables['hoy'] = date('Y-m-d'); // Para el atributo 'min' de los inputs
+      
+      // Generar meses disponibles (del actual al 12)
+      $meses_nombres = [
+        '01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril',
+        '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto',
+        '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre'
+      ];
+      $mes_actual = (int)date('m');
+      $meses_disponibles = [];
+      for ($i = $mes_actual; $i <= 12; $i++) {
+        $key = str_pad($i, 2, '0', STR_PAD_LEFT);
+        $meses_disponibles[$key] = $meses_nombres[$key];
+      }
+      $variables['meses_disponibles'] = $meses_disponibles;
+      
+      // Capturamos los datos de la URL
+      $variables['current_filtro_mes'] = $request->query->get('filtro_mes', 'all');
+      $variables['current_categoria'] = $request->query->get('categoria', 'all');
+      $variables['current_tipo'] = $request->query->get('tipo', 'all');
+      $variables['current_fecha_desde'] = $request->query->get('fecha_desde', '');
+      $variables['current_fecha_hasta'] = $request->query->get('fecha_hasta', '');
+
+      // Sobrescribimos con el paginador ID = 2 y límite de 12 eventos por página
+      $variables['eventosVisit'] = $content_loader->getEventosTeaserByMiceFlag(0, 12, TRUE, 2);
+
+      $variables['pager_eventos'] = [
+        '#type' => 'pager',
+        '#element' => 2,
+      ];
+
+      // Excluimos esta página de la caché si cambian los parámetros
+      $variables['#cache']['contexts'][] = 'url.query_args:filtro_mes';
+      $variables['#cache']['contexts'][] = 'url.query_args:categoria';
+      $variables['#cache']['contexts'][] = 'url.query_args:tipo';
+      $variables['#cache']['contexts'][] = 'url.query_args:fecha_desde';
+      $variables['#cache']['contexts'][] = 'url.query_args:fecha_hasta';
+      break;
     }
 
     // 4. Lógica de Parámetros URL y Recomendaciones

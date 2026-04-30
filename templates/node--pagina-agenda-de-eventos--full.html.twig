@@ -1,23 +1,11 @@
 <style>
-.agenda .grid-atractivos li a .title {
-    padding: 0;
-}
+    .agenda .grid-atractivos li a .title {
+        padding: 0;
+    }
 </style>
 
-{% set meses = { 'Jan': 'Ene', 'Feb': 'Feb', 'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Aug': 'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %} 
-{% set hoy = "now"|date("Y-m-d") %} 
-{% set futuros = [] %} 
-
-{# 1. Filtramos los eventos (Futuros y en curso) #}
-{% for item in eventosVisit %} 
-    {# Usamos directamente la estructura que usas en el renderizado inferior #}
-    {% set fin = item.field_fecha_de_finalizacion|date("Y-m-d") %} 
-    
-    {# Si la fecha de finalización es igual o mayor a hoy, el evento nos interesa #}
-    {% if fin >= hoy %} 
-        {% set futuros = futuros|merge([item]) %} 
-    {% endif %}
-{% endfor %}
+{% set meses = { 'Jan': 'Ene', 'Feb': 'Feb', 'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul',
+'Aug': 'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %}
 
 <div class="agenda">
     <main>
@@ -26,120 +14,137 @@
                 <div class="text">
                     <h2>Visit Bogotá</h2>
                     <h1>Agenda de eventos</h1>
-                    <p>
-                        Sumérgete en la vibrante agenda de eventos de Bogotá y vive experiencias inolvidables en cada rincón de la ciudad.
-                    </p>
+                    <p>Sumérgete en la vibrante agenda de eventos de Bogotá y vive experiencias inolvidables en cada
+                        rincón de la ciudad.</p>
                 </div>
             </div>
         </div>
-
-        <form id="events-filter-form" class="filters-form">
+        {# EL NUEVO FORMULARIO CON METODO GET #}
+        <form class="filters-form" method="GET" action="">
             <span>
                 <label for="filtro_mes">Mes</label>
                 <select name="filtro_mes" id="filtro_mes">
-                    <option value="all">Todos los meses</option>
-                    <option value="01">Enero</option>
-                    <option value="02">Febrero</option>
-                    <option value="03">Marzo</option>
-                    <option value="04">Abril</option>
-                    <option value="05">Mayo</option>
-                    <option value="06">Junio</option>
-                    <option value="07">Julio</option>
-                    <option value="08">Agosto</option>
-                    <option value="09">Septiembre</option>
-                    <option value="10">Octubre</option>
-                    <option value="11">Noviembre</option>
-                    <option value="12">Diciembre</option>
+                    <option value="all" {% if current_filtro_mes=='all' %}selected{% endif %}>Todos los meses</option>
+                    {% for val, nombre in meses_disponibles %}
+                    <option value="{{ val }}" {% if current_filtro_mes==val %}selected{% endif %}>{{ nombre }}</option>
+                    {% endfor %}
                 </select>
             </span>
+
             <span>
                 <label for="categoria">Categoria</label>
                 <select name="categoria" id="categoria">
-                    <option value="all">Todas</option>
+                    <option value="all" {% if current_categoria=='all' %}selected{% endif %}>Todas</option>
                     {% for cat in taxonomy('categorias_turisticas') %}
-                        <option value="{{ cat.tid }}">{{ cat.name }}</option>
+                    <option value="{{ cat.tid }}" {% if current_categoria==cat.tid %}selected{% endif %}>{{ cat.name }}
+                    </option>
                     {% endfor %}
                 </select>
             </span>
             <span>
                 <label for="tipo">Tipo de evento</label>
                 <select name="tipo" id="tipo">
-                    <option value="all">Todos</option>
+                    <option value="all" {% if current_tipo=='all' %}selected{% endif %}>Todos</option>
                     {% for cat in taxonomy('tipos_de_evento') %}
-                        <option value="{{ cat.tid }}">{{ cat.name }}</option>
+                    <option value="{{ cat.tid }}" {% if current_tipo==cat.tid %}selected{% endif %}>{{ cat.name }}
+                    </option>
                     {% endfor %}
                 </select>
             </span>
+
             <span>
                 <label for="fecha_desde">Desde</label>
-                <input type="date" id="fecha_desde">
+                {# Evitamos seleccionar fechas pasadas a hoy #}
+                <input type="date" id="fecha_desde" name="fecha_desde" value="{{ current_fecha_desde }}"
+                    min="{{ hoy }}">
             </span>
             <span>
                 <label for="fecha_hasta">Hasta</label>
-                <input type="date" id="fecha_hasta">
+                {# El min depende de la fecha desde, si no hay, es hoy #}
+                <input type="date" id="fecha_hasta" name="fecha_hasta" value="{{ current_fecha_hasta }}"
+                    min="{{ current_fecha_desde ?: hoy }}">
             </span>
+
+            <button type="submit">Buscar</button>
         </form>
 
         <ul class="grid-atractivos container" id="events-grid">
-            {# 1. Detectar idioma #}
             {% set lang = drupal_contextual_links_locations is defined ? 'es' : 'en' %}
 
-            {# 2. ITERAMOS SOBRE 'futuros' EN LUGAR DE 'eventosVisit' #}
-            {% for item in futuros|reverse %}
-                {# Pre-calculamos fechas para evitar repetición #}
-                {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
-                {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}
+            {# Ya no usamos 'futuros', usamos la variable directa y quitamos el |reverse porque ya viene ordenada de PHP
+            #}
+            {% for item in eventosVisit %}
 
-                {# Formateo de meses traducidos para la visualización #}
-                {% set mes_ini = item.field_fecha_de_inicio|date("M") %}
-                {% set mes_fin = item.field_fecha_de_finalizacion|date("M") %}
+            {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
+            {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}
+            {% set mes_ini = item.field_fecha_de_inicio|date("M") %}
+            {% set mes_fin = item.field_fecha_de_finalizacion|date("M") %}
 
-                {# Solo traducimos si el sitio está en español #}
-                {% set display_inicio = (meses[mes_ini] is defined) ? meses[mes_ini] ~ item.field_fecha_de_inicio|date(" d") : item.field_fecha_de_inicio|date("M d") %}
-                {% set display_fin = (meses[mes_fin] is defined) ? meses[mes_fin] ~ item.field_fecha_de_finalizacion|date(" d") : item.field_fecha_de_finalizacion|date("M d") %}
+            {% set display_inicio = (meses[mes_ini] is defined) ? meses[mes_ini] ~ item.field_fecha_de_inicio|date(" d")
+            : item.field_fecha_de_inicio|date("M d") %}
+            {% set display_fin = (meses[mes_fin] is defined) ? meses[mes_fin] ~ item.field_fecha_de_finalizacion|date("
+            d") : item.field_fecha_de_finalizacion|date("M d") %}
 
-                <li class="card" 
-                    data-categoria="{{ item.categoria.tid }}" 
-                    data-tipo="{{ item.field_categoria_de_evento.tid }}" 
-                    data-fecha="{{ fecha_inicio_raw }}"
-                    data-fecha-fin="{{ fecha_fin_raw }}"
-                    data-mes="{{ item.field_fecha_de_inicio|date('m') }}"
-                    data-aos="zoom-in" 
-                    data-aos-delay="300">
-                    
-                    <a href="{{ item.url }}">
-                        <div class="image">
-                            <img src="{{item.image}}" alt="{{ item.title }}">
+            {# Quitamos los atributos data-* que ya no necesitamos para JS #}
+            <li class="card" data-aos="zoom-in" data-aos-delay="300">
+                <a href="{{ item.url }}">
+                    <div class="image">
+                        <img src="{{item.image}}" alt="{{ item.title }}">
+                    </div>
+                    <div class="event-info" style="padding:15px">
+                        <span class="title">{{item.title}}</span>
+                        <div class="date" style="color:#000;display:flex;gap:10px">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M5.33333 1.33325V3.99992M10.6667 1.33325V3.99992M14 9.33325V3.99992C14 3.6463 13.8595 3.30716 13.6095 3.05711C13.3594 2.80706 13.0203 2.66659 12.6667 2.66659H3.33333C2.97971 2.66659 2.64057 2.80706 2.39052 3.05711C2.14048 3.30716 2 3.6463 2 3.99992V13.3333C2 13.6869 2.14048 14.026 2.39052 14.2761C2.64057 14.5261 2.97971 14.6666 3.33333 14.6666H8.66667M2 6.66658H14M10.6667 13.3333L12 14.6666L14.6667 11.9999"
+                                    stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            {{ display_inicio }}
+                            {% if fecha_inicio_raw != fecha_fin_raw %}
+                            - {{ display_fin }}
+                            {% endif %}
                         </div>
-                        <div class="event-info" style="padding:15px">
-                            <span class="title">{{item.title}}</span>
-                            <div class="date" style="color:#000;display:flex;gap:10px">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.33333 1.33325V3.99992M10.6667 1.33325V3.99992M14 9.33325V3.99992C14 3.6463 13.8595 3.30716 13.6095 3.05711C13.3594 2.80706 13.0203 2.66659 12.6667 2.66659H3.33333C2.97971 2.66659 2.64057 2.80706 2.39052 3.05711C2.14048 3.30716 2 3.6463 2 3.99992V13.3333C2 13.6869 2.14048 14.026 2.39052 14.2761C2.64057 14.5261 2.97971 14.6666 3.33333 14.6666H8.66667M2 6.66658H14M10.6667 13.3333L12 14.6666L14.6667 11.9999" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                {{ display_inicio }}
-                                {% if fecha_inicio_raw != fecha_fin_raw %} 
-                                    - {{ display_fin }}
-                                {% endif %}
-                            </div>
-                            
-                            <div class="place" style="color:#000;display:flex;gap:10px">
-                                <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M6.33333 8.33333C7.4379 8.33333 8.33333 7.4379 8.33333 6.33333C8.33333 5.22876 7.4379 4.33333 6.33333 4.33333C5.22876 4.33333 4.33333 5.22876 4.33333 6.33333C4.33333 7.4379 5.22876 8.33333 6.33333 8.33333Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                {{item['field_lugar_del_evento']}}
-                            </div>
+
+                        <div class="place" style="color:#000;display:flex;gap:10px">
+                            <svg width="13" height="16" viewBox="0 0 13 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z"
+                                    stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M6.33333 8.33333C7.4379 8.33333 8.33333 7.4379 8.33333 6.33333C8.33333 5.22876 7.4379 4.33333 6.33333 4.33333C5.22876 4.33333 4.33333 5.22876 4.33333 6.33333C4.33333 7.4379 5.22876 8.33333 6.33333 8.33333Z"
+                                    stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            {{item['field_lugar_del_evento']}}
                         </div>
-                    </a>
-                </li>
+                    </div>
+                </a>
+            </li>
             {% endfor %}
         </ul>
-           {# 3. Paginador Nativo de Drupal #}
-            {% if pager %}
-            <div class="pager-container">
-                {{ pager }}
-            </div>
-            {% endif %}
+
+        {# Paginador exclusivo de los eventos (el ID que pusimos en el theme) #}
+        {% if pager_eventos %}
+        <div class="pager-container">
+            {{ pager_eventos }}
+        </div>
+        {% endif %}
     </main>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const fromDate = document.getElementById('fecha_desde');
+        const toDate = document.getElementById('fecha_hasta');
+
+        if (fromDate && toDate) {
+            fromDate.addEventListener('change', function () {
+                // Cuando cambia "Desde", actualizamos el mínimo de "Hasta"
+                toDate.min = fromDate.value;
+                if (toDate.value && toDate.value < fromDate.value) {
+                    toDate.value = fromDate.value;
+                }
+            });
+        }
+    });
+</script>
