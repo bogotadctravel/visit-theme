@@ -127,3 +127,93 @@
 section.splide.banner-splide {
   max-width: 1390px;
 }
+
+.pager-container {
+  // Centramos el paginador y le damos espacio respecto al contenido
+  margin: 3rem auto;
+  display: flex;
+  justify-content: center;
+
+  .pager {
+
+    // Escondemos visualmente el título "Paginación" pero lo mantenemos para accesibilidad
+    .visually-hidden {
+      position: absolute !important;
+      clip: rect(1px, 1px, 1px, 1px);
+      overflow: hidden;
+      height: 1px;
+      width: 1px;
+      word-wrap: normal;
+    }
+
+    .pager__items {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem; // Espacio entre los botones
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .pager__item {
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        padding: 0 12px;
+        text-decoration: none;
+        color: #333333;
+        /* Ajusta al color de texto de tu tema */
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        /* Bordes redondeados modernos */
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.2s ease-in-out;
+
+        &:hover,
+        &:focus {
+          background-color: #f5f5f5;
+          border-color: #cccccc;
+          color: #000000;
+        }
+      }
+
+      // Estilo para la página actual
+      &.is-active {
+        a {
+          background-color: #0056b3;
+          /* Cambia esto al color primario de tu tema */
+          color: #ffffff;
+          border-color: #0056b3;
+          pointer-events: none; // Evita que la página actual sea cliqueable
+        }
+      }
+
+      // Estilos específicos para los botones de texto (Siguiente, Último, Anterior)
+      &--next,
+      &--previous,
+      &--first,
+      &--last {
+        a {
+          padding: 0 16px;
+          background-color: transparent;
+          border-color: transparent;
+          color: #0056b3;
+          /* Cambia esto al color primario de tu tema */
+
+          &:hover {
+            background-color: rgba(0, 86, 179, 0.1);
+            /* Efecto hover sutil */
+            border-color: transparent;
+          }
+        }
+      }
+    }
+  }
+}
