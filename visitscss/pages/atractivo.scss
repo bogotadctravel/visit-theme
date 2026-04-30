@@ -923,7 +923,6 @@ $border-radius-sm: 8px;
 
     /* ── 4. HOTEL PROFILE ── */
     &.hotel-profile {
-        @include flex-layout(62%, 38%);
 
         .badge-alojamiento {
             @include tag-base(#ffffff, $color-primario);
@@ -968,6 +967,7 @@ $border-radius-sm: 8px;
         }
 
         .booking-card {
+            @include card-base;
 
             /* Precio destacado arriba */
             .price-range {
