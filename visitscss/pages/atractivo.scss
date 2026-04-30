@@ -1,6 +1,159 @@
+/* ==========================================================================
+   VARIABLES DE MARCA (Control centralizado)
+   ========================================================================== */
+$color-primario: #2563eb;
+$color-primario-hover: #1d4ed8;
+$color-acento: #fbbf24; // Amarillo Imperdible
+$color-texto-main: #1e293b;
+$color-texto-sec: #64748b;
+$color-fondo-light: #f1f5f9;
+$color-borde: #e2e8f0;
+$sombra-card: 0 10px 30px rgba(0, 0, 0, 0.08);
+$border-radius-lg: 16px;
+$border-radius-sm: 8px;
+
+/* ==========================================================================
+   MIXINS (Código reutilizable)
+   ========================================================================== */
+@mixin flex-layout($main-w: 62%, $side-w: 38%) {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 50px;
+    padding: 60px 20px;
+    align-items: flex-start;
+
+    .main-content {
+        width: $main-w;
+    }
+
+    .sidebar-reserva {
+        width: $side-w;
+        position: sticky;
+        top: 100px;
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 10px;
+        }
+    }
+}
+
+@mixin card-base {
+    background: #ffffff;
+    border: 1px solid $color-borde;
+    border-radius: $border-radius-lg;
+    padding: 30px;
+    box-shadow: $sombra-card;
+}
+
+@mixin tag-base($bg: $color-fondo-light, $color: $color-texto-main) {
+    background-color: $bg;
+    color: $color;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+/* ==========================================================================
+   ESTILOS BASE COMUNES (.atractivo)
+   ========================================================================== */
 .atractivo {
 
-    /* ── Galería Integrada ── */
+    /* ── Banner Principal ── */
+    .banner {
+        height: calc(80vh - 120px);
+        background-attachment: fixed;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        position: relative;
+
+        &::after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .container {
+            position: relative;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .text {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 1200px;
+            width: 100%;
+            text-align: right;
+
+            h2 {
+                font-weight: 300;
+                font-size: 20px;
+                color: #FFF;
+            }
+
+            h1 {
+                font-weight: 800;
+                font-size: 48px;
+                line-height: 45px;
+                color: #FFF;
+                margin-bottom: 15px;
+            }
+
+            p {
+                font-weight: 400;
+                color: #FFF;
+                font-style: italic;
+                font-size: 16px;
+            }
+
+            .comollegar {
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                gap: 30px;
+
+                p {
+                    font-weight: 800;
+                    font-size: 16px;
+                    color: #FFF;
+                    flex: 1;
+                }
+
+                a {
+                    display: flex;
+                    align-items: center;
+                    gap: 30px;
+                    font-weight: 800;
+                    font-size: 16px;
+                    color: #FFF;
+                    border: 1px solid #FFF;
+                    padding: 0 40px;
+                    border-radius: 25px;
+                }
+            }
+        }
+    }
+
+    /* ── Galería Grid Compartida ── */
     .galeria-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -9,7 +162,7 @@
 
         a {
             display: block;
-            border-radius: 16px;
+            border-radius: $border-radius-lg;
             overflow: hidden;
             height: 180px;
 
@@ -32,255 +185,11 @@
         }
     }
 
-    .banner {
-        height: calc(80vh - 120px);
-        background-attachment: fixed;
-        background-size: cover;
-        background-repeat: no-repeat;
-        width: 100%;
-        position: relative;
-
-        &::after {
-            content: '';
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 100%);
-            position: absolute;
-            top: 0;
-            left: 0;
-
-        }
-
-        .container {
-            position: relative;
-            height: 100%;
-            z-index: 2;
-        }
-
-        .text {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: 1200px;
-            width: 100%;
-            text-align: right;
-
-            h2 {
-                font-weight: 300;
-                font-size: 20px;
-                color: #FFF;
-
-            }
-
-            h1 {
-                font-weight: 800;
-                font-size: 48px;
-                line-height: 45px;
-                text-align: right;
-                vertical-align: middle;
-                color: #FFF;
-                margin-bottom: 15px;
-
-            }
-
-            p {
-                font-weight: 400;
-                color: #FFF;
-
-                font-style: italic;
-                font-size: 16px;
-                line-height: 20px;
-
-            }
-
-            .comollegar {
-                display: flex;
-                align-items: center;
-                justify-content: flex-end;
-                gap: 30px;
-
-
-                p {
-                    font-weight: 800;
-                    font-size: 16px;
-                    line-height: 39px;
-                    color: #FFF;
-                    flex: 1;
-
-
-                }
-
-                a {
-                    display: flex;
-                    align-items: center;
-                    gap: 30px;
-                    font-weight: 800;
-                    font-size: 16px;
-                    line-height: 39px;
-                    color: #FFF;
-                    border: 1px solid #FFF;
-                    padding: 0 40px;
-                    border-radius: 25px;
-
-
-
-                }
-            }
-
-        }
-    }
-
-    .flex {
-        display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
-        gap: 55px;
-        padding: 127px 20px;
-
-        .galeria,
-        .info {
-            width: 50%;
-
-        }
-
-    }
-
-    .flexmap {
-        display: flex;
-        max-width: 580px;
-        gap: 30px;
-        flex-direction: column;
-
-        iframe {
-            width: 100%;
-            height: 310px;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-    }
-
-    .galeria {
-        position: sticky;
-        top: 90px;
-        height: max-content;
-
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 8px; // Opcional: para que se vea más moderno
-        }
-
-        .parent {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            grid-auto-rows: 150px;
-            grid-auto-flow: dense; // Esta es la clave: rellena huecos vacíos
-            gap: 8px;
-
-            div {
-                grid-column: span 1;
-                grid-row: span 1;
-            }
-        }
-
-    }
-
-    .info {
-        .desc {
-            margin-bottom: 50px;
-
-            h3 {
-                margin: 10px 0;
-                font-size: 1.17em;
-                color: #000;
-                font-weight: bold;
-            }
-
-            h2 {
-                font-weight: 800;
-                font-size: 48px;
-                line-height: 45px;
-                color: #000;
-                margin-bottom: 23px;
-            }
-
-            p {
-                font-weight: 400;
-                font-size: 16px;
-
-            }
-        }
-
-        .list {
-            ul {
-                li {
-                    margin-bottom: 15px;
-
-                    strong {
-                        font-weight: 800;
-                        font-size: 16px;
-
-                    }
-
-                    p {
-                        font-weight: 400;
-                        font-size: 16px;
-
-                    }
-
-                    img {
-                        width: 20px;
-                    }
-
-                    &.flexList {
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                    }
-                }
-            }
-
-        }
-
-        .buttons {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-            flex-wrap: wrap;
-
-            .btn {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                padding: 8px 16px;
-                border-radius: 999px;
-                border: 1px solid #000;
-                font-size: 13px;
-                cursor: pointer;
-                background: #fff;
-                transition: all 0.2s ease;
-                user-select: none;
-                font-weight: 800;
-                font-size: 16px;
-                line-height: 39px;
-                vertical-align: middle;
-                min-width: 250px;
-
-                &:hover {
-                    background-color: #000;
-                    color: #FFF;
-                }
-
-            }
-        }
-
-    }
-
+    /* ── Estilos de Video y Multimedia ── */
     .video {
         position: relative;
         width: 1165px;
+        max-width: 100%;
         height: 509px;
         margin: 0 auto 50px;
 
@@ -289,7 +198,6 @@
             object-fit: cover;
             height: 100%;
             width: 100%;
-
         }
 
         button {
@@ -300,6 +208,7 @@
         }
     }
 
+    /* ── Lugares Cercanos ── */
     .lugares {
         background: linear-gradient(180deg, #254681 0%, #3F89DE 100%);
         padding: 50px 0;
@@ -326,33 +235,25 @@
 
                     img {
                         transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-                        width: 100%;
                         display: block;
                         border-top-left-radius: 11px;
                         border-top-right-radius: 11px;
                         width: 100%;
                         height: 160px;
+                        object-fit: cover;
                     }
                 }
-
 
                 .title {
                     padding: 20px;
                     background-color: #fff;
                     font-weight: 800;
                     font-size: 16px;
-
                     border-radius: 0 0 10px 10px;
-
                 }
 
-                &:hover {
-                    .image {
-                        img {
-                            transform: scale(1.1);
-
-                        }
-                    }
+                &:hover .image img {
+                    transform: scale(1.1);
                 }
             }
         }
@@ -361,14 +262,424 @@
     .planifica {
         margin: 80px auto;
     }
+
+
+    /* ==========================================================================
+       SUB-TIPOS (Modificadores)
+       ========================================================================== */
+
+    /* ── 1. EXPERIENCIA ── */
+    &.experiencia {
+        @include flex-layout(60%, 40%);
+
+        .badge-descuento {
+            @include tag-base(#e63946, #fff);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .introduccion {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .terminos {
+            margin-top: 20px;
+            font-size: 0.85em;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .booking-card {
+            @include card-base;
+
+            h3 {
+                font-size: 22px;
+                font-weight: 800;
+                margin-bottom: 25px;
+                color: $color-texto-main;
+                border-bottom: 2px solid $color-fondo-light;
+                padding-bottom: 15px;
+            }
+
+            .quick-facts {
+                list-style: none;
+                padding: 0;
+                margin: 0 0 30px 0;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+
+                li {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 12px;
+
+                    .icon {
+                        font-size: 24px;
+                    }
+
+                    strong {
+                        display: block;
+                        font-size: 13px;
+                        color: $color-texto-sec;
+                        text-transform: uppercase;
+                    }
+
+                    p {
+                        font-size: 15px;
+                        color: $color-texto-main;
+                        font-weight: 600;
+                        margin: 2px 0 0 0;
+                    }
+                }
+            }
+
+            .tag-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-top: 8px;
+            }
+
+            .tag-item {
+                @include tag-base;
+                border: 1px solid $color-borde;
+            }
+
+            .reservaLink {
+                background-color: $color-primario;
+                color: white;
+                font-weight: bold;
+                font-size: 16px;
+                padding: 15px;
+                border-radius: 12px;
+                display: block;
+                text-align: center;
+                margin: 30px 0;
+                transition: all 0.3s ease;
+
+                &:hover {
+                    background-color: $color-primario-hover;
+                    transform: translateY(-2px);
+                }
+            }
+        }
+    }
+
+    /* ── 2. RUTA TURÍSTICA ── */
+    &.ruta-turistica {
+        @include flex-layout(62%, 38%);
+
+        .highlight-box {
+            background-color: #f0fdf4;
+            border-left: 4px solid #16a34a;
+            padding: 25px;
+            border-radius: 0 12px 12px 0;
+            margin: 30px 0;
+
+            h3 {
+                color: #166534;
+                margin-bottom: 15px;
+                font-size: 20px;
+            }
+
+            p,
+            ul,
+            li {
+                color: $color-texto-main;
+            }
+        }
+
+        .seccion-texto h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: $color-texto-main;
+        }
+
+        .booking-card {
+            @include card-base;
+
+            .tags-group {
+                margin-top: 25px;
+                padding-top: 20px;
+                border-top: 1px solid $color-fondo-light;
+            }
+
+            .tag-block {
+                margin-bottom: 15px;
+
+                strong {
+                    display: block;
+                    font-size: 13px;
+                    color: $color-texto-sec;
+                    text-transform: uppercase;
+                    margin-bottom: 8px;
+                }
+            }
+
+            .tag-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .tag-item {
+                @include tag-base;
+
+                &.geo {
+                    background-color: #eff6ff;
+                    color: $color-primario;
+                }
+            }
+
+            .reservaLink {
+                background-color: $color-primario;
+                color: white;
+                font-weight: bold;
+                display: block;
+                text-align: center;
+                padding: 14px;
+                border-radius: 10px;
+                margin-top: 25px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background-color: $color-primario-hover;
+                }
+
+                &.maps-btn {
+                    background-color: #f8fafc;
+                    color: #334155;
+                    border: 1px solid #cbd5e1;
+
+                    &:hover {
+                        background-color: $color-fondo-light;
+                    }
+                }
+            }
+        }
+
+        .link-categoria {
+            color: $color-primario;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: $color-texto-main;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    /* ── 3. ATRACTIVO VISUAL (Con Pestañas) ── */
+    &.atractivo-visual {
+        @include flex-layout(62%, 38%);
+
+        .badge-imperdible {
+            @include tag-base(linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%), #78350f);
+            padding: 8px 16px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .booking-card {
+            @include card-base;
+
+            .tags-group {
+                margin-top: 25px;
+                padding-top: 20px;
+                border-top: 1px solid $color-fondo-light;
+            }
+
+            .tag-block {
+                margin-bottom: 15px;
+
+                strong {
+                    display: block;
+                    font-size: 13px;
+                    color: $color-texto-sec;
+                    text-transform: uppercase;
+                    margin-bottom: 8px;
+                }
+            }
+
+            .tag-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .tag-item {
+                @include tag-base;
+
+                &.cat-tag {
+                    background-color: #fef3c7;
+                    color: #92400e;
+
+                    &:hover {
+                        background-color: #fde68a;
+                    }
+                }
+
+                &.geo {
+                    background-color: #eff6ff;
+                    color: $color-primario;
+                }
+            }
+
+            .contact-link {
+                color: #475569;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 500;
+                display: inline-block;
+                margin-bottom: 5px;
+                transition: color 0.2s;
+
+                &:hover {
+                    color: $color-primario;
+                }
+            }
+
+            .reservaLink {
+                background-color: $color-primario;
+                color: white;
+                font-weight: bold;
+                display: block;
+                text-align: center;
+                padding: 14px;
+                border-radius: 10px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                margin-top: 15px;
+
+                &:hover {
+                    background-color: $color-primario-hover;
+                }
+
+                &.maps-btn {
+                    background-color: #f8fafc;
+                    color: #334155;
+                    border: 1px solid #cbd5e1;
+
+                    &:hover {
+                        background-color: $color-fondo-light;
+                    }
+                }
+            }
+        }
+
+        /* ── COMPONENTE DE PESTAÑAS (Protegido dentro de .atractivo-visual) ── */
+        .tabs-container {
+            margin-top: 20px;
+
+            .tabs-nav {
+                display: flex;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                border-bottom: 2px solid $color-fondo-light;
+                gap: 30px;
+
+                .tab-link {
+                    padding: 15px 5px;
+                    cursor: pointer;
+                    font-weight: 700;
+                    color: $color-texto-sec;
+                    position: relative;
+                    transition: all 0.3s ease;
+
+                    &.active {
+                        color: $color-primario;
+
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            bottom: -2px;
+                            left: 0;
+                            width: 100%;
+                            height: 2px;
+                            background-color: $color-primario;
+                        }
+                    }
+
+                    &:hover {
+                        color: $color-primario;
+                    }
+                }
+            }
+
+            .tabs-content {
+                padding: 30px 0;
+
+                .tab-item {
+                    display: none;
+                    animation: fadeIn 0.4s ease;
+
+                    &.active {
+                        display: block;
+                    }
+                }
+            }
+        }
+
+        .audio-player-box {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+
+            h4 {
+                margin-bottom: 10px;
+                font-size: 16px;
+            }
+
+            audio {
+                width: 100%;
+            }
+        }
+
+        .logistica-box {
+            margin-top: 25px;
+
+            h3 {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+        }
+    }
 }
 
-/* ── Atractivo responsive ── */
+/* ==========================================================================
+   ANIMACIONES GLOBALES
+   ========================================================================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   MEDIA QUERIES (Responsive Unificado)
+   ========================================================================== */
 @media (max-width: 1024px) {
     .atractivo {
         .banner {
             background-attachment: scroll;
-            /* iOS parallax fix */
 
             .text {
                 left: 20px;
@@ -382,19 +693,30 @@
             }
         }
 
-        .flex {
+        /* Aplica a Experiencia, Ruta y Atractivo Visual */
+        .flex,
+        &.experiencia .flex,
+        &.ruta-turistica .flex,
+        &.atractivo-visual .flex {
             flex-direction: column;
             padding: 60px 20px;
             gap: 40px;
 
-            .galeria,
-            .info {
+            .main-content,
+            .sidebar-reserva {
                 width: 100%;
+            }
+
+            .sidebar-reserva {
+                position: relative;
+                top: 0;
+                max-height: none;
+                order: -1;
             }
         }
 
-        .galeria {
-            position: static;
+        .galeria-grid a:first-child {
+            height: 250px;
         }
 
         .video {
@@ -426,20 +748,6 @@
             }
         }
 
-        .galeria .parent {
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: auto;
-        }
-
-        .galeria .div2,
-        .galeria .div3,
-        .galeria .div4,
-        .galeria .div5,
-        .galeria .div6 {
-            grid-row: auto;
-            grid-column: auto;
-        }
-
         .video {
             margin-bottom: -40px;
         }
@@ -447,803 +755,15 @@
         .lugares ul {
             grid-template-columns: 1fr;
         }
-    }
-}
 
-
-/* ── Estilos exclusivos para Experiencias ── */
-.atractivo.experiencia {
-    .price-box {
-        font-size: 14px;
-        color: #64748b;
-    }
-
-    .price-box strong {
-        display: block;
-        font-size: 28px;
-        color: #0f172a;
-    }
-
-    .reservaLink {
-        background-color: #314059;
-        color: white;
-        padding: 10px 20px;
-        text-decoration: none;
-        width: 100%;
-        border-radius: 5px;
-        text-align: center;
-        display: inline-block;
-        margin-top: 20px;
-    }
-
-    .reservaLink:hover {
-        background-color: #1e2a3b;
-    }
-
-    /* Estilos nuevos sugeridos para los campos añadidos */
-    .introduccion {
-        font-size: 1.1em;
-        color: #555;
-        margin-bottom: 15px;
-    }
-
-    .badge-descuento {
-        background-color: #e63946;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-weight: bold;
-        display: inline-block;
-        margin-bottom: 15px;
-    }
-
-    .terminos {
-        margin-top: 20px;
-        font-size: 0.85em;
-        color: #777;
-        border-top: 1px solid #eee;
-        padding-top: 10px;
-    }
-
-    @media (max-width: 600px) {
-        .reservaLink {
+        &.experiencia .booking-card .reservaLink {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             border-radius: 0;
             z-index: 999;
+            margin: 0;
         }
-    }
-
-    /* HERO */
-    .hero-hook {
-        color: #fff;
-        font-size: 18px;
-        margin: 10px 0 20px;
-        max-width: 500px;
-    }
-
-    .hero-cta {
-        background: #2563eb;
-        color: #fff;
-        padding: 12px 28px;
-        border-radius: 25px;
-        font-weight: bold;
-    }
-
-    .secondary-cta {
-        border: 1px solid #fff;
-        padding: 12px 28px;
-        border-radius: 25px;
-        color: #fff;
-    }
-
-    /* BOOKING CARD */
-    .price-box {
-        margin-bottom: 15px;
-    }
-
-    .price-box span {
-        font-size: 13px;
-        color: #64748b;
-    }
-
-    .price-box strong {
-        display: block;
-        font-size: 32px;
-        font-weight: 800;
-        color: #0f172a;
-    }
-
-    .social-proof {
-        font-size: 14px;
-        margin-bottom: 10px;
-        color: #f59e0b;
-    }
-
-    .cta-sub {
-        font-size: 13px;
-        color: #64748b;
-        text-align: center;
-        margin-top: -15px;
-    }
-
-    .urgencia {
-        font-size: 13px;
-        color: #dc2626;
-        text-align: center;
-        margin-top: 10px;
-        font-weight: 600;
-    }
-
-    /* MOBILE STICKY CTA */
-    @media (max-width: 600px) {
-        .reservaLink {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            border-radius: 0;
-            z-index: 999;
-        }
-    }
-
-    .desc {
-        margin-bottom: 50px;
-
-        h3 {
-            margin: 10px 0;
-            font-size: 1.17em;
-            color: #000;
-            font-weight: bold;
-        }
-
-        h2 {
-            font-weight: 800;
-            font-size: 48px;
-            line-height: 45px;
-            color: #000;
-            margin-bottom: 23px;
-        }
-
-        p {
-            font-weight: 400;
-            font-size: 16px;
-
-        }
-    }
-
-    .list {
-        ul {
-            li {
-                margin-bottom: 15px;
-
-                strong {
-                    font-weight: 800;
-                    font-size: 16px;
-
-                }
-
-                p {
-                    font-weight: 400;
-                    font-size: 16px;
-
-                }
-
-                img {
-                    width: 20px;
-                }
-
-                &.flexList {
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
-                }
-            }
-        }
-
-    }
-
-    .buttons {
-        display: flex;
-        align-items: center;
-        gap: 30px;
-        flex-wrap: wrap;
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 16px;
-            border-radius: 999px;
-            border: 1px solid #000;
-            font-size: 13px;
-            cursor: pointer;
-            background: #fff;
-            transition: all 0.2s ease;
-            user-select: none;
-            font-weight: 800;
-            font-size: 16px;
-            line-height: 39px;
-            vertical-align: middle;
-            min-width: 250px;
-
-            &:hover {
-                background-color: #000;
-                color: #FFF;
-            }
-
-        }
-    }
-
-
-    .flex {
-        display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
-        gap: 50px;
-        padding: 60px 20px;
-        align-items: flex-start;
-        /* Permite que el sticky funcione */
-
-        .main-content {
-            width: 60%;
-        }
-
-        .sidebar-reserva {
-            width: 40%;
-            position: sticky;
-            top: 120px;
-            /* Ajusta según el tamaño de tu header */
-            max-height: calc(100vh - 140px);
-            overflow-y: auto;
-            /* Scroll interno si la tarjeta es muy alta */
-
-            /* Ocultar barra de scroll para un look más limpio */
-            &::-webkit-scrollbar {
-                width: 6px;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background-color: #cbd5e1;
-                border-radius: 10px;
-            }
-        }
-    }
-
-
-
-    /* ── Tarjeta de Reserva (Sidebar) ── */
-    .booking-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        padding: 35px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
-
-        h3 {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            color: #1e293b;
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 15px;
-        }
-
-        /* Lista de iconos rápida */
-        .quick-facts {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 30px 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            /* Divide en dos columnas */
-            gap: 20px;
-
-            li {
-                display: flex;
-                align-items: flex-start;
-                gap: 12px;
-
-                .icon {
-                    font-size: 24px;
-                }
-
-                strong {
-                    display: block;
-                    font-size: 13px;
-                    color: #64748b;
-                    text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                }
-
-                p {
-                    font-size: 15px;
-                    color: #0f172a;
-                    font-weight: 600;
-                    margin: 2px 0 0 0;
-                }
-            }
-        }
-
-        /* Mapa y Listas dentro del sidebar */
-        .flexmap {
-            margin-top: 30px;
-
-            iframe {
-                width: 100%;
-                height: 200px;
-                /* Más pequeño para que quepa en la tarjeta */
-                border-radius: 12px;
-                margin-bottom: 20px;
-            }
-        }
-
-        .tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 8px;
-
-            .tag-item {
-                background-color: #f1f5f9;
-                color: #334155;
-                padding: 6px 14px;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: 600;
-                border: 1px solid #e2e8f0;
-            }
-        }
-
-        .reservaLink {
-            background-color: #2563eb;
-            /* Color de acción fuerte */
-            color: white;
-            font-weight: bold;
-            font-size: 16px;
-            padding: 15px;
-            border-radius: 12px;
-            display: block;
-            text-align: center;
-            margin: 30px 0;
-            transition: background 0.3s ease, transform 0.2s ease;
-
-            &:hover {
-                background-color: #1d4ed8;
-                transform: translateY(-2px);
-            }
-        }
-    }
-}
-
-/* ── Responsive para la Experiencia ── */
-@media (max-width: 1024px) {
-    .atractivo.experiencia {
-        .flex {
-            flex-direction: column;
-
-            .main-content,
-            .sidebar-reserva {
-                width: 100%;
-            }
-
-            .sidebar-reserva {
-                position: relative;
-                top: 0;
-                max-height: none;
-                order: -1;
-                /* Pone la tarjeta arriba del texto en móviles */
-            }
-        }
-
-    }
-
-    .galeria-grid a:first-child {
-        height: 250px;
-    }
-}
-
-/* ── Estilos exclusivos para Rutas Turísticas ── */
-.atractivo.ruta-turistica {
-    .link-categoria {
-        color: #1d4ed8;
-        /* Un azul acorde al diseño de los tags */
-        text-decoration: none;
-        font-weight: 600;
-        transition: color 0.2s ease;
-
-        &:hover {
-            color: #1e293b;
-            /* Color más oscuro al pasar el mouse */
-            text-decoration: underline;
-        }
-    }
-
-    /* Hereda la estructura de flexbox y sticky del CSS anterior */
-    .flex {
-        display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
-        gap: 50px;
-        padding: 60px 20px;
-        align-items: flex-start;
-
-        .main-content {
-            width: 62%;
-        }
-
-        .sidebar-reserva {
-            width: 38%;
-            position: sticky;
-            top: 100px;
-        }
-    }
-
-    /* Caja destacada para el "Itinerario" (Qué vas a conocer) */
-    .highlight-box {
-        background-color: #f0fdf4;
-        /* Un verde muy sutil que incita a recorrer */
-        border-left: 4px solid #16a34a;
-        padding: 25px;
-        border-radius: 0 12px 12px 0;
-        margin: 30px 0;
-
-        h3 {
-            color: #166534;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-
-        p,
-        ul,
-        li {
-            color: #1f2937;
-        }
-    }
-
-    .seccion-texto h3 {
-        font-size: 20px;
-        margin-bottom: 15px;
-        color: #1e293b;
-    }
-
-    /* Estilos para la tarjeta lateral específica de ruta */
-    .booking-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
-        .tags-group {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        .tag-block {
-            margin-bottom: 15px;
-
-            strong {
-                display: block;
-                font-size: 13px;
-                color: #64748b;
-                text-transform: uppercase;
-                margin-bottom: 8px;
-            }
-        }
-
-        .tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-
-            .tag-item {
-                background-color: #f1f5f9;
-                color: #334155;
-                padding: 5px 12px;
-                border-radius: 15px;
-                font-size: 12px;
-                font-weight: 600;
-
-                &.geo {
-                    background-color: #eff6ff;
-                    /* Azul para zonas */
-                    color: #1d4ed8;
-                }
-            }
-        }
-
-        .reservaLink {
-            background-color: #2563eb;
-            color: white;
-            font-weight: bold;
-            display: block;
-            text-align: center;
-            padding: 14px;
-            border-radius: 10px;
-            margin-top: 25px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-
-            &:hover {
-                background-color: #1d4ed8;
-            }
-
-            &.maps-btn {
-                background-color: #f8fafc;
-                color: #334155;
-                border: 1px solid #cbd5e1;
-
-                &:hover {
-                    background-color: #f1f5f9;
-                }
-            }
-        }
-    }
-}
-
-@media (max-width: 1024px) {
-    .atractivo.ruta-turistica .flex {
-        flex-direction: column;
-
-        .main-content,
-        .sidebar-reserva {
-            width: 100%;
-        }
-
-        .sidebar-reserva {
-            order: -1;
-            position: relative;
-            top: 0;
-        }
-    }
-}
-
-/* ── Estilos exclusivos para Atractivos ── */
-.atractivo.atractivo-visual {
-
-    /* Badge de Imperdible sobre el Banner */
-    .badge-imperdible {
-        display: inline-block;
-        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-        color: #78350f;
-        padding: 8px 16px;
-        border-radius: 30px;
-        font-weight: 800;
-        font-size: 14px;
-        margin-bottom: 15px;
-        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .flex {
-        display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
-        gap: 50px;
-        padding: 60px 20px;
-        align-items: flex-start;
-
-        .main-content {
-            width: 62%;
-        }
-
-        .sidebar-reserva {
-            width: 38%;
-            position: sticky;
-            top: 100px;
-        }
-    }
-
-    /* Tarjeta de información */
-    .booking-card {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 16px;
-        padding: 30px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-
-        .tags-group {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        .tag-block {
-            margin-bottom: 15px;
-
-            strong {
-                display: block;
-                font-size: 13px;
-                color: #64748b;
-                text-transform: uppercase;
-                margin-bottom: 8px;
-            }
-        }
-
-        .tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-
-            .tag-item {
-                background-color: #f1f5f9;
-                color: #334155;
-                padding: 5px 12px;
-                border-radius: 15px;
-                font-size: 12px;
-                font-weight: 600;
-                text-decoration: none;
-                transition: all 0.2s;
-
-                &.cat-tag {
-                    background-color: #fef3c7;
-                    /* Amarillo suave para categoría */
-                    color: #92400e;
-
-                    &:hover {
-                        background-color: #fde68a;
-                    }
-                }
-
-                &.geo {
-                    background-color: #eff6ff;
-                    /* Azul para zonas */
-                    color: #1d4ed8;
-                }
-            }
-        }
-
-        .contact-link {
-            color: #475569;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            display: inline-block;
-            margin-bottom: 5px;
-            transition: color 0.2s;
-
-            &:hover {
-                color: #2563eb;
-            }
-        }
-
-        .reservaLink {
-            background-color: #2563eb;
-            color: white;
-            font-weight: bold;
-            display: block;
-            text-align: center;
-            padding: 14px;
-            border-radius: 10px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-
-            &:hover {
-                background-color: #1d4ed8;
-            }
-
-            &.maps-btn {
-                background-color: #f8fafc;
-                color: #334155;
-                border: 1px solid #cbd5e1;
-
-                &:hover {
-                    background-color: #f1f5f9;
-                }
-            }
-        }
-    }
-}
-
-@media (max-width: 1024px) {
-    .atractivo.atractivo-visual .flex {
-        flex-direction: column;
-
-        .main-content,
-        .sidebar-reserva {
-            width: 100%;
-        }
-
-        .sidebar-reserva {
-            order: -1;
-            position: relative;
-            top: 0;
-        }
-    }
-}
-
-.tabs-container {
-    margin-top: 20px;
-
-    .tabs-nav {
-        display: flex;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        border-bottom: 2px solid #f1f5f9;
-        gap: 30px;
-
-        .tab-link {
-            padding: 15px 5px;
-            cursor: pointer;
-            font-weight: 700;
-            color: #64748b;
-            position: relative;
-            transition: all 0.3s ease;
-
-            &.active {
-                color: #2563eb;
-
-                &::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -2px;
-                    left: 0;
-                    width: 100%;
-                    height: 2px;
-                    background-color: #2563eb;
-                }
-            }
-
-            &:hover {
-                color: #2563eb;
-            }
-        }
-    }
-
-    .tabs-content {
-        padding: 30px 0;
-
-        .tab-item {
-            display: none;
-            animation: fadeIn 0.4s ease;
-
-            &.active {
-                display: block;
-            }
-        }
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Estilos internos de las pestañas */
-.audio-player-box {
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 30px;
-
-    h4 {
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
-
-    audio {
-        width: 100%;
-    }
-}
-
-.logistica-box {
-    margin-top: 25px;
-
-    h3 {
-        font-size: 18px;
-        margin-bottom: 15px;
     }
 }
