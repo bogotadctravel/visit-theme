@@ -168,7 +168,8 @@
                                     class="tag-item cat-tag">{{ item.entity.name.value }}</a>
                                 {% endfor %}
                                 {% for item in node.field_tursubcat %}
-                                <span class="tag-item">{{ item.entity.name.value }}</span>
+                                <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}"
+                                    class="tag-item cat-tag">{{ item.entity.name.value }}</a>
                                 {% endfor %}
                             </div>
                         </div>
