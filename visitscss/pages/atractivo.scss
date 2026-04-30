@@ -997,3 +997,158 @@
         }
     }
 }
+
+/* ── Estilos exclusivos para Atractivos ── */
+.atractivo.atractivo-visual {
+
+    /* Badge de Imperdible sobre el Banner */
+    .badge-imperdible {
+        display: inline-block;
+        background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        color: #78350f;
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-weight: 800;
+        font-size: 14px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .flex {
+        display: flex;
+        max-width: 1200px;
+        margin: 0 auto;
+        gap: 50px;
+        padding: 60px 20px;
+        align-items: flex-start;
+
+        .main-content {
+            width: 62%;
+        }
+
+        .sidebar-reserva {
+            width: 38%;
+            position: sticky;
+            top: 100px;
+        }
+    }
+
+    /* Tarjeta de información */
+    .booking-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+        .tags-group {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .tag-block {
+            margin-bottom: 15px;
+
+            strong {
+                display: block;
+                font-size: 13px;
+                color: #64748b;
+                text-transform: uppercase;
+                margin-bottom: 8px;
+            }
+        }
+
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+
+            .tag-item {
+                background-color: #f1f5f9;
+                color: #334155;
+                padding: 5px 12px;
+                border-radius: 15px;
+                font-size: 12px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: all 0.2s;
+
+                &.cat-tag {
+                    background-color: #fef3c7;
+                    /* Amarillo suave para categoría */
+                    color: #92400e;
+
+                    &:hover {
+                        background-color: #fde68a;
+                    }
+                }
+
+                &.geo {
+                    background-color: #eff6ff;
+                    /* Azul para zonas */
+                    color: #1d4ed8;
+                }
+            }
+        }
+
+        .contact-link {
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 5px;
+            transition: color 0.2s;
+
+            &:hover {
+                color: #2563eb;
+            }
+        }
+
+        .reservaLink {
+            background-color: #2563eb;
+            color: white;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: #1d4ed8;
+            }
+
+            &.maps-btn {
+                background-color: #f8fafc;
+                color: #334155;
+                border: 1px solid #cbd5e1;
+
+                &:hover {
+                    background-color: #f1f5f9;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .atractivo.atractivo-visual .flex {
+        flex-direction: column;
+
+        .main-content,
+        .sidebar-reserva {
+            width: 100%;
+        }
+
+        .sidebar-reserva {
+            order: -1;
+            position: relative;
+            top: 0;
+        }
+    }
+}
