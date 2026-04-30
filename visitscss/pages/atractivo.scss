@@ -270,7 +270,6 @@ $border-radius-sm: 8px;
 
     /* ── 1. EXPERIENCIA ── */
     &.experiencia {
-        @include flex-layout(60%, 40%);
 
         .badge-descuento {
             @include tag-base(#e63946, #fff);
@@ -371,7 +370,6 @@ $border-radius-sm: 8px;
 
     /* ── 2. RUTA TURÍSTICA ── */
     &.ruta-turistica {
-        @include flex-layout(62%, 38%);
 
         .highlight-box {
             background-color: #f0fdf4;
@@ -478,7 +476,6 @@ $border-radius-sm: 8px;
 
     /* ── 3. ATRACTIVO VISUAL (Con Pestañas) ── */
     &.atractivo-visual {
-        @include flex-layout(62%, 38%);
 
         .badge-imperdible {
             @include tag-base(linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%), #78350f);
