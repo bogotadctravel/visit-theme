@@ -2,179 +2,210 @@
     <main>
         {% set banner_image = null %}
         {% if node.field_cover.entity %}
-            {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
+        {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
         {% elseif node.field_mainimg.entity %}
-            {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+        {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
         {% endif %}
 
         {% if banner_image %}
         <div class="banner" style="background-image: url('{{ banner_image }}');">
-        {% endif %}
+            {% endif %}
             <div class="container">
                 <div class="text">
                     {# Sello de Imperdible #}
                     {% if node.field_imperdible.value == 1 %}
-                        <div class="badge-imperdible">🌟 ¡Imperdible en Bogotá!</div>
+                    <div class="badge-imperdible">🌟 ¡Imperdible en Bogotá!</div>
                     {% endif %}
-                    
+
                     <h1>{{ node.getTitle() }}</h1>
-                    
+
                     <div class="comollegar">
                         <p>📍 {{ node.field_direccion.0.value }}</p>
                     </div>
                 </div>
             </div>
-        {% if banner_image %}
+            {% if banner_image %}
         </div>
         {% endif %}
 
         <div class="flex">
             <div class="main-content">
-                
+
                 {% if node.field_picgallery|length > 0 %}
-                    <div class="galeria-grid">
-                        {% for item in node.field_picgallery|slice(0,5) %}
-                            <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery" data-caption="{{ item.title }}">
-                                <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
-                            </a>
-                        {% endfor %}
-                    </div>
+                <div class="galeria-grid">
+                    {% for item in node.field_picgallery|slice(0,5) %}
+                    <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery">
+                        <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
+                    </a>
+                    {% endfor %}
+                </div>
                 {% endif %}
 
-                {% if body_sin_estilos is not empty %}
-                    <div class="desc">
-                        {{ body_sin_estilos }}
-                    </div>
-                {% endif %}
+                <div class="tabs-container">
+                    <ul class="tabs-nav">
+                        <li class="tab-link active" data-tab="tab-info">Descripción</li>
+                        <li class="tab-link" data-tab="tab-mapa">Cómo llegar</li>
+                        {% if node.field_video is not empty or node.field_recorrido_360 is not empty %}
+                        <li class="tab-link" data-tab="tab-multimedia">Multimedia</li>
+                        {% endif %}
+                    </ul>
 
-                {% if node.field_recorrido_360.0.value is not empty %}
-                    <div class="recorrido-360" style="margin: 40px 0;">
-                        <h3><strong>Explora este lugar en 360°</strong></h3>
-                        <div class="iframe-container" style="border-radius: 12px; overflow: hidden; height: 400px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
-                            {{ node.field_recorrido_360.0.value | raw }}
+                    <div class="tabs-content">
+                        <div id="tab-info" class="tab-item active">
+                            {% if body_sin_estilos is not empty %}
+                            <div class="desc">
+                                {{ body_sin_estilos }}
+                            </div>
+                            {% endif %}
+
+                            {% if file_url(node.field_audio.entity.fileuri) is not empty %}
+                            <div class="audio-player-box">
+                                <h4>🎧 Audioguía del atractivo</h4>
+                                <audio controls>
+                                    <source src="{{ file_url(node.field_audio.entity.fileuri) }}" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div id="tab-mapa" class="tab-item">
+                            {% if node.field_latlong.0.value is not empty %}
+                            <div class="map-wrapper">
+                                <iframe width="100%" height="400" style="border:0; border-radius: 12px;" loading="lazy"
+                                    src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed"></iframe>
+                            </div>
+                            {% endif %}
+
+                            {% if node.field_como_llegar_enr.0.value is not empty %}
+                            <div class="logistica-box">
+                                <h3>📍 Instrucciones de llegada</h3>
+                                {{ node.field_como_llegar_enr.0.value | raw }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div id="tab-multimedia" class="tab-item">
+                            {% if node.field_recorrido_360.0.value is not empty %}
+                            <div class="iframe-360">
+                                <h3>Vista 360°</h3>
+                                {{ node.field_recorrido_360.0.value | raw }}
+                            </div>
+                            {% endif %}
+
+                            {% if node.field_video is not empty %}
+                            <div class="video-container-tab">
+                                <h3>Video del lugar</h3>
+                                <video controls poster="{{ banner_image }}" style="width:100%; border-radius:12px;">
+                                    <source src="{{ file_url(node.field_video.entity.fileuri) }}" type="video/mp4">
+                                </video>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
-                {% endif %}
-
-                {% if file_url(node.field_audio.entity.fileuri) is not empty %}
-                    <div class="audio" style="margin: 30px 0; background: #f8fafc; padding: 20px; border-radius: 12px;">
-                        <h3 style="margin-bottom: 15px;">🎧 Escuchar audioguía</h3>
-                        <audio controls style="width: 100%;">
-                            <source src="{{ file_url(node.field_audio.entity.fileuri) }}" type="audio/mpeg">
-                        </audio>
-                    </div>
-                {% endif %}
-
-                <div class="flexmap" style="margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 30px;">
-                    <h3 style="margin-bottom: 20px;"><strong>Ubicación</strong></h3>
-                    
-                    {% if node.field_latlong.0.value is not empty %}
-                        <div class="map" rel="noopener" style="margin-bottom: 20px;">
-                            <iframe id="mapNode" width="100%" height="350" style="border:0; border-radius: 12px;" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q={{node.field_latlong.0.value}},{{node.field_latlong.1.value}}&z=15&output=embed"></iframe>
-                        </div>
-                    {% endif %}
-
-                    {% if node.field_como_llegar_enr.0.value is not empty %}
-                        <div class="como-llegar-detalle">
-                            <strong>¿Cómo Llegar?</strong>
-                            <div>{{ node.field_como_llegar_enr.0.value | raw }}</div>
-                        </div>
-                    {% endif %}
                 </div>
             </div>
-
             <div class="sidebar-reserva">
                 <div class="booking-card">
                     <h3>Planea tu visita</h3>
-                    
+
                     <ul class="quick-facts">
                         {% if node.field_horarios.0.value is not empty %}
-                            <li>
-                                <span class="icon">🕒</span> 
-                                <div>
-                                    <strong>Horarios</strong>
-                                    <p>{{ node.field_horarios.0.value }}</p>
-                                </div>
-                            </li>
+                        <li>
+                            <span class="icon">🕒</span>
+                            <div>
+                                <strong>Horarios</strong>
+                                <p>{{ node.field_horarios.0.value }}</p>
+                            </div>
+                        </li>
                         {% endif %}
 
                         {% if node.field_valor_de_la_entrada.0.value is not empty %}
-                            <li>
-                                <span class="icon">🎟️</span> 
-                                <div>
-                                    <strong>Valor de entrada</strong>
-                                    <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
-                                </div>
-                            </li>
+                        <li>
+                            <span class="icon">🎟️</span>
+                            <div>
+                                <strong>Valor de entrada</strong>
+                                <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
+                            </div>
+                        </li>
                         {% endif %}
 
                         {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
-                            <li>
-                                <span class="icon">⏱️</span> 
-                                <div>
-                                    <strong>Duración sugerida</strong>
-                                    <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
-                                </div>
-                            </li>
+                        <li>
+                            <span class="icon">⏱️</span>
+                            <div>
+                                <strong>Duración sugerida</strong>
+                                <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
+                            </div>
+                        </li>
                         {% endif %}
                     </ul>
 
                     <div class="tags-group">
                         {% if node.field_turcat|length > 0 or node.field_tursubcat|length > 0 %}
-                            <div class="tag-block">
-                                <strong>Categoría:</strong>
-                                <div class="tag-container">
-                                    {% for item in node.field_turcat %}
-                                        <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}" class="tag-item cat-tag">{{ item.entity.name.value }}</a>
-                                    {% endfor %}
-                                    {% for item in node.field_tursubcat %}
-                                        <span class="tag-item">{{ item.entity.name.value }}</span>
-                                    {% endfor %}
-                                </div>
+                        <div class="tag-block">
+                            <strong>Categorías:</strong>
+                            <div class="tag-container">
+                                {% for item in node.field_turcat %}
+                                <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}"
+                                    class="tag-item cat-tag">{{ item.entity.name.value }}</a>
+                                {% endfor %}
+                                {% for item in node.field_tursubcat %}
+                                <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}"
+                                    class="tag-item cat-tag">{{ item.entity.name.value }}</a>
+                                {% endfor %}
                             </div>
+                        </div>
                         {% endif %}
 
                         {% if node.field_turpara|length > 0 %}
-                            <div class="tag-block">
-                                <strong>Ideal para:</strong>
-                                <div class="tag-container">
-                                    {% for item in node.field_turpara %}
-                                        <span class="tag-item">{{ item.entity.name.value }}</span>
-                                    {% endfor %}
-                                </div>
+                        <div class="tag-block">
+                            <strong>Ideal para:</strong>
+                            <div class="tag-container">
+                                {% for item in node.field_turpara %}
+                                <span class="tag-item">{{ item.entity.name.value }}</span>
+                                {% endfor %}
                             </div>
+                        </div>
                         {% endif %}
 
                         {% if node.field_turzone|length > 0 or node.field_turdistr|length > 0 %}
-                            <div class="tag-block">
-                                <strong>Zona / Localidad:</strong>
-                                <div class="tag-container">
-                                    {% for item in node.field_turzone %}<span class="tag-item geo">{{ item.entity.name.value }}</span>{% endfor %}
-                                    {% for item in node.field_turdistr %}<span class="tag-item geo">{{ item.entity.name.value }}</span>{% endfor %}
-                                </div>
+                        <div class="tag-block">
+                            <strong>Zona / Localidad:</strong>
+                            <div class="tag-container">
+                                {% for item in node.field_turzone %}<span class="tag-item geo">{{ item.entity.name.value
+                                    }}</span>{% endfor %}
+                                {% for item in node.field_turdistr %}<span class="tag-item geo">{{
+                                    item.entity.name.value }}</span>{% endfor %}
                             </div>
+                        </div>
                         {% endif %}
                     </div>
 
                     {% if node.field_telefono.0.value is not empty or node.field_correo.0.value is not empty %}
-                        <div class="contact-card" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #f1f5f9;">
-                            <strong style="display:block; margin-bottom:10px; font-size:13px; color:#64748b; text-transform:uppercase;">Contacto:</strong>
-                            {% if node.field_telefono.0.value is not empty %}
-                                <a href="tel:{{node.field_telefono.0.value}}" class="contact-link">📞 {{node.field_telefono.0.value}}</a><br>
-                            {% endif %}
-                            {% if node.field_correo.0.value is not empty %}
-                                <a href="mailto:{{node.field_correo.0.value}}" class="contact-link">✉️ {{node.field_correo.0.value}}</a>
-                            {% endif %}
-                        </div>
+                    <div class="contact-card"
+                        style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #f1f5f9;">
+                        <strong
+                            style="display:block; margin-bottom:10px; font-size:13px; color:#64748b; text-transform:uppercase;">Contacto:</strong>
+                        {% if node.field_telefono.0.value is not empty %}
+                        <a href="tel:{{node.field_telefono.0.value}}" class="contact-link">📞
+                            {{node.field_telefono.0.value}}</a><br>
+                        {% endif %}
+                        {% if node.field_correo.0.value is not empty %}
+                        <a href="mailto:{{node.field_correo.0.value}}" class="contact-link">✉️
+                            {{node.field_correo.0.value}}</a>
+                        {% endif %}
+                    </div>
                     {% endif %}
 
                     <div class="action-buttons" style="margin-top: 25px;">
                         {% if node.field_weblink.0.url is not empty %}
-                            <a href="{{node.field_weblink.0.url}}" target="_blank" class="reservaLink">Ver sitio web oficial</a>
+                        <a href="{{node.field_weblink.0.url}}" target="_blank" class="reservaLink">Ver sitio web
+                            oficial</a>
                         {% endif %}
-                        
+
                         {% if node.field_mapslink.0.url is not empty %}
-                            <a href="{{node.field_mapslink.0.url}}" target="_blank" class="reservaLink maps-btn" style="margin-top: 10px;">Cómo llegar (Google Maps)</a>
+                        <a href="{{node.field_mapslink.0.url}}" target="_blank" class="reservaLink maps-btn"
+                            style="margin-top: 10px;">Cómo llegar (Google Maps)</a>
                         {% endif %}
                     </div>
                 </div>
@@ -200,37 +231,37 @@
                 {% endfor %}
             </ul>
         </div>
-      {# Validamos si existe contenido en cualquiera de las dos variables #}
-{% if contenidos_relacionados or referenciado_por %}
-  <div class="recomendados lugares">
-    <h4>Contenido Recomendado</h4>
-    <ul>
-      {# Iteramos la relación directa #}
-      {% for item in contenidos_relacionados %}
-        <li>
-          <a href="{{ item.url }}">
-            <div class="image">
-              <img src="{{ item.image }}" alt="{{ item.title }}">
-            </div>
-            <div class="title">{{ item.title }}</div>
-          </a>
-        </li>
-      {% endfor %}
+        {# Validamos si existe contenido en cualquiera de las dos variables #}
+        {% if contenidos_relacionados or referenciado_por %}
+        <div class="recomendados lugares">
+            <h4>Contenido Recomendado</h4>
+            <ul>
+                {# Iteramos la relación directa #}
+                {% for item in contenidos_relacionados %}
+                <li>
+                    <a href="{{ item.url }}">
+                        <div class="image">
+                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        </div>
+                        <div class="title">{{ item.title }}</div>
+                    </a>
+                </li>
+                {% endfor %}
 
-      {# Iteramos la relación inversa #}
-      {% for item in referenciado_por %}
-        <li>
-          <a href="{{ item.url }}">
-            <div class="image">
-              <img src="{{ item.image }}" alt="{{ item.title }}">
-            </div>
-            <div class="title">{{ item.title }}</div>
-          </a>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
-{% endif %}
+                {# Iteramos la relación inversa #}
+                {% for item in referenciado_por %}
+                <li>
+                    <a href="{{ item.url }}">
+                        <div class="image">
+                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        </div>
+                        <div class="title">{{ item.title }}</div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
         {% include "@visit_theme/includes/planifica.html.twig" %}
     </main>
 </div>
@@ -261,5 +292,22 @@
             });
         });
     });
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabs = document.querySelectorAll('.tab-link');
+        const contents = document.querySelectorAll('.tab-item');
 
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
+
+                // Quitar clase active de todos los botones y contenidos
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+
+                // Añadir active al seleccionado
+                tab.classList.add('active');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+    });
 </script>
