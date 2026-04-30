@@ -135,5 +135,11 @@
                 </li>
             {% endfor %}
         </ul>
+           {# 3. Paginador Nativo de Drupal #}
+            {% if pager %}
+            <div class="pager-container">
+                {{ pager }}
+            </div>
+            {% endif %}
     </main>
 </div>

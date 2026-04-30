@@ -10,20 +10,36 @@
     <main>
         <div class="container">
             {# 1. Formulario de Filtros #}
-            <form id="filter-tool" class="filters-form">
+             {# 1. Formulario de Filtros #}
+            <form id="filter-tool" class="filters-form" method="GET" action="">
                 <span>
                     <label for="filter_name">Nombre</label>
-                    <input type="text" id="filter_name" placeholder="Buscar por nombre...">
+                    {# 1. Agregamos el value dinámico #}
+                    <input type="text" id="filter_name" name="filter_name" placeholder="Buscar por nombre..."
+                        value="{{ current_filter_name }}">
                 </span>
                 <span>
                     <label for="filter_cat">Categoría</label>
-                    <select id="filter_cat">
-                        <option value="all">Todas</option>
+                    <select id="filter_cat" name="filter_cat">
+                        {# 2. Condicionamos la opción "Todas" #}
+                        <option value="all" {% if current_filter_cat=='all' or current_filter_cat is empty %}selected{%
+                            endif %}>Todas</option>
+
                         {% for cat in taxonomy('categorias_turisticas') %}
-                        <option value="{{ cat.tid }}">{{ cat.name }}</option>
+                        {# 3. Condicionamos si la categoría actual coincide con la iteración #}
+                        <option value="{{ cat.tid }}" {% if current_filter_cat==cat.tid %}selected{% endif %}>{{
+                            cat.name }}</option>
                         {% endfor %}
                     </select>
                 </span>
+                <button type="submit">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    Buscar
+                </button>
             </form>
 
             {# 2. Contenedor y Loop #}
@@ -45,11 +61,11 @@
             </ul>
 
             {# 3. Paginador Nativo de Drupal #}
-            {% if pager %}
-            <div class="pager-container">
-                {{ pager }}
-            </div>
-            {% endif %}
+      {% if pager_rutas %}
+    <div class="pager-container">
+        {{ pager_rutas }}
+    </div>
+{% endif %}
 
         </div>
     </main>
