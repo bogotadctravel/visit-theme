@@ -350,19 +350,31 @@
                 {% endfor %}
             </ul>
         </div>
-        {% if contenidos_relacionados %}
+       {# Validamos si existe contenido en cualquiera de las dos variables #}
+        {% if contenidos_relacionados or referenciado_por %}
         <div class="recomendados lugares">
             <h4>Contenido Recomendado</h4>
             <ul>
+                {# Iteramos la relación directa #}
                 {% for item in contenidos_relacionados %}
                 <li>
-                    {# Verificamos si la variable existe para no imprimir "km" vacíos #}
-
-                    <a href="{{item.url}}">
+                    <a href="{{ item.url }}">
                         <div class="image">
-                            <img src="{{item.image }}" alt="atra">
+                            <img src="{{ item.image }}" alt="{{ item.title }}">
                         </div>
-                        <div class="title">{{item.title}}</div>
+                        <div class="title">{{ item.title }}</div>
+                    </a>
+                </li>
+                {% endfor %}
+
+                {# Iteramos la relación inversa #}
+                {% for item in referenciado_por %}
+                <li>
+                    <a href="{{ item.url }}">
+                        <div class="image">
+                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        </div>
+                        <div class="title">{{ item.title }}</div>
                     </a>
                 </li>
                 {% endfor %}
