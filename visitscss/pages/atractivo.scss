@@ -843,6 +843,19 @@
 
 /* ── Estilos exclusivos para Rutas Turísticas ── */
 .atractivo.ruta-turistica {
+    .link-categoria {
+        color: #1d4ed8;
+        /* Un azul acorde al diseño de los tags */
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: #1e293b;
+            /* Color más oscuro al pasar el mouse */
+            text-decoration: underline;
+        }
+    }
 
     /* Hereda la estructura de flexbox y sticky del CSS anterior */
     .flex {
