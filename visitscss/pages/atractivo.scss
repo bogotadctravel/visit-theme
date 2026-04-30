@@ -273,6 +273,20 @@ $border-radius-sm: 8px;
 
     /* ── 1. EXPERIENCIA ── */
     &.experiencia {
+        .cta-sub {
+            font-size: 13px;
+            color: #64748b;
+            text-align: center;
+            margin-top: -15px;
+        }
+
+        .urgencia {
+            font-size: 13px;
+            color: #dc2626;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 600;
+        }
 
         .badge-descuento {
             @include tag-base(#e63946, #fff);
