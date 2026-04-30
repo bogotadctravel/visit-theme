@@ -1,69 +1,129 @@
-  <style>
-    .article .banner {
-      width: 100%;
-      height: 700px;
-      background-size: cover;
-      background-position: center;
-      margin-bottom: 20px;
-    }
-    .article .banner img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .article .content {
-      font-size: 18px;
-      line-height: 1.6;
-    }
-    .image-wrapper {
-  margin-bottom: 20px;
-}
-figcaption,
-.image-caption {
-  font-size: 12px;
-  color: #666;
-  text-align: justify;
-  padding:5px;
-  margin-top: 5px;
-}
-  </style>
-  <div class="article">
-  <div class="container">
-        <h1>{{ node.getTitle() }}</h1>
-    <div class="banner">
-    <img src="{{ file_url(node.field_mainimg.entity.fileuri) }}" alt="{{ node.label }}">
+<div class="article blog-post">
+    
+    {# 1. Configuración de la Imagen de Portada #}
+    {% set banner_image = null %}
+    {% if node.field_cover.entity %}
+        {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
+    {% elseif node.field_mainimg.entity %}
+        {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+    {% elseif node.field_image.entity %}
+        {% set banner_image = file_url(node.field_image.entity.fileuri) %}
+    {% endif %}
+
+    {# 2. Cabecera del Artículo (Título e Intro) #}
+    <header class="blog-header">
+        <div class="container-narrow">
+            
+            {# Categorías #}
+            {% if node.field_turcat|length > 0 %}
+                <div class="blog-categories">
+                    {% for item in node.field_turcat %}
+                        <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}" class="cat-badge">
+                            {{ item.entity.name.value }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <h1>{{ node.getTitle() }}</h1>
+
+            {# Introducción (Lead paragraph) #}
+            {% if node.field_introduccion.0.value is not empty %}
+                <p class="lead-intro">
+                    {{ node.field_introduccion.0.value }}
+                </p>
+            {% endif %}
+        </div>
+    </header>
+
+    {# 3. Imagen Principal Panorámica #}
+    {% if banner_image %}
+    <div class="blog-banner">
+        <img src="{{ banner_image }}" alt="{{ node.getTitle() }}">
     </div>
-      <div class="content">
-          {{ content.body }}
-      </div>
-  </div>
-  </div>
+    {% endif %}
 
-  <script>
-document.querySelectorAll('.content img').forEach(img => {
+    {# 4. Cuerpo del Artículo #}
+    <main class="blog-content">
+        <div class="container-narrow content-body">
+            {{ content.body }}
+        </div>
 
-  // ❌ 1. Si ya está dentro de un <figure>, NO hacer nada
-  if (img.closest('figure')) return;
+        {# 5. Pie del Artículo (Etiquetas y Recomendado para) #}
+        <div class="container-narrow">
+            <footer class="blog-footer">
+                {% if node.field_tags|length > 0 or node.field_turpara|length > 0 %}
+                    <div class="post-tags">
+                        <strong>Temas relacionados:</strong>
+                        <div class="tag-container">
+                            {% for item in node.field_tags %}
+                                <span class="tag-item">{{ item.entity.name.value }}</span>
+                            {% endfor %}
+                            
+                            {% for item in node.field_turpara %}
+                                <span class="tag-item outline">{{ item.entity.name.value }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </footer>
+        </div>
+    </main>
 
-  // ❌ 2. Si ya está dentro de un wrapper, NO hacer nada
-  if (img.closest('.image-wrapper')) return;
+    {# 6. Contenido Relacionado #}
+    {% if contenidos_relacionados or referenciado_por %}
+    <section class="related-content lugares">
+        <div class="container">
+            <h4>Más artículos y lugares recomendados</h4>
+            <ul class="grid-relacionados">
+                {% for item in contenidos_relacionados %}
+                <li>
+                    <a href="{{ item.url }}">
+                        <div class="image">
+                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        </div>
+                        <div class="title">{{ item.title }}</div>
+                    </a>
+                </li>
+                {% endfor %}
+                
+                {% for item in referenciado_por %}
+                <li>
+                    <a href="{{ item.url }}">
+                        <div class="image">
+                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        </div>
+                        <div class="title">{{ item.title }}</div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {% endif %}
 
-  const title = img.getAttribute('title');
+</div>
 
-  const text = title;
+{# Script original mantenido para las leyendas de imágenes #}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.content-body img').forEach(img => {
+        if (img.closest('figure')) return;
+        if (img.closest('.image-wrapper')) return;
 
-  // ❌ 3. Si no hay texto, no crear caption
-  if (!text) return;
+        const text = img.getAttribute('title') || img.getAttribute('alt');
+        if (!text) return;
 
-  const wrapper = document.createElement('div');
-  wrapper.classList.add('image-wrapper');
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('image-wrapper');
 
-  const caption = document.createElement('div');
-  caption.classList.add('image-caption');
-  caption.textContent = text;
+        const caption = document.createElement('div');
+        caption.classList.add('image-caption');
+        caption.textContent = text;
 
-  img.parentNode.insertBefore(wrapper, img);
-  wrapper.appendChild(img);
-  wrapper.appendChild(caption);
+        img.parentNode.insertBefore(wrapper, img);
+        wrapper.appendChild(img);
+        wrapper.appendChild(caption);
+    });
 });
-  </script>
+</script>
