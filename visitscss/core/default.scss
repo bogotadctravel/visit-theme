@@ -217,3 +217,185 @@ section.splide.banner-splide {
     }
   }
 }
+
+/* ==========================================================================
+   Componente Global: Formularios de Filtro (.filters-form)
+   ========================================================================== */
+
+.filters-form {
+  max-width: 1200px;
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 16px;
+  margin: 42px auto;
+  gap: 20px;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 0px 8px 14px 0px #0000009C;
+
+  /* Envoltura de cada campo (los span que tienes en el HTML) */
+  span {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    /* Permite que los inputs ocupen el espacio disponible equitativamente */
+  }
+
+  /* Textos informativos dentro del form */
+  h2 {
+    font-size: 26px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+
+  p {
+    font-size: 16px;
+    color: #555;
+    max-width: 720px;
+    margin: 0;
+  }
+
+  /* Campos y Etiquetas */
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #333;
+  }
+
+  select,
+  input[type="text"],
+  input[type="date"] {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    background: #fff;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: #2f80ed;
+    }
+  }
+
+  /* Botón de envío */
+  button[type="submit"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #2f80ed;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    align-self: flex-end;
+    /* Alinea el botón con la base de los inputs */
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background: #1c64d1;
+    }
+  }
+
+  /* ♥ Intereses */
+  .heart {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 12px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  /* Chips (Categorías o Tags) */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+
+    li {
+      position: relative;
+
+      input {
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 16px;
+        border-radius: 999px;
+        border: 1px solid #000;
+        font-size: 13px;
+        cursor: pointer;
+        background: #fff;
+        transition: all 0.2s ease;
+        user-select: none;
+
+        &:hover {
+          background: #f2f2f2;
+        }
+      }
+
+      /* Estado activo */
+      input:checked+label {
+        background: #000;
+        color: #fff;
+        border-color: #000;
+      }
+
+      /* Accesibilidad */
+      input:focus+label {
+        outline: 2px solid #2f80ed;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  /* ── Layout Responsive ── */
+  @media (min-width: 768px) {
+    /* Comportamiento Grid si decides cambiar el display a grid en lugar de flex */
+    /* grid-template-columns: repeat(4, 1fr); */
+
+    h2,
+    p,
+    .heart,
+    .tags {
+      grid-column: span 4;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    margin: 24px 20px;
+
+    button[type="submit"] {
+      width: 100%;
+      align-self: center;
+    }
+  }
+}
