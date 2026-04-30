@@ -1068,6 +1068,145 @@ $border-radius-sm: 8px;
             }
         }
     }
+
+    /* ── 5. RESTAURANTE PROFILE ── */
+    &.restaurante-profile {
+
+        .foodie-badges {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+
+            .badge-alojamiento {
+                @include tag-base(#ffffff, $color-primario);
+                font-size: 14px;
+                text-transform: uppercase;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .badge-zona {
+                @include tag-base(#1e293b, #ffffff);
+                font-size: 14px;
+                text-transform: uppercase;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .booking-card {
+            @include card-base;
+
+            /* Precio destacado arriba */
+            .price-range {
+                background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
+                padding: 20px;
+                border-radius: 12px;
+                margin-bottom: 25px;
+                text-align: center;
+                border: 1px solid #fef08a;
+
+                .label {
+                    display: block;
+                    font-size: 13px;
+                    color: #854d0e;
+                    text-transform: uppercase;
+                    margin-bottom: 5px;
+                }
+
+                .value {
+                    display: block;
+                    font-size: 24px;
+                    font-weight: 800;
+                    color: #713f12;
+                }
+            }
+
+            .tags-group {
+                margin-top: 20px;
+                padding-top: 20px;
+                border-top: 1px solid $color-fondo-light;
+            }
+
+            .tag-block {
+                margin-bottom: 15px;
+
+                strong {
+                    display: block;
+                    font-size: 13px;
+                    color: $color-texto-sec;
+                    text-transform: uppercase;
+                    margin-bottom: 8px;
+                }
+            }
+
+            .tag-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .tag-item {
+                @include tag-base;
+
+                &.cat-tag {
+                    background-color: #fef3c7;
+                    color: #92400e;
+
+                    &:hover {
+                        background-color: #fde68a;
+                    }
+                }
+            }
+
+            .contact-link {
+                color: #475569;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 500;
+                display: inline-block;
+                margin-bottom: 5px;
+                transition: color 0.2s;
+
+                &:hover {
+                    color: $color-primario;
+                }
+            }
+
+            .reservaLink {
+                background-color: $color-primario;
+                color: white;
+                font-weight: bold;
+                display: block;
+                text-align: center;
+                padding: 14px;
+                border-radius: 10px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    background-color: $color-primario-hover;
+                }
+
+                /* Botón especial para el menú digital */
+                &.menu-btn {
+                    background-color: #1e293b;
+                    color: #ffffff;
+                    border: 2px solid #1e293b;
+
+                    &:hover {
+                        background-color: #0f172a;
+                        border-color: #0f172a;
+                    }
+                }
+            }
+
+            /* Estilo hover para los SVG de redes sociales */
+            .social-sidebar a:hover svg rect {
+                fill: #e2e8f0;
+                transition: fill 0.3s ease;
+            }
+        }
+    }
 }
 
 /* ==========================================================================
