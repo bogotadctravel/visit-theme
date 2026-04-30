@@ -52,12 +52,6 @@
 
                     <div class="tabs-content">
                         <div id="tab-info" class="tab-item active">
-                            {% if body_sin_estilos is not empty %}
-                            <div class="desc">
-                                {{ body_sin_estilos }}
-                            </div>
-                            {% endif %}
-
                             {% if file_url(node.field_audio.entity.fileuri) is not empty %}
                             <div class="audio-player-box">
                                 <h4>🎧 Audioguía del atractivo</h4>
@@ -66,6 +60,12 @@
                                 </audio>
                             </div>
                             {% endif %}
+                            {% if body_sin_estilos is not empty %}
+                            <div class="desc">
+                                {{ body_sin_estilos }}
+                            </div>
+                            {% endif %}
+
                         </div>
 
                         <div id="tab-mapa" class="tab-item">
@@ -111,9 +111,9 @@
                     <ul class="quick-facts">
                         {% if node.field_horarios.0.value is not empty %}
                         <li>
-                            <span class="icon">🕒</span>
+
                             <div>
-                                <strong>Horarios</strong>
+                                <strong><span class="icon">🕒</span>Horarios</strong>
                                 <p>{{ node.field_horarios.0.value }}</p>
                             </div>
                         </li>
@@ -121,9 +121,9 @@
 
                         {% if node.field_valor_de_la_entrada.0.value is not empty %}
                         <li>
-                            <span class="icon">🎟️</span>
+
                             <div>
-                                <strong>Valor de entrada</strong>
+                                <strong><span class="icon">🎟️</span>Valor de entrada</strong>
                                 <p>{{ node.field_valor_de_la_entrada.0.value }}</p>
                             </div>
                         </li>
@@ -131,9 +131,9 @@
 
                         {% if node.field_duracion_de_la_visita_new.0.value is not empty %}
                         <li>
-                            <span class="icon">⏱️</span>
+
                             <div>
-                                <strong>Duración sugerida</strong>
+                                <strong><span class="icon">⏱️</span>Duración sugerida</strong>
                                 <p>{{ node.field_duracion_de_la_visita_new.0.value }}</p>
                             </div>
                         </li>
