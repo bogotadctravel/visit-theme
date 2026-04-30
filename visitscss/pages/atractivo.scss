@@ -54,7 +54,7 @@ $border-radius-sm: 8px;
 }
 
 @mixin tag-base($bg: $color-fondo-light, $color: $color-texto-main) {
-    background-color: $bg;
+    background: $bg;
     color: $color;
     padding: 5px 12px;
     border-radius: 15px;
@@ -69,6 +69,17 @@ $border-radius-sm: 8px;
    ESTILOS BASE COMUNES (.atractivo)
    ========================================================================== */
 .atractivo {
+    .booking-card {
+        h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: $color-texto-main;
+            border-bottom: 2px solid $color-fondo-light;
+            padding-bottom: 15px;
+        }
+    }
+
     .flex {
         @include flex-layout(60%, 40%);
     }
