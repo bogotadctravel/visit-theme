@@ -1,27 +1,56 @@
 <div class="product">
- <div class="banner" style="background-image: url({{file_url(node.field_mainimg.entity.fileuri)}});">
+    <div class="banner" style="background-image: url({{file_url(node.field_mainimg.entity.fileuri)}});">
         <div class="container">
             <div class="text">
-                 <h1>{{"ui.tourist_routes"|trans}}</h1>
-        <p>{{"ui.explore_all_experiences"|trans}}</p>
+                <h1>{{"ui.tourist_routes"|trans}}</h1>
+                <p>{{"ui.explore_all_experiences"|trans}}</p>
             </div>
         </div>
     </div>
-<main>
-    <div class="container">
-       
-       {% if rutas is not empty %}
-    <ul class="grid-atractivos container">
-        {% for item in rutas|shuffle %}
-        <li class="card" data-aos="zoom-in" data-aos-delay="300"><a href="{{item.url}}">
-                <div class="image">
-                    <img src="{{item.image}}" alt="blog title">
-                </div>
-                <div class="title">
-                    {{item.title}}
-                </div>
-            </a></li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <main>
+        <div class="container">
+            {# 1. Formulario de Filtros #}
+            <form id="filter-tool" class="filters-form">
+                <span>
+                    <label for="filter_name">Nombre</label>
+                    <input type="text" id="filter_name" placeholder="Buscar por nombre...">
+                </span>
+                <span>
+                    <label for="filter_cat">Categoría</label>
+                    <select id="filter_cat">
+                        <option value="all">Todas</option>
+                        {% for cat in taxonomy('categorias_turisticas') %}
+                        <option value="{{ cat.tid }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </span>
+            </form>
+
+            {# 2. Contenedor y Loop #}
+            <ul class="grid-atractivos container" id="grid-items">
+                {% for item in rutas %} {# Si es el template 835, cambia 'rutas' por 'experiencias' #}
+                {# Atributos de datos para el JS #}
+                <li class="card filterable-item" data-name="{{ item.title|lower }}"
+                    data-cat="{{ item.categoria.tid ?? '' }}" data-aos="zoom-in" data-aos-delay="300">
+                    <a href="{{ item.url }}">
+                        <div class="image">
+                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        </div>
+                        <div class="title">
+                            {{ item.title }}
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            {# 3. Paginador Nativo de Drupal #}
+            {% if pager %}
+            <div class="pager-container">
+                {{ pager }}
+            </div>
+            {% endif %}
+
+        </div>
+    </main>
 </div>
