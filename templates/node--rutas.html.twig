@@ -61,7 +61,7 @@
                 {% if node.field_imagen_del_mapa.entity %}
                 <div class="mapa-ruta-visual" style="margin: 40px 0;">
                     <h3><strong>Mapa de la Ruta</strong></h3>
-                    <a href="{{ file_url(node.field_imagen_del_mapa.entity.fileuri) }}" data-fancybox="mapa-ruta">
+                    <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Ir al mapa de la ruta">
                         <img src="{{ file_url(node.field_imagen_del_mapa.entity.fileuri) }}" alt="Mapa del recorrido"
                             style="width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                     </a>
@@ -164,7 +164,8 @@
                     {% if node.field_linkreservas.0.url is not empty %}
                     <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="reservaLink">Reservar
                         Recorrido</a>
-                    {% elseif node.field_mapslink.0.url is not empty %}
+                    {% endif %}
+                    {% if node.field_mapslink.0.url is not empty %}
                     <a href="{{node.field_mapslink.0.url}}" target="_blank" class="reservaLink maps-btn">Abrir Mapa</a>
                     {% endif %}
                 </div>
