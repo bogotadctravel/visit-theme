@@ -35,7 +35,7 @@
                    
                         {# NOTA: Cambia 'field_imagen' por el nombre máquina real del campo de imagen en tu taxonomía de subcategorías #}
                         {% if subcat.image %}
-                            <img src="{{ subcat.image }}" alt="{{ subcat.name }}">
+                            <img src="{{ subcat.image }}" alt="{{ subcat.name }}" loading="lazy" decoding="async" width="64" height="64">
                         {% else %}
                             <div class="img-placeholder"></div>
                         {% endif %}
@@ -51,10 +51,10 @@
 
     {% if atractivos is not empty %}
     <ul class="grid-atractivos container">
-        {% for item in atractivos|shuffle %}
+        {% for item in atractivos %}
         <li class="card" data-aos="zoom-in" data-aos-delay="300"><a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
                 <div class="image">
-                    <img src="{{item.image}}" alt="blog title">
+                    <img src="{{item.image}}" alt="{{item.title}}" loading="lazy" decoding="async" width="400" height="300">
                 </div>
                 <div class="title">
                     {{item.title}}

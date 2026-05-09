@@ -2,7 +2,7 @@
      padding: 55px 0;
 
      h5 {
-         font-weight: 800;
+         font-weight: 700;
          font-size: 32px;
          text-align: center;
          color: #000;
@@ -13,11 +13,11 @@
      .grid-blogs {
          display: grid;
          grid-template-columns: repeat(3, 1fr);
-         gap: 45px 28px;
+         gap: 45px 24px;
 
          @media only screen and (max-width: 1023px) {
              grid-template-columns: repeat(2, 1fr);
-             gap: 20px;
+             gap: 24px;
          }
 
          @media only screen and (max-width: 600px) {
@@ -28,7 +28,7 @@
              .image {
                  height: 240px;
                  width: 100%;
-                 border-radius: 20px;
+                 border-radius: 16px;
                  overflow: hidden;
 
                  img {
@@ -46,7 +46,7 @@
              }
 
              .title {
-                 font-weight: 800;
+                 font-weight: 700;
                  font-size: 16px;
 
              }
@@ -57,8 +57,8 @@
                  width: fit-content;
                  position: relative;
                  z-index: 2;
-                 border-radius: 40px;
-                 padding: 4px 15px;
+                 border-radius: 9999px;
+                 padding: 4px 16px;
              }
          }
      }

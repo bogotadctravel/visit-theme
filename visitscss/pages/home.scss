@@ -60,18 +60,17 @@
     /* Estilo visual del Botón */
     .btn-primary-cta {
         display: inline-block;
-        padding: 15px 30px;
+        padding: 16px 32px;
         background-color: #243b67;
         /* Azul del logo de Bogotá (Aprox) */
         color: #ffffff;
-        font-family: Arial, sans-serif;
-        /* Cambia a la tipografía de tu sitio */
+        font-family: var(--font-base);
         font-size: 1.1rem;
         font-weight: bold;
         text-decoration: none;
         border-radius: 8px;
         /* Bordes redondeados */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
@@ -108,7 +107,7 @@
         .btn-primary-cta {
             width: 100%;
             /* Hace que el botón ocupe todo el ancho de su contenedor (el 80% que definimos arriba) */
-            padding: 12px 20px;
+            padding: 12px 24px;
             /* Reducimos un poco el grosor del botón */
             font-size: 1rem;
             /* Hacemos la letra un poco más pequeña */
@@ -129,7 +128,7 @@
         .btn-primary-cta {
             font-size: 0.95rem;
             /* Ajuste fino de tipografía */
-            padding: 12px 10px;
+            padding: 12px 8px;
         }
     }
 }

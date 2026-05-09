@@ -3,7 +3,7 @@
      .map {
          display: flex;
          max-width: 580px;
-         gap: 30px;
+         gap: 32px;
          align-items: center;
          justify-content: center;
          margin: 50px auto;
@@ -11,15 +11,15 @@
          iframe {
              width: 100%;
              height: 310px;
-             border-radius: 20px;
+             border-radius: 16px;
              overflow: hidden;
          }
      }
 
      .info {
          display: flex;
-         gap: 20px;
-         padding: 20px;
+         gap: 24px;
+         padding: 24px;
 
          .image {
              width: 50%;
@@ -38,16 +38,16 @@
              width: 50%;
 
              h1 {
-                 font-weight: 800;
+                 font-weight: 700;
                  font-size: 48px;
                  line-height: 45px;
                  vertical-align: middle;
-                 margin-bottom: 15px;
+                 margin-bottom: 16px;
 
              }
 
              small {
-                 margin-bottom: 30px;
+                 margin-bottom: 32px;
                  font-weight: 400;
                  font-size: 20px;
                  display: block;
@@ -71,10 +71,10 @@
                      display: flex;
                      flex-direction: column;
                      align-items: center;
-                     gap: 15px;
+                     gap: 16px;
 
                      strong {
-                         font-weight: 800;
+                         font-weight: 700;
                          font-size: 96px;
                          line-height: 45px;
                          vertical-align: middle;
@@ -95,21 +95,21 @@
              p {
                  font-weight: 400;
                  font-size: 16px;
-                 margin-bottom: 15px;
+                 margin-bottom: 16px;
              }
 
 
 
              .contact {
                  display: flex;
-                 gap: 10px;
-                 margin: 30px 0;
+                 gap: 8px;
+                 margin: 32px 0;
              }
 
              .flexList {
                  display: flex;
                  align-items: center;
-                 gap: 10px;
+                 gap: 8px;
 
                  img {
                      width: 16px;
@@ -127,7 +127,7 @@
                      font-size: 16px;
 
                      strong {
-                         font-weight: 800;
+                         font-weight: 700;
                          font-size: 16px;
 
                      }
@@ -138,18 +138,18 @@
              .content-body {
                  h2 {
                      font-size: 25px;
-                     margin-bottom: 15px;
+                     margin-bottom: 16px;
                  }
 
                  ul {
                      display: block;
                      list-style: disc;
-                     padding-left: 25px;
+                     padding-left: 24px;
 
                      li {
                          list-style: disc;
                          display: list-item;
-                         margin-bottom: 10px;
+                         margin-bottom: 8px;
                      }
                  }
              }
@@ -158,21 +158,20 @@
          .buttons {
              display: flex;
              align-items: center;
-             gap: 30px;
+             gap: 32px;
 
              .btn {
                  display: inline-flex;
                  align-items: center;
                  justify-content: center;
                  padding: 8px 16px;
-                 border-radius: 999px;
+                 border-radius: 9999px;
                  border: 1px solid #000;
-                 font-size: 13px;
                  cursor: pointer;
                  background: #fff;
                  transition: all 0.2s ease;
                  user-select: none;
-                 font-weight: 800;
+                 font-weight: 700;
                  font-size: 16px;
                  line-height: 39px;
                  vertical-align: middle;
@@ -193,7 +192,7 @@
 
          h4 {
              color: #FFF;
-             font-weight: 800;
+             font-weight: 700;
              font-size: 32px;
              text-align: center;
              max-width: 470px;
@@ -202,7 +201,7 @@
 
          ul {
              display: grid;
-             gap: 30px;
+             gap: 32px;
              grid-template-columns: repeat(4, 1fr);
              max-width: 1200px;
              margin: 0 auto;
@@ -213,8 +212,8 @@
                      width: 100%;
 
                      display: block;
-                     border-top-left-radius: 11px;
-                     border-top-right-radius: 11px;
+                     border-top-left-radius: 12px;
+                     border-top-right-radius: 12px;
 
                      width: 100%;
                      height: 160px;
@@ -222,12 +221,12 @@
                  }
 
                  .title {
-                     padding: 20px;
+                     padding: 24px;
                      background-color: #fff;
-                     font-weight: 800;
+                     font-weight: 700;
                      font-size: 16px;
 
-                     border-radius: 0 0 10px 10px;
+                     border-radius: 0 0 12px 12px;
 
                  }
              }
@@ -240,7 +239,7 @@
     .intern_event {
         .info {
             flex-direction: column;
-            padding: 20px;
+            padding: 24px;
 
             .image,
             .text { width: 100%; }
@@ -256,7 +255,7 @@
         }
 
         .lugares {
-            padding: 80px 20px 60px;
+            padding: 80px 24px 60px;
 
             ul { grid-template-columns: repeat(2, 1fr); }
         }

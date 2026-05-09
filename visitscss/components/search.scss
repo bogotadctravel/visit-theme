@@ -38,8 +38,8 @@
 
     .close {
       position: absolute;
-      top: 20px;
-      left: 20px;
+      top: 24px;
+      left: 24px;
 
       svg {
         width: 15px;
@@ -63,7 +63,7 @@
         font-weight: 500;
         line-height: normal;
         outline: none;
-        padding: 5px;
+        padding: 4px;
         text-align: center;
         transition: all 0.3s ease;
         width: 100%;
@@ -93,9 +93,9 @@
           transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
           a {
-            padding: 10px;
+            padding: 8px;
             display: flex;
-            gap: 20px;
+            gap: 24px;
 
             img {
               width: 100px;
@@ -153,7 +153,7 @@
 
         /* custom scrollbar */
         &::-webkit-scrollbar {
-          width: 20px;
+          width: 16px;
           background: transparent;
         }
 
@@ -163,7 +163,7 @@
 
         &::-webkit-scrollbar-thumb {
           background-color: #d6dee1;
-          border-radius: 20px;
+          border-radius: 16px;
           border: 6px solid transparent;
           background-clip: content-box;
         }

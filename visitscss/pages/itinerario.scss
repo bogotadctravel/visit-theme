@@ -34,9 +34,9 @@
 
     .card {
         page-break-inside: avoid;
-        margin-bottom: 20px;
+        margin-bottom: 24px;
         border: 1px solid #eee;
-        padding: 10px;
+        padding: 8px;
         display: flex;
         align-items: center;
     }
@@ -65,7 +65,7 @@
     border-width: 2px;
     font-weight: 600;
     transition: all 0.3s ease;
-    padding: 12px 20px;
+    padding: 12px 24px;
 }
 
 .btn-descargar-pdf:hover {
@@ -85,7 +85,7 @@
 .form-itinerario-custom form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
     /* Espaciado moderno entre campos */
 }
 
@@ -93,7 +93,7 @@
 .form-itinerario-custom label {
     font-weight: 600;
     color: #333;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     font-size: 0.95rem;
 }
 
@@ -120,7 +120,7 @@
 
 /* Botón de Submit de Drupal */
 .form-itinerario-custom .form-actions {
-    margin-top: 5px;
+    margin-top: 4px;
     margin-bottom: 0;
 }
 
@@ -129,8 +129,8 @@
     /* Azul primary */
     color: #fff;
     border: none;
-    padding: 12px 20px;
-    border-radius: 50rem;
+    padding: 12px 24px;
+    border-radius: 9999px;
     /* Estilo pill (píldora) */
     font-weight: 600;
     width: 100%;
@@ -199,13 +199,13 @@
 
             .data {
                 display: flex;
-                gap: 10px;
+                gap: 8px;
 
                 .item {
                     display: flex;
                     min-width: 90px;
                     align-items: center;
-                    padding: 15px 5px;
+                    padding: 16px 4px;
                     justify-content: center;
                     flex-direction: column;
                     background: #FFFFFF4D;
@@ -228,7 +228,7 @@
             }
 
             h2 {
-                font-weight: 300;
+                font-weight: 400;
                 font-size: 20px;
                 color: #FFF;
 
@@ -255,10 +255,10 @@
     }
 
     .atractivos {
-        padding: 50px 20px;
+        padding: 50px 24px;
 
         h2 {
-            font-weight: 800;
+            font-weight: 700;
             font-size: 32px;
             text-align: center;
             color: #000;
@@ -267,7 +267,7 @@
     }
 
     .grid-atractivos {
-        padding: 60px 20px;
+        padding: 60px 24px;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 24px;
@@ -279,7 +279,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-end;
-                border-radius: 10px;
+                border-radius: 12px;
                 color: #FFF;
                 background-size: cover;
                 background-repeat: no-repeat;
@@ -289,8 +289,8 @@
 
 
                 .title {
-                    padding: 15px;
-                    font-weight: 800;
+                    padding: 16px;
+                    font-weight: 700;
                     font-size: 16px;
                     letter-spacing: 0%;
 
@@ -301,7 +301,7 @@
                 small {
                     position: relative;
                     z-index: 2;
-                    font-weight: 300;
+                    font-weight: 400;
                     font-size: 16px;
                     display: flex;
                     align-items: center;
@@ -333,7 +333,7 @@
         }
 
         h3 {
-            font-weight: 800;
+            font-weight: 700;
             font-size: 32px;
             text-align: right;
             color: #FFF;
@@ -349,8 +349,8 @@
             max-width: 1200px;
 
             .title {
-                padding: 15px;
-                font-weight: 800;
+                padding: 16px;
+                font-weight: 700;
                 font-size: 16px;
                 letter-spacing: 0%;
 
@@ -362,7 +362,7 @@
 
     .eventos {
 
-        padding: 30px 0 75px;
+        padding: 32px 0 75px;
         background: linear-gradient(180deg, #254681 0%, #1F1F1F 100%);
 
     }
@@ -375,7 +375,7 @@
             background-attachment: scroll;
 
             .text {
-                width: calc(100% - 40px);
+                width: calc(100% - 48px);
 
                 h1 {
                     font-size: 32px;
@@ -386,13 +386,13 @@
 
         .grid-atractivos {
             grid-template-columns: repeat(2, 1fr);
-            padding: 60px 20px;
+            padding: 60px 24px;
         }
 
         .rutas {
             .container {
                 flex-direction: column;
-                padding: 60px 20px;
+                padding: 60px 24px;
             }
 
             h3 {

@@ -32,7 +32,7 @@
             width: 90%;
 
             h2 {
-                font-weight: 300;
+                font-weight: 400;
                 font-size: 20px;
                 color: #FFF;
 
@@ -70,7 +70,7 @@
         flex-wrap: nowrap;
         overflow-x: auto;
         gap: 12px;
-        padding: 0 0 10px 0;
+        padding: 0 0 8px 0;
         /* Padding inferior para que la sombra o borde no se corte */
         margin: 0;
         list-style: none;
@@ -97,7 +97,7 @@
         background-color: #ffffff;
         border: 1px solid #e0e0e0;
         /* Color del borde como en tu imagen */
-        border-radius: 50px;
+        border-radius: 9999px;
         /* Forma de píldora redonda */
         padding: 4px 16px 4px 4px;
         /* Padding ajustado para dar espacio a la imagen y al texto */
@@ -145,10 +145,10 @@
     }
 
     .atractivos {
-        padding: 50px 20px;
+        padding: 50px 24px;
 
         h2 {
-            font-weight: 800;
+            font-weight: 700;
             font-size: 32px;
             text-align: center;
             color: #000;
@@ -161,7 +161,7 @@
         grid-template-columns: repeat(4, 1fr);
         gap: 24px;
         max-width: 1200px;
-        padding: 60px 20px;
+        padding: 60px 24px;
 
         @media only screen and (max-width: 1023px) {
             grid-template-columns: repeat(2, 1fr);
@@ -177,7 +177,7 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-end;
-                border-radius: 10px;
+                border-radius: 12px;
                 color: #FFF;
                 background-size: cover;
                 background-repeat: no-repeat;
@@ -187,8 +187,8 @@
 
 
                 .title {
-                    padding: 15px;
-                    font-weight: 800;
+                    padding: 16px;
+                    font-weight: 700;
                     font-size: 16px;
                     letter-spacing: 0%;
 
@@ -199,7 +199,7 @@
                 small {
                     position: relative;
                     z-index: 2;
-                    font-weight: 300;
+                    font-weight: 400;
                     font-size: 16px;
                     display: flex;
                     align-items: center;
@@ -235,7 +235,7 @@
         }
 
         h3 {
-            font-weight: 800;
+            font-weight: 700;
             font-size: 32px;
             text-align: right;
             color: #000;
@@ -260,8 +260,8 @@
             }
 
             .title {
-                padding: 15px;
-                font-weight: 800;
+                padding: 16px;
+                font-weight: 700;
                 font-size: 16px;
                 letter-spacing: 0%;
 

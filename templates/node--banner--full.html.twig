@@ -17,8 +17,12 @@
   <img
     src="{{ img_desktop ? img_desktop : img_mobile }}"
     alt="{{ node.field_banner.0.alt ? node.field_banner.0.alt : node.getTitle() }}"
-    loading="lazy"
-    style="width:100%;display:block;"
+    loading="eager"
+    fetchpriority="high"
+    decoding="async"
+    width="1920"
+    height="640"
+    style="width:100%;display:block;height:auto;"
   >
 </picture>
 {% endif %}

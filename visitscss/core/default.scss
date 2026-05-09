@@ -5,9 +5,9 @@
 
 .container {
   margin: 0 auto;
-  max-width: 1390px;
+  max-width: 1280px;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 24px;
   position: relative;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .list li {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 
   a {
     color: #3F89DE;
@@ -41,16 +41,16 @@
   }
 
   p {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   ul {
     list-style-type: disc;
-    padding-left: 25px;
+    padding-left: 24px;
 
     li {
       display: list-item;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
 
       strong {
         display: initial;
@@ -87,8 +87,8 @@
   background-color: #f0f0f0;
   /* Color de fondo suave */
   color: #555;
-  padding: 5px 15px;
-  border-radius: 20px;
+  padding: 4px 16px;
+  border-radius: 16px;
   /* Bordes redondeados */
   font-size: 0.9rem;
   border: 1px solid #ddd;
@@ -106,12 +106,12 @@
 .flexList {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .flexList img {
-  width: 20px;
+  width: 24px;
   height: auto;
 }
 
@@ -125,7 +125,7 @@
 }
 
 section.splide.banner-splide {
-  max-width: 1390px;
+  max-width: 1280px;
 }
 
 .pager-container {
@@ -228,8 +228,8 @@ section.splide.banner-splide {
   justify-content: flex-end;
   border-radius: 16px;
   margin: 42px auto;
-  gap: 20px;
-  padding: 15px;
+  gap: 24px;
+  padding: 16px;
   background-color: #fff;
   box-shadow: 0px 8px 14px 0px #0000009C;
 
@@ -237,7 +237,7 @@ section.splide.banner-splide {
   span {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
     flex: 1;
     /* Permite que los inputs ocupen el espacio disponible equitativamente */
   }
@@ -245,7 +245,7 @@ section.splide.banner-splide {
   /* Textos informativos dentro del form */
   h2 {
     font-size: 26px;
-    font-weight: 800;
+    font-weight: 700;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -270,7 +270,7 @@ section.splide.banner-splide {
   input[type="text"],
   input[type="date"] {
     width: 100%;
-    padding: 14px 16px;
+    padding: 16px;
     border-radius: 12px;
     border: 1px solid #ccc;
     font-size: 16px;
@@ -293,8 +293,8 @@ section.splide.banner-splide {
     color: #fff;
     border: none;
     border-radius: 12px;
-    padding: 14px 24px;
-    font-size: 15px;
+    padding: 16px 24px;
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -302,8 +302,8 @@ section.splide.banner-splide {
     /* Alinea el botón con la base de los inputs */
 
     svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
 
     &:hover {
@@ -330,7 +330,7 @@ section.splide.banner-splide {
   .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
     list-style: none;
     padding: 0;
 
@@ -348,9 +348,9 @@ section.splide.banner-splide {
         align-items: center;
         justify-content: center;
         padding: 8px 16px;
-        border-radius: 999px;
+        border-radius: 9999px;
         border: 1px solid #000;
-        font-size: 13px;
+        font-size: 14px;
         cursor: pointer;
         background: #fff;
         transition: all 0.2s ease;
@@ -391,7 +391,7 @@ section.splide.banner-splide {
 
   @media (max-width: 1024px) {
     flex-direction: column;
-    margin: 24px 20px;
+    margin: 24px;
 
     button[type="submit"] {
       width: 100%;

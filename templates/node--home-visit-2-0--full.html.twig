@@ -13,12 +13,13 @@
       {% for item in node.field_video_principal %}
       <li class="splide__slide">
         <div class="video-container" style="height:100%;">
-          <video 
+          <video
             class="slider-video"
-            preload="auto" 
-            muted 
-            playsinline 
+            preload="{{ loop.first ? 'metadata' : 'none' }}"
+            muted
+            playsinline
             loop
+            {% if loop.first %}fetchpriority="high"{% endif %}
             poster="/{{ directory }}/images/visitbogota/banner.png">
             <source src="{{ file_url(item.entity.uri.value) }}" type="video/mp4">
             Tu navegador no soporta la etiqueta de video.
@@ -73,7 +74,7 @@
             <section class="splide splideEvents" aria-label="Splide Basic HTML Example">
                 <div class="splide__track">
                     <ul class="splide__list grid-events ">
-                        {% for item in eventosVisit |shuffle |slice(0, 9)  %}
+                        {% for item in eventosVisit|slice(0, 9) %}
                           {# Pre-calculamos fechas para evitar repetición #}
                         {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
                         {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}
@@ -90,7 +91,7 @@
                         item.field_fecha_de_finalizacion|date(" d") : item.field_fecha_de_finalizacion|date("M d") %}
                         <li class="splide__slide">
                             <a href="{{item.url}}">
-                            <img src="{{item.image}}" alt="{{item.title}}" class="event-image">
+                            <img src="{{item.image}}" alt="{{item.title}}" class="event-image" loading="lazy" decoding="async" width="400" height="300">
                             <div class="event-info">
                                 <span class="title"> {{item.title}}</span>
                                 <div class="date"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -129,7 +130,7 @@
 
                 <li><a href="{{item.url}}">
                         <div class="image">
-                            <img src="{{item.image}}" alt="blog title">
+                            <img src="{{item.image}}" alt="blog title" loading="lazy" decoding="async" width="400" height="240">
                         </div>
                         <div class="title">
                             {{item.title}}

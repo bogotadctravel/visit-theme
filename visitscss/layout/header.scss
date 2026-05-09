@@ -14,18 +14,18 @@ header {
   ===================== */
   .top-bar {
     background-color: #314059;
-    font-size: 13px;
+    font-size: 14px;
 
     .container {
       height: 40px;
       align-items: center;
       justify-content: flex-end;
-      gap: 30px;
+      gap: 32px;
 
       .links {
         display: flex;
         align-items: center;
-        gap: 30px;
+        gap: 32px;
       }
     }
 
@@ -42,6 +42,7 @@ header {
     .social {
       display: flex;
       gap: 12px;
+
 
       a {
         svg {
@@ -127,7 +128,7 @@ header {
         display: none;
         flex-direction: column;
         justify-content: center;
-        gap: 5px;
+        gap: 4px;
         width: 36px;
         height: 36px;
         background: none;
@@ -140,7 +141,7 @@ header {
           display: block;
           width: 100%;
           height: 2px;
-          background: #1a1a1a;
+          background: #1c1f26;
           border-radius: 2px;
           transition: transform 0.3s ease, opacity 0.3s ease;
         }
@@ -165,7 +166,7 @@ header {
         display: flex;
         align-items: center;
         height: 100%;
-        gap: 28px;
+        gap: 24px;
         margin: 0;
         padding: 0;
       }
@@ -195,13 +196,13 @@ header {
       }
 
       .nav-link {
-        color: #1a1a1a;
+        color: #1c1f26;
         text-decoration: none;
         font-weight: 600;
         padding: 8px 0;
         display: inline-flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
         white-space: nowrap;
         transition: color 0.2s;
 
@@ -246,13 +247,13 @@ header {
     .mega-menu-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 28px 36px;
+      gap: 24px 32px;
       align-items: start;
     }
 
     .mega-column {
       min-width: 0;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .mega-title {
@@ -296,7 +297,7 @@ header {
         text-decoration: none;
         font-size: 14px;
         display: block;
-        padding: 3px 0;
+        padding: 4px 0;
         line-height: 1.3;
         transition: color 0.15s ease;
 
@@ -307,7 +308,7 @@ header {
         &.mega-link--featured {
           color: #fff;
           font-weight: 600;
-          font-size: 15px;
+          font-size: 16px;
         }
       }
     }
@@ -385,7 +386,7 @@ header {
         }
 
         &.mega-link--featured {
-          color: #1a1a1a;
+          color: #1c1f26;
         }
       }
     }
@@ -428,7 +429,7 @@ header {
 #block-visit-theme-alternadordeidioma-2 {
   display: flex;
   align-items: center;
-  margin: 0 15px;
+  margin: 0 16px;
   /* Ajusta este margen para separarlo del logo y el botón Stopover */
 }
 
@@ -442,7 +443,7 @@ header {
 #block-visit-theme-alternadordeidioma-2 ul.links {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
   /* Espacio entre cada idioma */
   list-style: none;
   margin: 0;
@@ -484,7 +485,7 @@ header {
 .headerVisit>div {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
 
 }
 

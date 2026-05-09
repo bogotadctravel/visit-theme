@@ -4,10 +4,10 @@
 
      .container {
          h3 {
-             font-weight: 800;
+             font-weight: 700;
              font-size: 32px;
              text-align: center;
-             margin-bottom: 20px;
+             margin-bottom: 24px;
          }
 
          h4 {
@@ -39,7 +39,7 @@
                      justify-content: flex-end;
                      height: 200px;
                      border-radius: 16px;
-                     padding: 15px;
+                     padding: 16px;
                      color: #FFF;
                      background-size: cover;
                      background-repeat: no-repeat;
@@ -71,7 +71,7 @@
                      small {
                          position: relative;
                          z-index: 2;
-                         font-weight: 300;
+                         font-weight: 400;
                          font-size: 16px;
                          display: flex;
                          align-items: center;

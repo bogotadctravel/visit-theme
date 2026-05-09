@@ -106,13 +106,15 @@
           }
         }
 
+        let debounceTimer;
         searchInput.addEventListener("keyup", (event) => {
           const query = event.target.value;
-
-          controller.abort();
-          controller = new AbortController();
-
-          performSearch(query);
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            controller.abort();
+            controller = new AbortController();
+            performSearch(query);
+          }, 200);
         });
       });
       // Usamos once para evitar múltiples inicializaciones
@@ -149,10 +151,7 @@
         const cards = context.querySelectorAll("#cardsList .card");
         const checkboxes = filtersWrapper.querySelectorAll("input[type='checkbox']");
 
-        if (!cards.length || !checkboxes.length) {
-          console.warn("Gastro filter: no hay cards o checkboxes");
-          return;
-        }
+        if (!cards.length || !checkboxes.length) return;
 
         // Función auxiliar para extraer datos de la card
         function getCardTerms(card) {
@@ -704,13 +703,7 @@
     * PLACES FILTER (Drupal behavior)
     * ------------------------------ */
       once("idt-places-filter", "#places", context).forEach((wrapper) => {
-        // Si prefieres usar la clase: once("idt-places-filter", ".places", context)
-        console.log(wrapper);
-
-        if (!wrapper) {
-          console.warn("Places filter: no se encontró el contenedor #places en el contexto.");
-          return;
-        }
+        if (!wrapper) return;
 
         const chips = wrapper.querySelectorAll(".places-chip");
         const range = wrapper.querySelector("[data-range-control] input[type='range']");
@@ -718,11 +711,6 @@
         const locationSelect = wrapper.querySelector("select[name='location']");
         const cards = wrapper.querySelectorAll(".place-card");
         const typeSelect = wrapper.querySelector("select[name='type']");
-
-
-
-        // Debug (opcional) — coméntalo si no quieres logs
-        console.log('places filter init', { chips, range, rangeValue, locationSelect, cards });
 
         // Estado actual de filtros
         let filters = {
@@ -890,15 +878,11 @@
         const buttons = filtersWrapper.querySelectorAll("button");
         const cards = context.querySelectorAll(".event-card");
 
-        if (!buttons.length || !cards.length) {
-          console.warn("Events filter: No encontró botones o cards");
-          return;
-        }
+        if (!buttons.length || !cards.length) return;
 
         buttons.forEach((btn) => {
           btn.addEventListener("click", () => {
             const buttonActive = filtersWrapper.querySelector("button.active");
-            console.log(buttonActive);
             if (buttonActive) {
               buttonActive.classList.remove('active');
             }

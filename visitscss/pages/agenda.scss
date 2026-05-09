@@ -32,7 +32,7 @@
             width: 100%;
 
             h2 {
-                font-weight: 300;
+                font-weight: 400;
                 font-size: 20px;
                 color: #FFF;
 
@@ -81,8 +81,8 @@
 
 
                 .title {
-                    padding: 15px;
-                    font-weight: 800;
+                    padding: 16px;
+                    font-weight: 700;
                     font-size: 16px;
                     letter-spacing: 0%;
 
@@ -93,7 +93,7 @@
                 small {
                     position: relative;
                     z-index: 2;
-                    font-weight: 300;
+                    font-weight: 400;
                     font-size: 16px;
                     display: flex;
                     align-items: center;
@@ -115,8 +115,8 @@
         justify-content: flex-end;
         border-radius: 16px;
         margin: 42px auto;
-        gap: 20px;
-        padding: 15px;
+        gap: 24px;
+        padding: 16px;
         background-color: #fff;
         box-shadow: 0px 8px 14px 0px #0000009C;
 
@@ -124,7 +124,7 @@
 
     h2 {
         font-size: 26px;
-        font-weight: 800;
+        font-weight: 700;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -146,8 +146,8 @@
         margin-top: 12px;
 
         svg {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
         }
     }
 
@@ -155,7 +155,7 @@
     .tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 8px;
         list-style: none;
         padding: 0;
 
@@ -173,9 +173,9 @@
                 align-items: center;
                 justify-content: center;
                 padding: 8px 16px;
-                border-radius: 999px;
+                border-radius: 9999px;
                 border: 1px solid #000;
-                font-size: 13px;
+                font-size: 14px;
                 cursor: pointer;
                 background: #fff;
                 transition: all 0.2s ease;
@@ -211,7 +211,7 @@
     select,
     input[type="date"] {
         width: 100%;
-        padding: 14px 16px;
+        padding: 16px;
         border-radius: 12px;
         border: 1px solid #ccc;
         font-size: 16px;
@@ -251,15 +251,15 @@
         color: #fff;
         border: none;
         border-radius: 12px;
-        padding: 14px 24px;
-        font-size: 15px;
+        padding: 16px 24px;
+        font-size: 16px;
         font-weight: 600;
         cursor: pointer;
         transition: background 0.2s ease;
 
         svg {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
         }
 
         &:hover {
@@ -285,13 +285,13 @@
 
         .grid-atractivos {
             grid-template-columns: repeat(2, 1fr);
-            padding: 0 20px 80px;
+            padding: 0 24px 80px;
             margin: 0 auto;
         }
 
         form {
             flex-direction: column;
-            margin: 24px 20px;
+            margin: 24px;
         }
     }
 }
@@ -315,8 +315,8 @@
         justify-content: flex-end;
         border-radius: 16px;
         margin: 42px auto;
-        gap: 20px;
-        padding: 15px;
+        gap: 24px;
+        padding: 16px;
         background-color: #fff;
         box-shadow: 0px 8px 14px 0px #0000009C;
 
