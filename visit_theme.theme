@@ -36,7 +36,7 @@ function visit_theme_preprocess_taxonomy_term(array &$variables) {
   $content_loader = \Drupal::service('idt_theme_support.content_loader');
 
   // Tipos normales teaser
-   $variables['establecimientos'] = $content_loader->getNodesTeaserByCategory('establecimientos', $tid);
+   $variables['establecimientos'] = $content_loader->getNodesTeaserByCategory('establecimientos', $tid, 60);
   $variables['atractivos']   = $content_loader->getNodesTeaserByCategory('atractivos', $tid, 50);
   $variables['rutas']        = $content_loader->getNodesTeaserByCategory('rutas', $tid);
   $variables['experiencias'] = $content_loader->getNodesTeaserByCategory('experiencias', $tid);
