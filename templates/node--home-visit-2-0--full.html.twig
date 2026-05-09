@@ -1,7 +1,65 @@
   {% set meses = { 'Jan': 'Ene', 'Feb': 'Feb',
 'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Aug':
 'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %}
+{% set is_mobile = 'mobile' in user_agent|lower %}
+<div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
 
+  {% if is_mobile %}
+
+    <div class="hero-mobile">
+      <img
+        src="/{{ directory }}/images/visitbogota/banner-mobile.webp"
+        alt="Visit Bogotá"
+        width="430"
+        height="760"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async">
+    </div>
+
+  {% else %}
+
+    <div id="video-slider" class="splide banner splideVideos">
+      <div class="splide__track">
+        <ul class="splide__list">
+
+          {% for item in node.field_video_principal %}
+          <li class="splide__slide">
+            <div class="video-container" style="height:100%;">
+
+              <video
+                class="slider-video"
+                {% if loop.first %}
+                  preload="metadata"
+                  fetchpriority="high"
+                {% else %}
+                  preload="none"
+                {% endif %}
+                muted
+                playsinline
+                loop
+                poster="/{{ directory }}/images/visitbogota/banner.webp">
+
+                <source src="{{ file_url(item.entity.uri.value) }}" type="video/mp4">
+
+              </video>
+
+            </div>
+          </li>
+          {% endfor %}
+
+        </ul>
+      </div>
+
+      <div class="banner-main-cta">
+        <a href="{{ node.field_link_cta_banner.0.value }}" class="btn-primary-cta">
+          {{ node.field_texto_cta_banner.0.value }}
+        </a>
+      </div>
+    </div>
+
+  {% endif %}
+</div>
 <div class="home">
     <main>
     
@@ -183,4 +241,53 @@
     }
   }
 });
+if (!window.matchMedia('(max-width: 768px)').matches) {
+
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const elms = document.getElementsByClassName('splideVideos');
+
+    for (let i = 0; i < elms.length; i++) {
+
+      const splide = new Splide(elms[i], {
+        type: 'fade',
+        rewind: true,
+        arrows: true,
+        pagination: true,
+      });
+
+      splide.mount();
+
+      splide.on('move', function () {
+        document.querySelectorAll('.slider-video').forEach(video => {
+          video.pause();
+        });
+      });
+
+      splide.on('moved', function (newIndex) {
+
+        const activeSlide =
+          splide.Components.Slides.getAt(newIndex).slide;
+
+        const activeVideo =
+          activeSlide.querySelector('.slider-video');
+
+        if (activeVideo) {
+          activeVideo.play().catch(() => {});
+        }
+
+      });
+
+      const firstVideo =
+        elms[i].querySelector('.splide__slide video');
+
+      if (firstVideo) {
+        firstVideo.play().catch(() => {});
+      }
+
+    }
+
+  });
+
+}
 </script>
