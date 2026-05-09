@@ -2,7 +2,7 @@
     <main>
         {% set banner_image = null %}
         {% if node.field_mainimg.entity %}
-            {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+            {% set banner_image = node.field_mainimg.entity.uri.value|image_style('ancho') %}
         {% endif %}
 
         {% if banner_image %}
@@ -35,7 +35,7 @@
                     <div class="galeria-grid">
                         {% for item in node.field_picgallery|slice(0,5) %}
                             <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery" data-caption="{{ item.title }}">
-                                <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
+                                <img src="{{ item.entity.uri.value|image_style('medio') }}" alt="{{ item.alt }}" loading="lazy" decoding="async" width="220" height="220">
                             </a>
                         {% endfor %}
                     </div>
@@ -57,7 +57,7 @@
                                 <li>
                                     {# Intentamos cargar el ícono, si no existe ponemos un check genérico #}
                                     {% if item.entity.field_icono.entity.fileuri %}
-                                        <img src="{{ file_url(item.entity.field_icono.entity.fileuri) }}" alt="{{ item.entity.name.value }}">
+                                        <img src="{{ item.entity.field_icono.entity.uri.value|image_style('miniatura') }}" alt="{{ item.entity.name.value }}" loading="lazy" decoding="async" width="32" height="32">
                                     {% else %}
                                         <span class="default-icon">✔️</span>
                                     {% endif %}

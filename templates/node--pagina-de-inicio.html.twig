@@ -116,8 +116,9 @@
     height: 100%;
     object-fit: cover;
 "
-    src="{{file_url(node.field_imagen_proveedores.0.entity.uri.value)}}" 
+    src="{{ node.field_imagen_proveedores.0.entity.uri.value|image_style('grande') }}"
     alt="{{ node.field_imagen_proveedores.0.alt }}"
+    loading="lazy" decoding="async" width="480" height="480"
   >
 {% endif %}
           </div>

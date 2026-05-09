@@ -58,7 +58,7 @@
     <div class="container">
       <div class="info">
         <div class="image">
-          <img src="{{file_url(node.fields.field_mainimg.0.entity.uri.value)}}" alt="obra">
+          <img src="{{ node.fields.field_mainimg.0.entity.uri.value|image_style('ancho') }}" alt="obra" loading="eager" fetchpriority="high" decoding="async" width="1090" height="600">
         </div>
         <div class="text">
 

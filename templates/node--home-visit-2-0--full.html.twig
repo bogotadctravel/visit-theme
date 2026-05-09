@@ -6,7 +6,7 @@
 <div class="home">
     <main>
 
-        <div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
+        <div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.webp), url(/{{ directory }}/images/visitbogota/banner.png);">
 
             {% if is_mobile %}
 
@@ -102,8 +102,8 @@
                         item.field_fecha_de_finalizacion|date(" d") : item.field_fecha_de_finalizacion|date("M d") %}
                         <li class="splide__slide">
                             <a href="{{item.url}}">
-                                <img src="{{item.image}}" alt="{{item.title}}" class="event-image" loading="lazy"
-                                    decoding="async" width="400" height="300">
+                                <img src="{{ item.image_thumb ?: item.image }}" alt="{{item.title}}" class="event-image" loading="lazy"
+                                    decoding="async" width="220" height="220">
                                 <div class="event-info">
                                     <span class="title"> {{item.title}}</span>
                                     <div class="date"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -149,8 +149,8 @@
 
                 <li><a href="{{item.url}}">
                         <div class="image">
-                            <img src="{{item.image}}" alt="blog title" loading="lazy" decoding="async" width="400"
-                                height="240">
+                            <img src="{{item.image}}" alt="{{item.title}}" loading="lazy" decoding="async" width="480"
+                                height="480">
                         </div>
                         <div class="title">
                             {{item.title}}

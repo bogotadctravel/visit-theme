@@ -3,11 +3,11 @@
     {# 1. Configuración de la Imagen de Portada #}
     {% set banner_image = null %}
     {% if node.field_cover.entity %}
-        {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
+        {% set banner_image = node.field_cover.entity.uri.value|image_style('ancho') %}
     {% elseif node.field_mainimg.entity %}
-        {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+        {% set banner_image = node.field_mainimg.entity.uri.value|image_style('ancho') %}
     {% elseif node.field_image.entity %}
-        {% set banner_image = file_url(node.field_image.entity.fileuri) %}
+        {% set banner_image = node.field_image.entity.uri.value|image_style('ancho') %}
     {% endif %}
 
     {# 2. Cabecera del Artículo (Título e Intro) #}
@@ -39,7 +39,7 @@
     {# 3. Imagen Principal Panorámica #}
     {% if banner_image %}
     <div class="blog-banner">
-        <img src="{{ banner_image }}" alt="{{ node.getTitle() }}">
+        <img src="{{ banner_image }}" alt="{{ node.getTitle() }}" loading="eager" fetchpriority="high" decoding="async" width="1090" height="480">
     </div>
     {% endif %}
 
@@ -80,7 +80,7 @@
                 <li>
                     <a href="{{ item.url }}">
                         <div class="image">
-                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                            <img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy" decoding="async" width="220" height="220">
                         </div>
                         <div class="title">{{ item.title }}</div>
                     </a>
@@ -91,7 +91,7 @@
                 <li>
                     <a href="{{ item.url }}">
                         <div class="image">
-                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                            <img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy" decoding="async" width="220" height="220">
                         </div>
                         <div class="title">{{ item.title }}</div>
                     </a>

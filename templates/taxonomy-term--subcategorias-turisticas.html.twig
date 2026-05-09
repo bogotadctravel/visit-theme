@@ -13,7 +13,7 @@
   {% set terminos_filtrados = taxonomy('categorias_turisticas', ids_relacionados) %}
 {% endif %}
 <div class="product">
-    <div class="banner" style="background-image: url({{file_url(term.field_imagen_principal.entity.fileuri)}});">
+    <div class="banner" style="background-image: url({{ term.field_imagen_principal.entity.uri.value|image_style('ancho') }});">
         <div class="container">
 
             <div class="text">
@@ -27,10 +27,10 @@
     <div class="atractivos">
      <h2>{{ term.name.value }}: Atractivos en Bogotá</h2>
     <ul class="grid-atractivos container">
-        {% for item in atractivos|shuffle %}
+        {% for item in atractivos %}
         <li class="card" data-aos="zoom-in" data-aos-delay="300"><a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
                 <div class="image">
-                    <img src="{{item.image}}" alt="blog title">
+                    <img src="{{item.image}}" alt="{{item.title}}" loading="lazy" decoding="async" width="480" height="480">
                 </div>
                 <div class="title">
                     {{item.title}}
@@ -48,7 +48,7 @@
         <section class="splide splideEvents" aria-label="Splide Basic HTML Example">
             <div class="splide__track">
                 <ul class="splide__list grid-events ">
-                    {% for item in eventos|shuffle %}
+                    {% for item in eventos %}
                     <li class="splide__slide"> <a href="{{ path('entity.node.canonical', {'node': item.id}) }}"
                             style="background-image: url({{item.image}});">
                             <div class="tag">{{ term.name.value }}</div>
@@ -88,13 +88,12 @@
         <div class="container">
             <h3>{{"ui.tourist_routes"|t}}</h3>
             <ul>
-                {% for item in rutas|shuffle|slice(0, 4) %}
+                {% for item in rutas|slice(0, 4) %}
                 <li class="card">
                     <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
                         <div class="image">
 
-                            <img src="{{item.image}}"
-                                alt=" {{item.title}}">
+                            <img src="{{item.image}}" alt="{{item.title}}" loading="lazy" decoding="async" width="480" height="480">
                         </div>
                         <div class="title">
                             {{item.title}}
@@ -113,11 +112,11 @@
     <div class="blog" data-aos="fade-down">
         <h5>{{"ui.recent_posts"|t}}</h5>
         <ul class="grid-blogs container">
-            {% for item in article|shuffle|slice(0, 6) %}
+            {% for item in article|slice(0, 6) %}
             <li><a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
                     <div class="image">
 
-                        <img src="{{item.image}}" alt="blog title">
+                        <img src="{{item.image}}" alt="{{item.title}}" loading="lazy" decoding="async" width="480" height="480">
                     </div>
                     <div class="title">
                         {{item.title}}
@@ -134,12 +133,12 @@
         <div class="container">
             <h3>Experiencias relacionadas</h3>
             <ul>
-                {% for item in experiencias|shuffle|slice(0, 4) %}
+                {% for item in experiencias|slice(0, 4) %}
                 <li class="card">
                     <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
                         <div class="image">
 
-                            <img src="{{item.image}}" alt="blog title">
+                            <img src="{{item.image}}" alt="{{item.title}}" loading="lazy" decoding="async" width="480" height="480">
                         </div>
                         <div class="title">
                             {{item.title}}

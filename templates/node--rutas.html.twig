@@ -2,7 +2,7 @@
     <main>
         {% set banner_image = null %}
         {% if node.field_mainimg.entity %}
-        {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+        {% set banner_image = node.field_mainimg.entity.uri.value|image_style('ancho') %}
         {% endif %}
 
         {% if banner_image %}
@@ -34,7 +34,7 @@
                     {% for item in node.field_picgallery|slice(0,5) %}
                     <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery"
                         data-caption="{{ item.title }}">
-                        <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
+                        <img src="{{ item.entity.uri.value|image_style('medio') }}" alt="{{ item.alt }}" loading="lazy" decoding="async" width="220" height="220">
                     </a>
                     {% endfor %}
                 </div>
@@ -62,7 +62,7 @@
                 <div class="mapa-ruta-visual" style="margin: 40px 0;">
                     <h3><strong>Mapa de la Ruta</strong></h3>
                     <a href="{{node.field_mapslink.0.url}}" target="_blank" aria-label="Ir al mapa de la ruta">
-                        <img src="{{ file_url(node.field_imagen_del_mapa.entity.fileuri) }}" alt="Mapa del recorrido"
+                        <img src="{{ node.field_imagen_del_mapa.entity.uri.value|image_style('ancho') }}" alt="Mapa del recorrido" loading="lazy" decoding="async" width="1090" height="600"
                             style="width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                     </a>
                     <p style="text-align: center; font-size: 13px; color: #64748b; margin-top: 10px;">Clic para ampliar
@@ -209,11 +209,11 @@
         <div class="lugares">
             <h4>{{"ui.places_nearby"|t({'@place': node.getTitle()})}}</h4>
             <ul>
-                {% for item in nodos_cercanos|shuffle|slice(0, 4) %}
+                {% for item in nodos_cercanos|slice(0, 4) %}
                 <li>
                     <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
                         <div class="image">
-                            <img src="{{item.image }}" alt="atra">
+                            <img src="{{item.image }}" alt="{{item.title}}" loading="lazy" decoding="async" width="220" height="220">
                         </div>
                         <div class="title">{{item.title}}</div>
                     </a>

@@ -2,9 +2,9 @@
     <main>
         {% set banner_image = null %}
         {% if node.field_cover.entity %}
-        {% set banner_image = file_url(node.field_cover.entity.fileuri) %}
+        {% set banner_image = node.field_cover.entity.uri.value|image_style('ancho') %}
         {% elseif node.field_mainimg.entity %}
-        {% set banner_image = file_url(node.field_mainimg.entity.fileuri) %}
+        {% set banner_image = node.field_mainimg.entity.uri.value|image_style('ancho') %}
         {% endif %}
 
         {% if banner_image %}
@@ -35,7 +35,7 @@
                 <div class="galeria-grid">
                     {% for item in node.field_picgallery|slice(0,5) %}
                     <a href="{{ file_url(item.entity.fileuri) }}" data-fancybox="gallery">
-                        <img src="{{ file_url(item.entity.fileuri) }}" alt="{{ item.alt }}">
+                        <img src="{{ item.entity.uri.value|image_style('medio') }}" alt="{{ item.alt }}" loading="lazy" decoding="async" width="220" height="220">
                     </a>
                     {% endfor %}
                 </div>
@@ -95,7 +95,7 @@
                             {% if node.field_video is not empty %}
                             <div class="video-container-tab">
                                 <h3>Video del lugar</h3>
-                                <video controls poster="{{ banner_image }}" style="width:100%; border-radius:12px;">
+                                <video controls preload="none" poster="{{ banner_image }}" style="width:100%; border-radius:12px;">
                                     <source src="{{ file_url(node.field_video.entity.fileuri) }}" type="video/mp4">
                                 </video>
                             </div>

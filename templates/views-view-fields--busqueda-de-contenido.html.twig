@@ -8,10 +8,10 @@
     {% set zonas_tids = zonas_tids|merge([term.target_id]) %}
 {% endfor %}
 
-{# 3. Extraemos la URL de la imagen de fondo #}
+{# 3. Extraemos la URL de la imagen de fondo (medio 220x220) #}
 {% set image_url = '' %}
 {% if row._entity.field_image.entity %}
-    {% set image_url = file_url(row._entity.field_image.entity.uri.value) %}
+    {% set image_url = row._entity.field_image.entity.uri.value|image_style('medio') %}
 {% endif %}
 
 {# 4. Armamos la tarjeta #}
