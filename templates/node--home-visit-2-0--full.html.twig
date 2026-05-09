@@ -1,100 +1,53 @@
-  {% set meses = { 'Jan': 'Ene', 'Feb': 'Feb',
+{% set meses = { 'Jan': 'Ene', 'Feb': 'Feb',
 'Mar': 'Mar', 'Apr': 'Abr', 'May': 'May', 'Jun': 'Jun', 'Jul': 'Jul', 'Aug':
 'Ago', 'Sep': 'Sept', 'Oct': 'Oct', 'Nov': 'Nov', 'Dec': 'Dic' } %}
 {% set is_mobile = 'mobile' in user_agent|lower %}
-<div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
 
-  {% if is_mobile %}
-
-    <div class="hero-mobile">
-      <img
-        src="/{{ directory }}/images/visitbogota/banner-mobile.webp"
-        alt="Visit Bogotá"
-        width="430"
-        height="760"
-        fetchpriority="high"
-        loading="eager"
-        decoding="async">
-    </div>
-
-  {% else %}
-
-    <div id="video-slider" class="splide banner splideVideos">
-      <div class="splide__track">
-        <ul class="splide__list">
-
-          {% for item in node.field_video_principal %}
-          <li class="splide__slide">
-            <div class="video-container" style="height:100%;">
-
-              <video
-                class="slider-video"
-                {% if loop.first %}
-                  preload="metadata"
-                  fetchpriority="high"
-                {% else %}
-                  preload="none"
-                {% endif %}
-                muted
-                playsinline
-                loop
-                poster="/{{ directory }}/images/visitbogota/banner.webp">
-
-                <source src="{{ file_url(item.entity.uri.value) }}" type="video/mp4">
-
-              </video>
-
-            </div>
-          </li>
-          {% endfor %}
-
-        </ul>
-      </div>
-
-      <div class="banner-main-cta">
-        <a href="{{ node.field_link_cta_banner.0.value }}" class="btn-primary-cta">
-          {{ node.field_texto_cta_banner.0.value }}
-        </a>
-      </div>
-    </div>
-
-  {% endif %}
-</div>
 <div class="home">
     <main>
-    
+
         <div class="banner" id="banner" style="background-image: url(/{{ directory }}/images/visitbogota/banner.png);">
-        <div id="video-slider" class="splide banner splideVideos">
-  <div class="splide__track">
-    <ul class="splide__list">
-      
-      {% for item in node.field_video_principal %}
-      <li class="splide__slide">
-        <div class="video-container" style="height:100%;">
-          <video
-            class="slider-video"
-            preload="{{ loop.first ? 'metadata' : 'none' }}"
-            muted
-            playsinline
-            loop
-            {% if loop.first %}fetchpriority="high"{% endif %}
-            poster="/{{ directory }}/images/visitbogota/banner.png">
-            <source src="{{ file_url(item.entity.uri.value) }}" type="video/mp4">
-            Tu navegador no soporta la etiqueta de video.
-          </video>
-        </div>
-      </li>
-      {% endfor %}
 
-    </ul>
-  </div>
+            {% if is_mobile %}
 
-  <div class="banner-main-cta">
-      <a href="{{ node.field_link_cta_banner.0.value }}" class="btn-primary-cta">
-          {{ node.field_texto_cta_banner.0.value }}
-      </a>
-  </div>
-</div>
+            <div class="hero-mobile">
+                <img src="/{{ directory }}/images/visitbogota/banner-mobile.webp" alt="Visit Bogotá" width="430"
+                    height="760" fetchpriority="high" loading="eager" decoding="async">
+            </div>
+
+            {% else %}
+
+            <div id="video-slider" class="splide banner splideVideos">
+                <div class="splide__track">
+                    <ul class="splide__list">
+
+                        {% for item in node.field_video_principal %}
+                        <li class="splide__slide">
+                            <div class="video-container" style="height:100%;">
+
+                                <video class="slider-video" {% if loop.first %} preload="metadata" fetchpriority="high"
+                                    {% else %} preload="none" {% endif %} muted playsinline loop
+                                    poster="/{{ directory }}/images/visitbogota/banner.webp">
+
+                                    <source src="{{ file_url(item.entity.uri.value) }}" type="video/mp4">
+
+                                </video>
+
+                            </div>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+                </div>
+
+                <div class="banner-main-cta">
+                    <a href="{{ node.field_link_cta_banner.0.value }}" class="btn-primary-cta">
+                        {{ node.field_texto_cta_banner.0.value }}
+                    </a>
+                </div>
+            </div>
+
+            {% endif %}
         </div>
         {% include "@visit_theme/includes/planifica.html.twig" %}
         <div class="que-hacer">
@@ -133,7 +86,7 @@
                 <div class="splide__track">
                     <ul class="splide__list grid-events ">
                         {% for item in eventosVisit|slice(0, 9) %}
-                          {# Pre-calculamos fechas para evitar repetición #}
+                        {# Pre-calculamos fechas para evitar repetición #}
                         {% set fecha_inicio_raw = item.field_fecha_de_inicio|date("Y-m-d") %}
                         {% set fecha_fin_raw = item.field_fecha_de_finalizacion|date("Y-m-d") %}
 
@@ -144,32 +97,40 @@
                         {# Solo traducimos si el sitio está en español #}
                         {% set display_inicio = (meses[mes_ini] is defined) ? meses[mes_ini] ~
                         item.field_fecha_de_inicio|date(" d") : item.field_fecha_de_inicio|date("M d") %}
-                        
+
                         {% set display_fin = (meses[mes_fin] is defined) ? meses[mes_fin] ~
                         item.field_fecha_de_finalizacion|date(" d") : item.field_fecha_de_finalizacion|date("M d") %}
                         <li class="splide__slide">
                             <a href="{{item.url}}">
-                            <img src="{{item.image}}" alt="{{item.title}}" class="event-image" loading="lazy" decoding="async" width="400" height="300">
-                            <div class="event-info">
-                                <span class="title"> {{item.title}}</span>
-                                <div class="date"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M5.33333 1.33325V3.99992M10.6667 1.33325V3.99992M14 9.33325V3.99992C14 3.6463 13.8595 3.30716 13.6095 3.05711C13.3594 2.80706 13.0203 2.66659 12.6667 2.66659H3.33333C2.97971 2.66659 2.64057 2.80706 2.39052 3.05711C2.14048 3.30716 2 3.6463 2 3.99992V13.3333C2 13.6869 2.14048 14.026 2.39052 14.2761C2.64057 14.5261 2.97971 14.6666 3.33333 14.6666H8.66667M2 6.66658H14M10.6667 13.3333L12 14.6666L14.6667 11.9999"
-                                            stroke="#000" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                    {{ display_inicio }}{% if fecha_inicio_raw != fecha_fin_raw %} - {{ display_fin
+                                <img src="{{item.image}}" alt="{{item.title}}" class="event-image" loading="lazy"
+                                    decoding="async" width="400" height="300">
+                                <div class="event-info">
+                                    <span class="title"> {{item.title}}</span>
+                                    <div class="date"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M5.33333 1.33325V3.99992M10.6667 1.33325V3.99992M14 9.33325V3.99992C14 3.6463 13.8595 3.30716 13.6095 3.05711C13.3594 2.80706 13.0203 2.66659 12.6667 2.66659H3.33333C2.97971 2.66659 2.64057 2.80706 2.39052 3.05711C2.14048 3.30716 2 3.6463 2 3.99992V13.3333C2 13.6869 2.14048 14.026 2.39052 14.2761C2.64057 14.5261 2.97971 14.6666 3.33333 14.6666H8.66667M2 6.66658H14M10.6667 13.3333L12 14.6666L14.6667 11.9999"
+                                                stroke="#000" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        {{ display_inicio }}{% if fecha_inicio_raw != fecha_fin_raw %} - {{ display_fin
                                         }}{% endif %}
-                                </div>
-                                <div class="place"><svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M6.33333 8.33333C7.4379 8.33333 8.33333 7.4379 8.33333 6.33333C8.33333 5.22876 7.4379 4.33333 6.33333 4.33333C5.22876 4.33333 4.33333 5.22876 4.33333 6.33333C4.33333 7.4379 5.22876 8.33333 6.33333 8.33333Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+                                    </div>
+                                    <div class="place"><svg width="13" height="16" viewBox="0 0 13 16" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M11.6667 6.33333C11.6667 9.662 7.974 13.1287 6.734 14.1993C6.61848 14.2862 6.47787 14.3332 6.33333 14.3332C6.1888 14.3332 6.04818 14.2862 5.93267 14.1993C4.69267 13.1287 1 9.662 1 6.33333C1 4.91885 1.5619 3.56229 2.5621 2.5621C3.56229 1.5619 4.91885 1 6.33333 1C7.74782 1 9.10438 1.5619 10.1046 2.5621C11.1048 3.56229 11.6667 4.91885 11.6667 6.33333Z"
+                                                stroke="#000" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M6.33333 8.33333C7.4379 8.33333 8.33333 7.4379 8.33333 6.33333C8.33333 5.22876 7.4379 4.33333 6.33333 4.33333C5.22876 4.33333 4.33333 5.22876 4.33333 6.33333C4.33333 7.4379 5.22876 8.33333 6.33333 8.33333Z"
+                                                stroke="#000" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
 
-                                    {{item['field_lugar_del_evento']}}
+                                        {{item['field_lugar_del_evento']}}
+                                    </div>
                                 </div>
-                            </div>
 
                             </a>
                         </li>
@@ -183,12 +144,13 @@
         <div class="blog" data-aos="fade-down">
             <h5>{{"ui.recent_posts"|t}}</h5>
             <ul class="grid-blogs container">
-                {% for item in article|slice(0, 6)  %}
+                {% for item in article|slice(0, 6) %}
 
 
                 <li><a href="{{item.url}}">
                         <div class="image">
-                            <img src="{{item.image}}" alt="blog title" loading="lazy" decoding="async" width="400" height="240">
+                            <img src="{{item.image}}" alt="blog title" loading="lazy" decoding="async" width="400"
+                                height="240">
                         </div>
                         <div class="title">
                             {{item.title}}
@@ -203,91 +165,91 @@
 </div>
 <script>
 
-  
+
     document.addEventListener('DOMContentLoaded', function () {
-  var elms = document.getElementsByClassName('splideVideos');
+        var elms = document.getElementsByClassName('splideVideos');
 
-  for (var i = 0; i < elms.length; i++) {
-    var splide = new Splide(elms[i], {
-      type   : 'fade',
-      rewind : true,
-      arrows : true,
-      pagination: true,
-    }).mount();
+        for (var i = 0; i < elms.length; i++) {
+            var splide = new Splide(elms[i], {
+                type: 'fade',
+                rewind: true,
+                arrows: true,
+                pagination: true,
+            }).mount();
 
-    // Evento: Al mover el slider
-    splide.on('move', function () {
-      // Pausar todos los videos antes de cambiar
-      var allVideos = document.querySelectorAll('.slider-video');
-      allVideos.forEach(function(video) {
-        video.pause();
-      });
-    });
+            // Evento: Al mover el slider
+            splide.on('move', function () {
+                // Pausar todos los videos antes de cambiar
+                var allVideos = document.querySelectorAll('.slider-video');
+                allVideos.forEach(function (video) {
+                    video.pause();
+                });
+            });
 
-    // Evento: Cuando el nuevo slide está activo
-    splide.on('moved', function (newIndex) {
-      var activeSlide = splide.Components.Slides.getAt(newIndex).slide;
-      var activeVideo = activeSlide.querySelector('.slider-video');
-      
-      if (activeVideo) {
-        activeVideo.play();
-      }
-    });
+            // Evento: Cuando el nuevo slide está activo
+            splide.on('moved', function (newIndex) {
+                var activeSlide = splide.Components.Slides.getAt(newIndex).slide;
+                var activeVideo = activeSlide.querySelector('.slider-video');
 
-    // Iniciar el primer video manualmente al cargar
-    var firstVideo = elms[i].querySelector('.splide__slide.is-active video');
-    if (firstVideo) {
-      firstVideo.play();
-    }
-  }
-});
-if (!window.matchMedia('(max-width: 768px)').matches) {
+                if (activeVideo) {
+                    activeVideo.play();
+                }
+            });
 
-  document.addEventListener('DOMContentLoaded', function () {
-
-    const elms = document.getElementsByClassName('splideVideos');
-
-    for (let i = 0; i < elms.length; i++) {
-
-      const splide = new Splide(elms[i], {
-        type: 'fade',
-        rewind: true,
-        arrows: true,
-        pagination: true,
-      });
-
-      splide.mount();
-
-      splide.on('move', function () {
-        document.querySelectorAll('.slider-video').forEach(video => {
-          video.pause();
-        });
-      });
-
-      splide.on('moved', function (newIndex) {
-
-        const activeSlide =
-          splide.Components.Slides.getAt(newIndex).slide;
-
-        const activeVideo =
-          activeSlide.querySelector('.slider-video');
-
-        if (activeVideo) {
-          activeVideo.play().catch(() => {});
+            // Iniciar el primer video manualmente al cargar
+            var firstVideo = elms[i].querySelector('.splide__slide.is-active video');
+            if (firstVideo) {
+                firstVideo.play();
+            }
         }
+    });
+    if (!window.matchMedia('(max-width: 768px)').matches) {
 
-      });
+        document.addEventListener('DOMContentLoaded', function () {
 
-      const firstVideo =
-        elms[i].querySelector('.splide__slide video');
+            const elms = document.getElementsByClassName('splideVideos');
 
-      if (firstVideo) {
-        firstVideo.play().catch(() => {});
-      }
+            for (let i = 0; i < elms.length; i++) {
+
+                const splide = new Splide(elms[i], {
+                    type: 'fade',
+                    rewind: true,
+                    arrows: true,
+                    pagination: true,
+                });
+
+                splide.mount();
+
+                splide.on('move', function () {
+                    document.querySelectorAll('.slider-video').forEach(video => {
+                        video.pause();
+                    });
+                });
+
+                splide.on('moved', function (newIndex) {
+
+                    const activeSlide =
+                        splide.Components.Slides.getAt(newIndex).slide;
+
+                    const activeVideo =
+                        activeSlide.querySelector('.slider-video');
+
+                    if (activeVideo) {
+                        activeVideo.play().catch(() => { });
+                    }
+
+                });
+
+                const firstVideo =
+                    elms[i].querySelector('.splide__slide video');
+
+                if (firstVideo) {
+                    firstVideo.play().catch(() => { });
+                }
+
+            }
+
+        });
 
     }
-
-  });
-
-}
 </script>
