@@ -9,6 +9,7 @@ libraries:
   - visit_theme/global-styling
 
 regions:
+  bannersHeader: Banners header
   header: Header
   headerTheme: Header Theme
   headerVisit: Header Visit

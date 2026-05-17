@@ -189,7 +189,11 @@
                 {% for item in contenidos_relacionados %}
                 <li>
                     <a href="{{ item.url }}">
-                        <div class="image"><img src="{{ item.image }}" alt="{{ item.title }}"></div>
+                        <div class="image" style="position: relative;">
+                         {# El Tag con el nombre del tipo de contenido (Estilos inline) #}
+                <span style="position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.75); color: #fff; padding: 4px 10px; font-size: 12px; border-radius: 4px; z-index: 10; text-transform: uppercase; font-weight: bold;">
+                    {{ item.type }}
+                </span><img src="{{ item.image }}" alt="{{ item.title }}"></div>
                         <div class="title">{{ item.title }}</div>
                     </a>
                 </li>
@@ -197,7 +201,11 @@
                 {% for item in referenciado_por %}
                 <li>
                     <a href="{{ item.url }}">
-                        <div class="image"><img src="{{ item.image }}" alt="{{ item.title }}"></div>
+                        <div class="image" style="position: relative;">
+                         {# El Tag con el nombre del tipo de contenido (Estilos inline) #}
+                <span style="position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.75); color: #fff; padding: 4px 10px; font-size: 12px; border-radius: 4px; z-index: 10; text-transform: uppercase; font-weight: bold;">
+                    {{ item.type }}
+                </span><img src="{{ item.image }}" alt="{{ item.title }}"></div>
                         <div class="title">{{ item.title }}</div>
                     </a>
                 </li>
