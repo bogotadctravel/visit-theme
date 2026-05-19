@@ -151,13 +151,13 @@
                     {# Botones de Acción (Reserva y Web) #}
                     <div class="action-buttons" style="margin-top: 25px;">
                         {% if node.field_linkreservas.0.url is not empty %}
-                            <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="reservaLink">
+                            <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="reservaLink hasAnalytics" data-event="consulta_disponibilidad">
                                 Consultar disponibilidad
                             </a>
                         {% endif %}
                         
                         {% if node.field_weblink.0.url is not empty %}
-                            <a href="{{node.field_weblink.0.url}}" target="_blank" class="reservaLink secondary-btn" style="margin-top: 10px;">
+                            <a href="{{node.field_weblink.0.url}}" target="_blank" class="reservaLink secondary-btn hasAnalytics" data-event="ver_web_hotel" style="margin-top: 10px;">
                                 Visitar sitio web
                             </a>
                         {% endif %}

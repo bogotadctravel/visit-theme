@@ -97,13 +97,13 @@
                     {# Botones de Acción Principales (Menú y Reserva) #}
                     <div class="action-buttons" style="margin-bottom: 30px;">
                         {% if node.field_menulink.0.url is not empty %}
-                            <a href="{{node.field_menulink.0.url}}" target="_blank" class="reservaLink menu-btn" style="margin-bottom: 10px;">
+                            <a href="{{node.field_menulink.0.url}}" data-event="menu_restaurante" target="_blank" class="reservaLink menu-btn" style="margin-bottom: 10px;">
                                 🍽️ Ver Menú Digital
                             </a>
                         {% endif %}
 
                         {% if node.field_linkreservas.0.url is not empty %}
-                            <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="reservaLink reservaRestaurante">
+                            <a href="{{node.field_linkreservas.0.url}}" data-event="mesa_restaurante" target="_blank" class=" hasAnalytics reservaLink reservaRestaurante">
                                 Reservar Mesa
                             </a>
                         {% endif %}

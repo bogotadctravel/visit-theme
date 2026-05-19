@@ -195,12 +195,11 @@
           </div>
           <div class="buttons">
             {% if node.field_weblink.0.url is not empty %}
-            <a href="{{node.field_weblink.0.url}}" class="btn" target="_blank" aria-label="Más información">Más
+            <a href="{{node.field_weblink.0.url}}" class="btn hasAnalytics" target="_blank" aria-label="Más información" data-event="mas_info_evento">Más
               información</a>
             {% endif %}
             {% if node.field_link_a_boleteria.0.url is not empty %}
-            <a href="{{node.field_link_a_boleteria.0.url}}" class="btn" target="_blank"
-              aria-label="Boletería">Boletería</a>
+            <a href="{{node.field_link_a_boleteria.0.url}}" class="btn hasAnalytics" target="_blank" aria-label="Boletería" data-event="boleteria_evento">Boletería</a>
             {% endif %}
           </div>
           <div class="map">
