@@ -406,6 +406,11 @@ $border-radius-sm: 8px;
     ul {
       max-width: 1200px;
       margin: 0 auto;
+      &.lugares-grid {
+        display: grid;
+        gap: 32px;
+        grid-template-columns: repeat(4, 1fr);
+      }
 
       li {
         .image {
