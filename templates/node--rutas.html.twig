@@ -208,7 +208,7 @@
         {% if nodos_cercanos|length > 0 %}
         <div class="lugares">
             <h4>{{"ui.places_nearby"|t({'@place': node.getTitle()})}}</h4>
-            <ul>
+            <ul class="lugares-grid">
                 {% for item in nodos_cercanos|slice(0, 4) %}
                 <li>
                     <a href="{{ path('entity.node.canonical', {'node': item.id}) }}">
@@ -223,50 +223,62 @@
         </div>
         {% endif %}
 
-      {# Validamos si existe contenido en cualquiera de las dos variables #}
+      {# Contenido Relacionado #}
         {% if contenidos_relacionados or referenciado_por %}
-        <div class="recomendados lugares">
-            <h4>Contenido Recomendado</h4>
-            <ul>
-                {# Iteramos la relación directa #}
+        <div class="recomendados lugares" >
+            <h4>Contenidos relacionados</h4>
+           
+            <section class="splide splideRecomendados" aria-label="Splide Basic HTML Example">
+            <div class="splide__track">
+                 <ul class="splide__list">
                 {% for item in contenidos_relacionados %}
-                <li>
+                <li class="splide__slide">
                     <a href="{{ item.url }}">
                         <div class="image" style="position: relative;">
                          {# El Tag con el nombre del tipo de contenido (Estilos inline) #}
                 <span style="position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.75); color: #fff; padding: 4px 10px; font-size: 12px; border-radius: 4px; z-index: 10; text-transform: uppercase; font-weight: bold;">
                     {{ item.type }}
                 </span>
-                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                            <img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy" decoding="async" width="220" height="220">
                         </div>
                         <div class="title">{{ item.title }}</div>
                     </a>
                 </li>
                 {% endfor %}
 
-                {# Iteramos la relación inversa #}
                 {% for item in referenciado_por %}
-                <li>
+                <li class="splide__slide">
                     <a href="{{ item.url }}">
                         <div class="image" style="position: relative;">
                          {# El Tag con el nombre del tipo de contenido (Estilos inline) #}
                 <span style="position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.75); color: #fff; padding: 4px 10px; font-size: 12px; border-radius: 4px; z-index: 10; text-transform: uppercase; font-weight: bold;">
                     {{ item.type }}
                 </span>
-                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                            <img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy" decoding="async" width="220" height="220">
                         </div>
                         <div class="title">{{ item.title }}</div>
                     </a>
                 </li>
                 {% endfor %}
             </ul>
+            </div>
+            </section>
         </div>
         {% endif %}
+
 
         {% include "@visit_theme/includes/planifica.html.twig" %}
     </main>
 </div>
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+     new Splide( '.splideRecomendados',{
+         type   : 'loop',
+  perPage: 4,
+  gap: 15
+     } ).mount();
+})
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.video').forEach(wrapper => {

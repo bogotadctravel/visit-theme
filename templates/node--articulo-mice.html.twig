@@ -50,40 +50,60 @@
         </div>
     </main>
 
-    {# 6. Contenido Relacionado #}
-    {% if contenidos_relacionados or referenciado_por %}
-    <section class="related-content lugares">
-        <div class="container">
-            <h4>Más artículos y lugares recomendados</h4>
-            <ul class="grid-relacionados">
+     {# Contenido Relacionado #}
+        {% if contenidos_relacionados or referenciado_por %}
+        <div class="recomendados lugares" >
+            <h4>Contenidos relacionados</h4>
+           
+            <section class="splide splideRecomendados" aria-label="Splide Basic HTML Example">
+            <div class="splide__track">
+                 <ul class="splide__list">
                 {% for item in contenidos_relacionados %}
-                <li>
+                <li class="splide__slide">
                     <a href="{{ item.url }}">
-                        <div class="image">
-                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        <div class="image" style="position: relative;">
+                         {# El Tag con el nombre del tipo de contenido (Estilos inline) #}
+                <span style="position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.75); color: #fff; padding: 4px 10px; font-size: 12px; border-radius: 4px; z-index: 10; text-transform: uppercase; font-weight: bold;">
+                    {{ item.type }}
+                </span>
+                            <img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy" decoding="async" width="220" height="220">
                         </div>
                         <div class="title">{{ item.title }}</div>
                     </a>
                 </li>
                 {% endfor %}
-                
+
                 {% for item in referenciado_por %}
-                <li>
+                <li class="splide__slide">
                     <a href="{{ item.url }}">
-                        <div class="image">
-                            <img src="{{ item.image }}" alt="{{ item.title }}">
+                        <div class="image" style="position: relative;">
+                         {# El Tag con el nombre del tipo de contenido (Estilos inline) #}
+                <span style="position: absolute; top: 10px; left: 10px; background-color: rgba(0, 0, 0, 0.75); color: #fff; padding: 4px 10px; font-size: 12px; border-radius: 4px; z-index: 10; text-transform: uppercase; font-weight: bold;">
+                    {{ item.type }}
+                </span>
+                            <img src="{{ item.image }}" alt="{{ item.title }}" loading="lazy" decoding="async" width="220" height="220">
                         </div>
                         <div class="title">{{ item.title }}</div>
                     </a>
                 </li>
                 {% endfor %}
             </ul>
+            </div>
+            </section>
         </div>
-    </section>
-    {% endif %}
+        {% endif %}
+
 
 </div>
-
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+     new Splide( '.splideRecomendados',{
+         type   : 'loop',
+  perPage: 4,
+  gap: 15
+     } ).mount();
+})
+</script>
 {# Script original mantenido para las leyendas de imágenes #}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
