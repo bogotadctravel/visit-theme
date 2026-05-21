@@ -142,7 +142,26 @@
                             </div>
                         </li>
                         {% endif %}
+                        {% if node.field_duracion_de_la_visita_new|length > 0 %}
+                        <li>
+                            <span class="icon">⏱️</span>
+                            <div>
+                                <strong>Duración</strong>
+                                <p>
+                                    {{ node.field_duracion_de_la_visita_new.0.value }} 
+                                </p>
+                            </div>
+                        </li>
+                        {% endif %}
                     </ul>
+                     {# CTA Reservas #}
+                    {% if node.field_linkreservas.0.url is not empty %}
+                    <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="reservaLink reservaEvent">
+                        Reservar experiencia
+                    </a>
+                    <p style="font-size: 12px; color: #64748b; text-align: center; margin-top: 10px;">Serás redirigido a
+                        la plataforma del operador.</p>
+                    {% endif %}
 
                     <div class="tags-group">
                         {# Accesibilidad #}
@@ -158,15 +177,23 @@
                         </div>
                         {% endif %}
 
-                        {# NUEVO: Categorías y Subcategorías integradas #}
+                        {# NUEVO: Categorías integradas #}
                         {% if node.field_turcat|length > 0 or node.field_tursubcat|length > 0 %}
-                        <div class="tag-block">
+                        <div class="tag-block" style="margin-top: 20px;">
                             <strong>Categoría:</strong>
                             <div class="tag-container">
                                 {% for item in node.field_turcat %}
                                 <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}"
                                     class="tag-item cat-tag">{{ item.entity.name.value }}</a>
                                 {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+                        {# NUEVO: Subcategorías integradas #}
+                        {% if node.field_turcat|length > 0 or node.field_tursubcat|length > 0 %}
+                        <div class="tag-block" style="margin-top: 20px;">
+                            <strong>Subategoría:</strong>
+                            <div class="tag-container">
                                 {% for item in node.field_tursubcat %}
                                 <a href="{{ path('entity.taxonomy_term.canonical', {'taxonomy_term': item.entity.id}) }}"
                                     class="tag-item cat-tag">{{ item.entity.name.value }}</a>
@@ -177,7 +204,7 @@
 
                         {# Recomendado para #}
                         {% if node.field_turpara|length > 0 %}
-                        <div class="tag-block">
+                        <div class="tag-block" style="margin-top: 20px;">
                             <strong>Ideal para:</strong>
                             <div class="tag-container">
                                 {% for item in node.field_turpara %}
@@ -189,8 +216,8 @@
 
                         {# Ubicación #}
                         {% if node.field_turzone|length > 0 or node.field_turdistr|length > 0 %}
-                        <div class="tag-block">
-                            <strong>Ubicación:</strong>
+                        <div class="tag-block" style="margin-top: 20px;">
+                            <strong>Zona:</strong>
                             <div class="tag-container">
                                 {% for item in node.field_turzone %}
                                 <span class="tag-item geo">{{ item.entity.name.value }}</span>
@@ -202,15 +229,6 @@
                         </div>
                         {% endif %}
                     </div>
-
-                    {# CTA Reservas #}
-                    {% if node.field_linkreservas.0.url is not empty %}
-                    <a href="{{node.field_linkreservas.0.url}}" target="_blank" class="reservaLink reservaEvent">
-                        Reservar experiencia
-                    </a>
-                    <p style="font-size: 12px; color: #64748b; text-align: center; margin-top: 10px;">Serás redirigido a
-                        la plataforma del operador.</p>
-                    {% endif %}
 
                 </div>
             </div>
@@ -254,9 +272,12 @@
         {% if contenidos_relacionados or referenciado_por %}
         <div class="recomendados lugares">
             <h4>Experiencias Recomendadas</h4>
-            <ul>
+           
+            <section class="splide splideRecomendados" aria-label="Splide Basic HTML Example">
+            <div class="splide__track">
+                 <ul class="splide__list">
                 {% for item in contenidos_relacionados %}
-                <li>
+                <li class="splide__slide">
                     <a href="{{ item.url }}">
                         <div class="image" style="position: relative;">
                          {# El Tag con el nombre del tipo de contenido (Estilos inline) #}
@@ -271,7 +292,7 @@
                 {% endfor %}
 
                 {% for item in referenciado_por %}
-                <li>
+                <li class="splide__slide">
                     <a href="{{ item.url }}">
                         <div class="image" style="position: relative;">
                          {# El Tag con el nombre del tipo de contenido (Estilos inline) #}
@@ -285,6 +306,8 @@
                 </li>
                 {% endfor %}
             </ul>
+            </div>
+            </section>
         </div>
         {% endif %}
 
@@ -314,5 +337,6 @@
                 button.style.display = 'block';
             });
         });
+     new Splide( '.splideRecomendados' ).mount();
     });
 </script>

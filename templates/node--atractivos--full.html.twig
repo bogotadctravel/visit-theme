@@ -44,7 +44,7 @@
                 <div class="tabs-container">
                     <ul class="tabs-nav">
                         <li class="tab-link active" data-tab="tab-info">Descripción</li>
-                        <li class="tab-link" data-tab="tab-mapa">Cómo llegar</li>
+                        <li class="tab-link hasAnalytics" data-tab="tab-mapa" data-event="google_maps_iframe_loaded">Cómo llegar</li>
                         {% if node.field_video is not empty or node.field_recorrido_360 is not empty %}
                         <li class="tab-link" data-tab="tab-multimedia">Multimedia</li>
                         {% endif %}
