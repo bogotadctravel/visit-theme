@@ -270,7 +270,7 @@
 
         {# Contenido Relacionado #}
         {% if contenidos_relacionados or referenciado_por %}
-        <div class="recomendados lugares">
+        <div class="recomendados lugares" >
             <h4>Experiencias Recomendadas</h4>
            
             <section class="splide splideRecomendados" aria-label="Splide Basic HTML Example">
@@ -337,6 +337,9 @@
                 button.style.display = 'block';
             });
         });
-     new Splide( '.splideRecomendados' ).mount();
+     new Splide( '.splideRecomendados',{
+         type   : 'loop',
+  perPage: 4,
+     } ).mount();
     });
 </script>
